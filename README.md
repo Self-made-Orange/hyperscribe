@@ -112,7 +112,7 @@ The renderer writes the HTML file to `~/.hyperscribe/out/` with a slugified file
 
 ## Component catalog 🎯
 
-18 components across 9 categories. Full prop schemas, examples, and validation rules live in [`plugins/hyperscribe/references/catalog.md`](plugins/hyperscribe/references/catalog.md).
+22 components across 10 categories. Full prop schemas, examples, and validation rules live in [`plugins/hyperscribe/references/catalog.md`](plugins/hyperscribe/references/catalog.md).
 
 | Category | Component | Purpose | Children |
 |---|---|---|---|
@@ -120,14 +120,18 @@ The renderer writes the HTML file to `~/.hyperscribe/out/` with a slugified file
 | Structure | [`Section`](plugins/hyperscribe/references/catalog.md) | Titled section with auto TOC anchor | allowed |
 | Structure | [`Heading`](plugins/hyperscribe/references/catalog.md) | In-section h2/h3/h4 | forbidden |
 | Structure | [`Prose`](plugins/hyperscribe/references/catalog.md) | Markdown paragraph block (CommonMark + GFM) | forbidden |
+| Media | [`Image`](plugins/hyperscribe/references/catalog.md) | Inline image; URL passthrough or local → base64 inline | forbidden |
 | Emphasis | [`Callout`](plugins/hyperscribe/references/catalog.md) | Boxed highlight (info / note / warn / success / danger) | forbidden |
 | Emphasis | [`KPICard`](plugins/hyperscribe/references/catalog.md) | Metric card with optional delta | forbidden |
 | Code | [`CodeBlock`](plugins/hyperscribe/references/catalog.md) | Single code snippet with optional line highlights | forbidden |
 | Code | [`CodeDiff`](plugins/hyperscribe/references/catalog.md) | Before/after unified diff hunks | forbidden |
 | Diagrams | [`Mermaid`](plugins/hyperscribe/references/catalog.md) | Mermaid.js diagram (flowchart / sequence / er / state / mindmap / class) | forbidden |
+| Diagrams | [`Sequence`](plugins/hyperscribe/references/catalog.md) | Native SVG sequence diagram (Notion-styled, no CDN) | forbidden |
 | Diagrams | [`ArchitectureGrid`](plugins/hyperscribe/references/catalog.md) | Card-based architecture with SVG connectors | forbidden |
+| Diagrams | [`FlowChart`](plugins/hyperscribe/references/catalog.md) | Native SVG directed graph (box/pill/diamond nodes, TD/LR, ranked layout) | forbidden |
 | Data | [`DataTable`](plugins/hyperscribe/references/catalog.md) | Semantic HTML table with columns / rows / caption | forbidden |
 | Data | [`Chart`](plugins/hyperscribe/references/catalog.md) | Chart.js wrapper (line / bar / pie / area / scatter) | forbidden |
+| Data | [`PrettyChart`](plugins/hyperscribe/references/catalog.md) | Native SVG bar/line with gradient fills + soft shadow | forbidden |
 | Data | [`Comparison`](plugins/hyperscribe/references/catalog.md) | N-way comparison (`vs` or `grid` mode) | forbidden |
 | Narrative | [`Timeline`](plugins/hyperscribe/references/catalog.md) | Time-ordered events (vertical or horizontal) | forbidden |
 | Narrative | [`StepList`](plugins/hyperscribe/references/catalog.md) | Ordered steps / checklist with done/doing/todo/skipped state | forbidden |
@@ -135,7 +139,13 @@ The renderer writes the HTML file to `~/.hyperscribe/out/` with a slugified file
 | Slides | [`SlideDeck`](plugins/hyperscribe/references/catalog.md) | Slide container; aspect 16:9 or 4:3 | required |
 | Slides | [`Slide`](plugins/hyperscribe/references/catalog.md) | Single slide (title / content / two-col / quote / image / section) | forbidden |
 
-The design system is Notion-inspired — warm neutrals, whisper borders, Inter font fallback chain — and every visual decision is owned by the renderer. Components carry semantic data only; styling props (`color`, `backgroundColor`, `fontSize`, `className`, etc.) are rejected by the schema. If a page wants a "red warning box" the envelope asks for `Callout severity="warn"`, never a hex code. This is what makes the catalog stable across aesthetic variants planned in v0.2.
+The design system is Notion-inspired — warm neutrals, whisper borders, Inter font fallback chain — and every visual decision is owned by the renderer. Components carry semantic data only; styling props (`color`, `backgroundColor`, `fontSize`, `className`, etc.) are rejected by the schema. If a page wants a "red warning box" the envelope asks for `Callout severity="warn"`, never a hex code.
+
+## Themes
+
+Three bundled themes as of v0.3: `notion` (default, warm light), `notion-dark` (the same palette inverted), `linear` (dark-native, Linear-inspired with Inter Variable + OpenType features). Pass `--theme <name>` to `render.mjs` to fix the render-time default. Rendered pages also include a small switcher in the top-right corner; the user's choice is persisted in `localStorage`, and `prefers-color-scheme: dark` is honored on first load when a matching `*-dark` theme exists.
+
+Themes are pure CSS variable overrides — `plugins/hyperscribe/themes/*.css`. Add a new theme by dropping a file there that defines the `--hs-*` tokens under a `[data-theme="<name>"]` selector; it appears in the switcher automatically.
 
 ## How it works
 
@@ -148,8 +158,8 @@ The design system is Notion-inspired — warm neutrals, whisper borders, Inter f
 
 ## Roadmap
 
-- **v0.2** — aesthetic variants (blueprint / editorial / paper / mono), streaming render for long pages, locally-inlined Mermaid and Chart.js so the output is truly offline-capable.
-- **v0.3** — plugin API for user-defined components, A2UI two-way sync (renderer emits state updates back to the agent), theming via `~/.hyperscribe/theme.json` at full token scope.
+- **v0.4** — locally-inlined Mermaid and Chart.js so output is truly offline-capable; streaming render for long pages; additional themes (blueprint / editorial / paper / mono).
+- **v0.5** — plugin API for user-defined components, A2UI two-way sync (renderer emits state updates back to the agent), theming via `~/.hyperscribe/theme.json` at full token scope.
 - **On demand** — `npm`-published CLI so non-Claude-Code users can `npx hyperscribe` without cloning the repo.
 
 ## Contributing
