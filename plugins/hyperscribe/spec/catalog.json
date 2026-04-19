@@ -104,6 +104,38 @@
         "direction": { "type": "string", "enum": ["TD", "LR"] }
       }
     },
+    "hyperscribe/Sequence": {
+      "description": "Native SVG sequence diagram, Hyperscribe-styled. Prefer over Mermaid 'sequence' when you want consistent design and no external CDN.",
+      "children": "forbidden",
+      "props": {
+        "participants": {
+          "type": "array",
+          "required": true,
+          "items": {
+            "type": "object",
+            "props": {
+              "id": { "type": "string", "required": true },
+              "title": { "type": "string", "required": true },
+              "subtitle": { "type": "string" }
+            }
+          }
+        },
+        "messages": {
+          "type": "array",
+          "required": true,
+          "items": {
+            "type": "object",
+            "props": {
+              "from": { "type": "string" },
+              "to": { "type": "string" },
+              "text": { "type": "string", "required": true },
+              "kind": { "type": "string", "enum": ["sync", "async", "return", "self", "note"] },
+              "over": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    },
     "hyperscribe/ArchitectureGrid": {
       "description": "Card-based architecture with SVG connectors.",
       "children": "forbidden",

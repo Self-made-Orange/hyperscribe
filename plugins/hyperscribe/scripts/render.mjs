@@ -13,6 +13,7 @@ import { Callout } from "./components/callout.mjs";
 import { CodeBlock } from "./components/code-block.mjs";
 import { DataTable } from "./components/data-table.mjs";
 import { Mermaid } from "./components/mermaid.mjs";
+import { Sequence } from "./components/sequence.mjs";
 import { ArchitectureGrid } from "./components/architecture-grid.mjs";
 import { Timeline } from "./components/timeline.mjs";
 import { StepList } from "./components/step-list.mjs";
@@ -39,6 +40,7 @@ const REGISTRY = {
   "hyperscribe/CodeBlock": CodeBlock,
   "hyperscribe/DataTable": DataTable,
   "hyperscribe/Mermaid": Mermaid,
+  "hyperscribe/Sequence": Sequence,
   "hyperscribe/ArchitectureGrid": ArchitectureGrid,
   "hyperscribe/Timeline": Timeline,
   "hyperscribe/StepList": StepList,
@@ -133,7 +135,7 @@ function loadCatalog() {
 }
 
 function parseArgs(argv) {
-  const args = { in: null, out: null, theme: null, title: null, quiet: false, validateOnly: false };
+  const args = { in: null, out: null, theme: null, title: null, quiet: false, validateOnly: false, saveEnvelope: true };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     switch (a) {
@@ -143,8 +145,9 @@ function parseArgs(argv) {
       case "--title": args.title = argv[++i]; break;
       case "--quiet": args.quiet = true; break;
       case "--validate-only": args.validateOnly = true; break;
+      case "--no-save-envelope": args.saveEnvelope = false; break;
       case "--version":
-        console.log("hyperscribe 0.1.1-alpha");
+        console.log("hyperscribe 0.2.0-alpha");
         process.exit(0);
       case "--help":
         printHelp();
@@ -164,6 +167,7 @@ Options:
   --title <string>     Override Page.title
   --quiet              Suppress progress logs
   --validate-only      Validate JSON, do not render
+  --no-save-envelope   Don't save the input JSON next to the HTML
   --version            Print version
   --help               Print this help
 `);
@@ -223,9 +227,14 @@ async function main() {
   }
 
   try {
-    mkdirSync(dirname(resolve(args.out)), { recursive: true });
-    writeFileSync(args.out, html, "utf8");
-    if (!args.quiet) console.log(resolve(args.out));
+    const outAbs = resolve(args.out);
+    mkdirSync(dirname(outAbs), { recursive: true });
+    writeFileSync(outAbs, html, "utf8");
+    if (args.saveEnvelope) {
+      const envelopePath = outAbs.replace(/\.html?$/i, "") + ".json";
+      writeFileSync(envelopePath, JSON.stringify(doc, null, 2) + "\n", "utf8");
+    }
+    if (!args.quiet) console.log(outAbs);
   } catch (e) {
     console.error(`IO error writing output: ${e.message}`);
     process.exit(3);

@@ -19,7 +19,7 @@ Required envelope fields: `a2ui_version`, `catalog`, `parts`.
 
 Root component must be `hyperscribe/Page`.
 
-## Components (18 total)
+## Components (19 total)
 
 ## Structure
 
@@ -136,6 +136,17 @@ Mermaid.js diagram wrapper with zoom/pan.
 | `kind` | `"flowchart" | "sequence" | "er" | "state" | "mindmap" | "class"` | **required** |  |
 | `source` | `string` | **required** |  |
 | `direction` | `"TD" | "LR"` | optional |  |
+
+### `hyperscribe/Sequence`
+
+Native SVG sequence diagram, Hyperscribe-styled. Prefer over Mermaid 'sequence' when you want consistent design and no external CDN.
+
+- **Children:** forbidden
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `participants` | `array<{ id: string, title: string, subtitle: string? }>` | **required** |  |
+| `messages` | `array<{ from: string?, to: string?, text: string, kind: "sync" | "async" | "return" | "self" | "note"?, over: array<string>? }>` | **required** |  |
 
 ### `hyperscribe/ArchitectureGrid`
 

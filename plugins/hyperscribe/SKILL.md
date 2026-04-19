@@ -3,7 +3,7 @@ name: hyperscribe
 description: Generate self-contained HTML pages (diagrams, slide decks, comparison tables, architecture overviews, dashboards, diff reviews) by emitting semantic component JSON. Use whenever a visual artifact communicates better than terminal prose — proactively trigger on 4+ row tables, ASCII flowcharts, multi-stage pipelines, or explicit "make a diagram / slides / recap" requests.
 license: MIT
 metadata:
-  version: "0.1.1-alpha"
+  version: "0.2.0-alpha"
   compatibility: "Requires Node.js 20+ and a browser to view output"
 ---
 
@@ -94,6 +94,7 @@ Rules:
 | Code | `hyperscribe/CodeBlock` | Single snippet with optional line highlights. Props: `lang`, `code`, `filename?`, `highlight?`. |
 | Code | `hyperscribe/CodeDiff` | Before/after unified diff hunks. Props: `filename`, `lang`, `hunks[]`. |
 | Diagrams | `hyperscribe/Mermaid` | Mermaid.js diagram with zoom/pan. Props: `kind`, `source`, `direction?`. |
+| Diagrams | `hyperscribe/Sequence` | Native SVG sequence diagram (Notion-styled, no CDN). Props: `participants[]`, `messages[]` (kind: sync/async/return/self/note). Prefer over `Mermaid` with `kind:sequence` for consistent design. |
 | Diagrams | `hyperscribe/ArchitectureGrid` | Card-based architecture with SVG connectors. Props: `nodes[]`, `edges?[]`, `layout`, `groups?[]`. |
 | Data | `hyperscribe/DataTable` | Semantic HTML table. Props: `columns[]`, `rows[]`, `caption?`, `footer?`, `density?`. |
 | Data | `hyperscribe/Chart` | Chart.js wrapper. Props: `kind`, `data`, `xLabel?`, `yLabel?`, `unit?`. |
@@ -129,7 +130,7 @@ If you find yourself reaching for a styling prop, the correct answer is usually 
 Apply these rules proactively — do not wait for the user to say the word "Hyperscribe":
 
 1. **Table auto-trigger.** If you are about to emit a markdown/ASCII table in a chat reply with `rows >= 4` OR `columns >= 3`, switch to `hyperscribe/DataTable` inside a minimal `Page` envelope.
-2. **Diagram auto-trigger.** If you are about to draw ASCII boxes-and-arrows of a system, pipeline, or state machine, emit `hyperscribe/Mermaid` (flowchart / sequence / state / er / mindmap / class) or `hyperscribe/ArchitectureGrid` for module/service topology.
+2. **Diagram auto-trigger.** If you are about to draw ASCII boxes-and-arrows of a system, pipeline, or state machine, emit `hyperscribe/Sequence` (for actor-message diagrams), `hyperscribe/Mermaid` (flowchart / state / er / mindmap / class), or `hyperscribe/ArchitectureGrid` (for module/service topology). Prefer `Sequence` over `Mermaid` with `kind:sequence` — it is native SVG with consistent Notion styling and no CDN.
 3. **Slide auto-trigger.** If the user says "slides", "deck", "presentation", "walk me through", or asks for a 5+ step recap, route through `/hyperscribe:slides`.
 4. **Diff auto-trigger.** If the user pastes `git diff` output or a PR URL and asks for review, route through `/hyperscribe:diff`.
 5. **Escape hatch.** If the user explicitly asks to keep it in terminal ("just tell me", "don't open a browser"), skip Hyperscribe and reply in plain text.
