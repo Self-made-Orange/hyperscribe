@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generate plugins/hyperscribe/references/catalog.md from spec/catalog.json.
+ * Generate plugins/hyperscribe/references/catalog.md from plugins/hyperscribe/spec/catalog.json.
  * The markdown is the authoritative reference Claude loads when building JSON.
  */
 
@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "..");
-const CATALOG_PATH = resolve(REPO_ROOT, "spec", "catalog.json");
+const CATALOG_PATH = resolve(REPO_ROOT, "plugins", "hyperscribe", "spec", "catalog.json");
 const OUT_PATH = resolve(REPO_ROOT, "plugins", "hyperscribe", "references", "catalog.md");
 
 const catalog = JSON.parse(readFileSync(CATALOG_PATH, "utf8"));
@@ -69,7 +69,7 @@ for (const [name, schema] of Object.entries(catalog.components)) {
 
 let md = `# Hyperscribe Component Catalog — ${catalog.version}
 
-**This file is auto-generated from \`spec/catalog.json\`. Do not edit by hand. Run \`node tools/build-catalog-md.mjs\` to regenerate.**
+**This file is auto-generated from \`plugins/hyperscribe/spec/catalog.json\`. Do not edit by hand. Run \`node tools/build-catalog-md.mjs\` to regenerate.**
 
 ## Envelope
 

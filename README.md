@@ -142,7 +142,7 @@ The design system is Notion-inspired — warm neutrals, whisper borders, Inter f
 1. **User runs a command.** In Claude Code, the user types something like `/hyperscribe "architecture for a rate limiter"`.
 2. **Skill prompt loads.** The plugin injects [`SKILL.md`](plugins/hyperscribe/SKILL.md) and the command template, giving the model the catalog, envelope format, and the rule that props carry semantic data only.
 3. **Claude emits JSON.** The model classifies the intent, picks components, and produces an A2UI envelope — no HTML, no CSS, no styling decisions. Unknown component names, missing required props, and out-of-range enums are caught in step 4, not left to a broken browser render.
-4. **CLI validates + renders.** `plugins/hyperscribe/scripts/render.mjs` walks the envelope against the schema in `spec/catalog.json`; on success it builds a single HTML document with inlined CSS and per-component SSR. Exit codes: `0` success, `1` JSON parse error, `2` schema validation failure, `3` IO error, `4` render runtime error.
+4. **CLI validates + renders.** `plugins/hyperscribe/scripts/render.mjs` walks the envelope against the schema in `plugins/hyperscribe/spec/catalog.json`; on success it builds a single HTML document with inlined CSS and per-component SSR. Exit codes: `0` success, `1` JSON parse error, `2` schema validation failure, `3` IO error, `4` render runtime error.
 5. **Self-contained HTML lands on disk.** Output is written to `~/.hyperscribe/out/<slug>-<timestamp>.html`. No network, no external CSS, no build step — the file opens on a plane.
 6. **Open in browser.** `open` on macOS, `xdg-open` on Linux — the agent prints the absolute path and a one-line summary so the user can re-open or share later.
 
@@ -154,7 +154,7 @@ The design system is Notion-inspired — warm neutrals, whisper borders, Inter f
 
 ## Contributing
 
-Fork the repo, run `npm test` from the root (Node 20+ required — `node --test` against the `tests/` suite), make your change on a branch, and open a PR. For envelope format and component schemas, see [`plugins/hyperscribe/references/catalog.md`](plugins/hyperscribe/references/catalog.md) and [`spec/catalog.json`](spec/catalog.json).
+Fork the repo, run `npm test` from the root (Node 20+ required — `node --test` against the `tests/` suite), make your change on a branch, and open a PR. For envelope format and component schemas, see [`plugins/hyperscribe/references/catalog.md`](plugins/hyperscribe/references/catalog.md) and [`plugins/hyperscribe/spec/catalog.json`](plugins/hyperscribe/spec/catalog.json).
 
 Issues and discussion: [github.com/Atipico1/hyperscribe/issues](https://github.com/Atipico1/hyperscribe/issues).
 

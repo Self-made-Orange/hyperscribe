@@ -7,7 +7,7 @@ import { validate } from "../plugins/hyperscribe/scripts/lib/schema.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const catalog = JSON.parse(
-  readFileSync(resolve(__dirname, "../spec/catalog.json"), "utf8")
+  readFileSync(resolve(__dirname, "../plugins/hyperscribe/spec/catalog.json"), "utf8")
 );
 
 test("validate: accepts minimal valid envelope", () => {

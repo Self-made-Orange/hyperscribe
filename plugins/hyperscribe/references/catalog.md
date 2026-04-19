@@ -1,6 +1,6 @@
 # Hyperscribe Component Catalog — hyperscribe/v1
 
-**This file is auto-generated from `spec/catalog.json`. Do not edit by hand. Run `node tools/build-catalog-md.mjs` to regenerate.**
+**This file is auto-generated from `plugins/hyperscribe/spec/catalog.json`. Do not edit by hand. Run `node tools/build-catalog-md.mjs` to regenerate.**
 
 ## Envelope
 

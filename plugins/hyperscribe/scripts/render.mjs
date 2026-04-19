@@ -26,7 +26,7 @@ import { Slide } from "./components/slide.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PLUGIN_ROOT = resolve(__dirname, "..");
-const CATALOG_PATH = resolve(PLUGIN_ROOT, "..", "..", "spec", "catalog.json");
+const CATALOG_PATH = resolve(PLUGIN_ROOT, "spec", "catalog.json");
 const BASE_CSS_PATH = resolve(PLUGIN_ROOT, "assets", "base.css");
 const COMPONENTS_CSS_DIR = resolve(PLUGIN_ROOT, "assets", "components");
 
@@ -144,7 +144,7 @@ function parseArgs(argv) {
       case "--quiet": args.quiet = true; break;
       case "--validate-only": args.validateOnly = true; break;
       case "--version":
-        console.log("hyperscribe 0.1.0-alpha");
+        console.log("hyperscribe 0.1.1-alpha");
         process.exit(0);
       case "--help":
         printHelp();
