@@ -4,6 +4,28 @@ description: Generate a visual diff review page from a git diff, PR URL, or past
 argument-hint: [git range | PR URL | (paste in followup)]
 ---
 
+## Step 0 — theme preference (run first, every invocation)
+
+```bash
+PREF=""
+for p in ./.hyperscribe/preference.md ~/.hyperscribe/preference.md; do
+  [ -f "$p" ] && { PREF="$p"; break; }
+done
+
+if [ -z "$PREF" ]; then
+  # Prompt once (Claude Code: AskUserQuestion; other agents: text prompt).
+  THEME=studio; MODE=light  # populate from user answer; defaults on skip.
+  mkdir -p ~/.hyperscribe; PREF=~/.hyperscribe/preference.md
+  printf -- '---\ntheme: %s\nmode: %s\ncreated_at: %s\n---\n' \
+    "$THEME" "$MODE" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$PREF"
+fi
+
+THEME=$(awk -F': *' '/^theme:/{print $2; exit}' "$PREF")
+MODE=$(awk -F': *'  '/^mode:/{print $2; exit}'  "$PREF")
+[ -z "$THEME" ] && THEME=studio
+[ -z "$MODE" ]  && MODE=light
+```
+
 You are invoking Hyperscribe's diff review. The user's input:
 
 $ARGUMENTS
@@ -86,6 +108,19 @@ A solid diff review includes:
 ## Render
 
 Same bash flow as other commands — pipe JSON to the hyperscribe CLI, write to `~/.hyperscribe/out/diff-<slug>.html`, `open` it.
+
+```bash
+mkdir -p ~/.hyperscribe/out
+OUT=~/.hyperscribe/out/diff-$(date +%Y%m%d-%H%M%S).html
+MODE_FLAG=""
+[ "$MODE" = "light" ] && MODE_FLAG="--mode light"
+[ "$MODE" = "dark" ]  && MODE_FLAG="--mode dark"
+
+cat <<'EOF' | ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe/scripts/hyperscribe --theme "$THEME" $MODE_FLAG --out "$OUT"
+<the JSON you built>
+EOF
+open "$OUT"
+```
 
 ## Avoid
 

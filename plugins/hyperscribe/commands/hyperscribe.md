@@ -4,6 +4,28 @@ description: Generate a visual HTML page from natural language. Picks the right 
 argument-hint: <natural language description>
 ---
 
+## Step 0 — theme preference (run first, every invocation)
+
+```bash
+PREF=""
+for p in ./.hyperscribe/preference.md ~/.hyperscribe/preference.md; do
+  [ -f "$p" ] && { PREF="$p"; break; }
+done
+
+if [ -z "$PREF" ]; then
+  # Prompt once (Claude Code: AskUserQuestion; other agents: text prompt).
+  THEME=studio; MODE=light  # populate from user answer; defaults on skip.
+  mkdir -p ~/.hyperscribe; PREF=~/.hyperscribe/preference.md
+  printf -- '---\ntheme: %s\nmode: %s\ncreated_at: %s\n---\n' \
+    "$THEME" "$MODE" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$PREF"
+fi
+
+THEME=$(awk -F': *' '/^theme:/{print $2; exit}' "$PREF")
+MODE=$(awk -F': *'  '/^mode:/{print $2; exit}'  "$PREF")
+[ -z "$THEME" ] && THEME=studio
+[ -z "$MODE" ]  && MODE=light
+```
+
 You are invoking Hyperscribe's general-purpose renderer. The user asked for:
 
 $ARGUMENTS
@@ -51,7 +73,11 @@ $ARGUMENTS
    mkdir -p ~/.hyperscribe/out
    SLUG="$(date +%Y%m%d-%H%M%S)"
    OUT=~/.hyperscribe/out/$SLUG.html
-   cat <<'EOF' | ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe/scripts/hyperscribe --out "$OUT"
+   MODE_FLAG=""
+   [ "$MODE" = "light" ] && MODE_FLAG="--mode light"
+   [ "$MODE" = "dark" ]  && MODE_FLAG="--mode dark"
+
+   cat <<'EOF' | ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe/scripts/hyperscribe --theme "$THEME" $MODE_FLAG --out "$OUT"
    <the JSON you built>
    EOF
    echo "$OUT"

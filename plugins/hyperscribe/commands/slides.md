@@ -4,6 +4,28 @@ description: Generate a slide deck (SlideDeck + multiple Slides) for presentatio
 argument-hint: <topic or outline>
 ---
 
+## Step 0 — theme preference (run first, every invocation)
+
+```bash
+PREF=""
+for p in ./.hyperscribe/preference.md ~/.hyperscribe/preference.md; do
+  [ -f "$p" ] && { PREF="$p"; break; }
+done
+
+if [ -z "$PREF" ]; then
+  # Prompt once (Claude Code: AskUserQuestion; other agents: text prompt).
+  THEME=studio; MODE=light  # populate from user answer; defaults on skip.
+  mkdir -p ~/.hyperscribe; PREF=~/.hyperscribe/preference.md
+  printf -- '---\ntheme: %s\nmode: %s\ncreated_at: %s\n---\n' \
+    "$THEME" "$MODE" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$PREF"
+fi
+
+THEME=$(awk -F': *' '/^theme:/{print $2; exit}' "$PREF")
+MODE=$(awk -F': *'  '/^mode:/{print $2; exit}'  "$PREF")
+[ -z "$THEME" ] && THEME=studio
+[ -z "$MODE" ]  && MODE=light
+```
+
 You are invoking Hyperscribe's slide-deck mode. The user asked for slides about:
 
 $ARGUMENTS
@@ -69,7 +91,11 @@ Same workflow as `/hyperscribe` — pipe the JSON to the CLI, write to `~/.hyper
 ```bash
 mkdir -p ~/.hyperscribe/out
 OUT=~/.hyperscribe/out/slides-$(date +%Y%m%d-%H%M%S).html
-cat <<'EOF' | ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe/scripts/hyperscribe --out "$OUT"
+MODE_FLAG=""
+[ "$MODE" = "light" ] && MODE_FLAG="--mode light"
+[ "$MODE" = "dark" ]  && MODE_FLAG="--mode dark"
+
+cat <<'EOF' | ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe/scripts/hyperscribe --theme "$THEME" $MODE_FLAG --out "$OUT"
 <the JSON you built>
 EOF
 open "$OUT"
