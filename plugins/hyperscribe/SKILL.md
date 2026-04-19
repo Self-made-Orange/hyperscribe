@@ -30,6 +30,70 @@ Do **not** use Hyperscribe when:
 - The user explicitly asks to stay in the terminal.
 - The task is pure code editing with no explanation artifact needed.
 
+## Step 0 — resolve the user's theme preference (always run first)
+
+Before building any envelope, resolve the user's theme + mode. If no preference file exists yet, prompt once, save, then proceed. This runs on every invocation of the main skill and its variants.
+
+```bash
+# 1. Resolve preference path: project-local first, then global.
+PREF=""
+for p in ./.hyperscribe/preference.md ~/.hyperscribe/preference.md; do
+  [ -f "$p" ] && { PREF="$p"; break; }
+done
+
+# 2. First run — prompt and save defaults to ~/.hyperscribe/preference.md
+if [ -z "$PREF" ]; then
+  # Claude Code: ask via AskUserQuestion (theme 4-choice, mode 3-choice).
+  # Other agents: print the prompt below and wait for a single-line answer.
+  cat <<'PROMPT'
+Hyperscribe first-run setup. Pick a theme and mode.
+
+Themes:  1) studio    (warm, paper-feel)
+         2) midnight  (cool, developer-dark)
+         3) void      (pure black, electric blue accent)
+         4) gallery   (cinematic alternating surfaces)
+
+Modes:   light / dark / auto
+
+Reply with "<theme> <mode>" (e.g., "studio light"),
+a single theme name (mode=light),
+or "skip" to use studio + light.
+PROMPT
+  # Parse the user's answer into $THEME and $MODE.
+  # If unparseable or empty, fall back to defaults silently.
+  THEME="studio"
+  MODE="light"
+  # (Agents with AskUserQuestion populate $THEME and $MODE from the structured answer.)
+
+  mkdir -p ~/.hyperscribe
+  PREF=~/.hyperscribe/preference.md
+  cat > "$PREF" <<EOF
+---
+theme: $THEME
+mode: $MODE
+created_at: $(date -u +%Y-%m-%dT%H:%M:%SZ)
+---
+
+# Hyperscribe preferences
+
+Edit the values above to change your defaults. Delete this file to re-run
+the first-run setup on the next hyperscribe invocation.
+
+Valid values:
+  theme: studio | midnight | void | gallery
+  mode:  light | dark | auto
+EOF
+fi
+
+# 3. Read preference into env vars (every run)
+THEME=$(awk -F': *' '/^theme:/{print $2; exit}' "$PREF")
+MODE=$(awk -F': *'  '/^mode:/{print $2; exit}'  "$PREF")
+[ -z "$THEME" ] && THEME=studio
+[ -z "$MODE" ]  && MODE=light
+```
+
+When invoking the renderer in later steps, always pass `--theme "$THEME"` and — when `$MODE` is `light` or `dark` — `--mode "$MODE"`. When `$MODE` is `auto`, omit `--mode` so the page follows `prefers-color-scheme` and localStorage at load time.
+
 ## How to use
 
 1. **Understand intent.** Classify the request: (a) documentation page, (b) comparison/table, (c) slide deck, (d) diff review, (e) dashboard/metrics. The classification picks the root component and commands.
@@ -37,8 +101,21 @@ Do **not** use Hyperscribe when:
 3. **Build the envelope.** Emit the A2UI JSON envelope (shape below). Every component node is `{ "component": "hyperscribe/X", "props": {...}, "children": [...] }`. `parts[0]` must be `hyperscribe/Page` (or `hyperscribe/SlideDeck` in slides mode).
 4. **Call the CLI.** Pipe the JSON into the wrapper via Bash:
    ```bash
-   echo '<json>' | ~/.claude/plugins/hyperscribe/plugins/hyperscribe/scripts/hyperscribe \
-     --out ~/.hyperscribe/out/<slug>.html
+   HS=$(for p in \
+     ./.claude/skills/hyperscribe ~/.claude/skills/hyperscribe \
+     ./.codex/skills/hyperscribe ~/.codex/skills/hyperscribe \
+     ./.cursor/skills/hyperscribe ~/.cursor/skills/hyperscribe \
+     ./.opencode/skills/hyperscribe ~/.opencode/skills/hyperscribe \
+     ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe \
+     ./plugins/hyperscribe
+   do [ -x "$p/scripts/hyperscribe" ] && { echo "$p/scripts/hyperscribe"; break; }; done)
+
+   MODE_FLAG=""
+   [ "$MODE" = "light" ] && MODE_FLAG="--mode light"
+   [ "$MODE" = "dark" ]  && MODE_FLAG="--mode dark"
+
+   mkdir -p ~/.hyperscribe/out
+   echo '<json>' | "$HS" --theme "$THEME" $MODE_FLAG --out ~/.hyperscribe/out/<slug>.html
    ```
    Omit `--out` to let the CLI write `~/.hyperscribe/out/<slug-from-title>-<timestamp>.html` and print the path.
 5. **Open it for the user.** On macOS: `open <path>`. On Linux: `xdg-open <path>`.
@@ -107,6 +184,11 @@ Rules:
 | Dashboard | `hyperscribe/Dashboard` | 12-col grid of panels. Props: `panels[]` (each `span` 1-4, `child` = KPICard / Chart / DataTable / Callout). |
 | Slides | `hyperscribe/SlideDeck` | Slide container. Props: `aspect`, `transition?`, `footer?`. Children: Slide[]. |
 | Slides | `hyperscribe/Slide` | Single slide. Props: `layout` (`title`\|`content`\|`two-col`\|`quote`\|`image`\|`section`), `title?`, `subtitle?`, `bullets?`, `image?`, `quote?`. |
+| Structure | `hyperscribe/FileTree` | Directory/file structure. Props: `nodes` (recursive), `showIcons?`, `caption?`. |
+| Diagrams | `hyperscribe/DependencyGraph` | Module import graph (ranked). Props: `nodes`, `edges`, `layout: "ranks"`, `ranks`. |
+| Structure | `hyperscribe/FileCard` | Per-file summary card. Props: `name`, `path?`, `loc?`, `responsibility`, `exports?[]`, `state?`. |
+| Code | `hyperscribe/AnnotatedCode` | Code with pinned side annotations. Props: `lang`, `code`, `annotations[]`, `pinStyle?`. |
+| Diagrams | `hyperscribe/ERDDiagram` | DB/type ERD. Props: `entities[]`, `relationships[]`, `layout?`. |
 
 ## Semantic-only props — NEVER style
 
