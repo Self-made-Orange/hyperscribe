@@ -1,11 +1,13 @@
 {
   "name": "hyperscribe",
-  "displayName": "Hyperscribe",
-  "description": "Generate self-contained HTML pages for diagrams, slides, tables, architecture overviews, and visual explanations. LLM emits semantic JSON; renderer produces HTML.",
   "version": "0.1.0-alpha",
+  "description": "Generate self-contained HTML pages for diagrams, slides, tables, architecture overviews, and visual explanations. LLM emits semantic JSON; renderer produces HTML.",
+  "author": {
+    "name": "Atipico1",
+    "url": "https://github.com/Atipico1"
+  },
+  "homepage": "https://github.com/Atipico1/hyperscribe",
+  "repository": "https://github.com/Atipico1/hyperscribe",
   "license": "MIT",
-  "author": "Atipico1",
-  "metadata": {
-    "compatibility": "Requires Node.js 20+ and a browser to view output"
-  }
+  "keywords": ["a2ui", "visual-explainer", "claude-code", "generative-ui", "llm"]
 }
