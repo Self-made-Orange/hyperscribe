@@ -19,7 +19,7 @@ Required envelope fields: `a2ui_version`, `catalog`, `parts`.
 
 Root component must be `hyperscribe/Page`.
 
-## Components (19 total)
+## Components (22 total)
 
 ## Structure
 
@@ -68,6 +68,22 @@ Markdown paragraph block (inline formatting + lists).
 | Prop | Type | Required | Notes |
 |---|---|---|---|
 | `markdown` | `string` | **required** |  |
+
+## Media
+
+### `hyperscribe/Image`
+
+Inline image. Accepts https:// URLs (passed through) or local paths (base64-inlined at render time to keep the HTML self-contained).
+
+- **Children:** forbidden
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `src` | `string` | **required** |  |
+| `alt` | `string` | **required** |  |
+| `caption` | `string` | optional |  |
+| `width` | `number` | optional |  |
+| `height` | `number` | optional |  |
 
 ## Emphasis
 
@@ -161,6 +177,19 @@ Card-based architecture with SVG connectors.
 | `layout` | `"grid" | "columns" | "layers"` | **required** |  |
 | `groups` | `array<{ id: string, title: string, nodeIds: array<string> }>` | optional |  |
 
+### `hyperscribe/FlowChart`
+
+Native SVG directed graph. Ranked layout (TD or LR) — caller provides `ranks` (array of arrays of node ids) so no layout solver is needed. Prefer over Mermaid flowchart for simple pipelines with consistent design.
+
+- **Children:** forbidden
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `layout` | `"TD" | "LR"` | **required** |  |
+| `nodes` | `array<{ id: string, label: string, shape: "box" | "pill" | "diamond"?, tag: string? }>` | **required** |  |
+| `edges` | `array<{ from: string, to: string, label: string? }>` | **required** |  |
+| `ranks` | `array<array<string>>` | **required** |  |
+
 ## Data
 
 ### `hyperscribe/DataTable`
@@ -188,6 +217,20 @@ Chart.js wrapper.
 | `kind` | `"line" | "bar" | "pie" | "area" | "scatter"` | **required** |  |
 | `data` | `{ labels: array<string>, series: array<{ name: string, values: array<number> }> }` | **required** |  |
 | `xLabel` | `string` | optional |  |
+| `yLabel` | `string` | optional |  |
+| `unit` | `string` | optional |  |
+
+### `hyperscribe/PrettyChart`
+
+Native SVG bar or line chart with gradient fills and soft drop shadow. Prefer over hyperscribe/Chart when visual polish matters.
+
+- **Children:** forbidden
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `kind` | `"bar" | "line"` | **required** |  |
+| `data` | `{ labels: array<string>, series: array<{ name: string, values: array<number> }> }` | **required** |  |
+| `title` | `string` | optional |  |
 | `yLabel` | `string` | optional |  |
 | `unit` | `string` | optional |  |
 

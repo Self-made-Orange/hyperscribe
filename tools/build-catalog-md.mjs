@@ -49,17 +49,18 @@ function renderComponent(name, schema) {
 
 function categorize(name) {
   if (["Page", "Section", "Heading", "Prose"].some(x => name.endsWith("/" + x))) return "Structure";
+  if (["Image"].some(x => name.endsWith("/" + x))) return "Media";
   if (["Callout", "KPICard"].some(x => name.endsWith("/" + x))) return "Emphasis";
   if (["CodeBlock", "CodeDiff"].some(x => name.endsWith("/" + x))) return "Code";
-  if (["Mermaid", "Sequence", "ArchitectureGrid"].some(x => name.endsWith("/" + x))) return "Diagrams";
-  if (["DataTable", "Chart", "Comparison"].some(x => name.endsWith("/" + x))) return "Data";
+  if (["Mermaid", "Sequence", "ArchitectureGrid", "FlowChart"].some(x => name.endsWith("/" + x))) return "Diagrams";
+  if (["DataTable", "Chart", "PrettyChart", "Comparison"].some(x => name.endsWith("/" + x))) return "Data";
   if (["Timeline", "StepList"].some(x => name.endsWith("/" + x))) return "Narrative";
   if (["Dashboard"].some(x => name.endsWith("/" + x))) return "Dashboard";
   if (["SlideDeck", "Slide"].some(x => name.endsWith("/" + x))) return "Slides";
   return "Other";
 }
 
-const CATEGORY_ORDER = ["Structure", "Emphasis", "Code", "Diagrams", "Data", "Narrative", "Dashboard", "Slides", "Other"];
+const CATEGORY_ORDER = ["Structure", "Media", "Emphasis", "Code", "Diagrams", "Data", "Narrative", "Dashboard", "Slides", "Other"];
 
 const byCategory = {};
 for (const [name, schema] of Object.entries(catalog.components)) {

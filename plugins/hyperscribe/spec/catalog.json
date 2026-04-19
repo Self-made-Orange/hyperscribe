@@ -40,6 +40,17 @@
         "markdown": { "type": "string", "required": true }
       }
     },
+    "hyperscribe/Image": {
+      "description": "Inline image. Accepts https:// URLs (passed through) or local paths (base64-inlined at render time to keep the HTML self-contained).",
+      "children": "forbidden",
+      "props": {
+        "src": { "type": "string", "required": true },
+        "alt": { "type": "string", "required": true },
+        "caption": { "type": "string" },
+        "width": { "type": "number" },
+        "height": { "type": "number" }
+      }
+    },
     "hyperscribe/Callout": {
       "description": "Boxed highlight.",
       "children": "forbidden",
@@ -180,6 +191,43 @@
         }
       }
     },
+    "hyperscribe/FlowChart": {
+      "description": "Native SVG directed graph. Ranked layout (TD or LR) — caller provides `ranks` (array of arrays of node ids) so no layout solver is needed. Prefer over Mermaid flowchart for simple pipelines with consistent design.",
+      "children": "forbidden",
+      "props": {
+        "layout": { "type": "string", "enum": ["TD", "LR"], "required": true },
+        "nodes": {
+          "type": "array",
+          "required": true,
+          "items": {
+            "type": "object",
+            "props": {
+              "id": { "type": "string", "required": true },
+              "label": { "type": "string", "required": true },
+              "shape": { "type": "string", "enum": ["box", "pill", "diamond"] },
+              "tag": { "type": "string" }
+            }
+          }
+        },
+        "edges": {
+          "type": "array",
+          "required": true,
+          "items": {
+            "type": "object",
+            "props": {
+              "from": { "type": "string", "required": true },
+              "to": { "type": "string", "required": true },
+              "label": { "type": "string" }
+            }
+          }
+        },
+        "ranks": {
+          "type": "array",
+          "required": true,
+          "items": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
     "hyperscribe/DataTable": {
       "description": "Semantic HTML table.",
       "children": "forbidden",
@@ -227,6 +275,34 @@
           }
         },
         "xLabel": { "type": "string" },
+        "yLabel": { "type": "string" },
+        "unit": { "type": "string" }
+      }
+    },
+    "hyperscribe/PrettyChart": {
+      "description": "Native SVG bar or line chart with gradient fills and soft drop shadow. Prefer over hyperscribe/Chart when visual polish matters.",
+      "children": "forbidden",
+      "props": {
+        "kind": { "type": "string", "enum": ["bar", "line"], "required": true },
+        "data": {
+          "type": "object",
+          "required": true,
+          "props": {
+            "labels": { "type": "array", "items": { "type": "string" }, "required": true },
+            "series": {
+              "type": "array",
+              "required": true,
+              "items": {
+                "type": "object",
+                "props": {
+                  "name": { "type": "string", "required": true },
+                  "values": { "type": "array", "items": { "type": "number" }, "required": true }
+                }
+              }
+            }
+          }
+        },
+        "title": { "type": "string" },
         "yLabel": { "type": "string" },
         "unit": { "type": "string" }
       }

@@ -89,15 +89,18 @@ Rules:
 | Structure | `hyperscribe/Section` | Titled section with auto TOC anchor. Props: `id`, `title`, `lead?`. |
 | Structure | `hyperscribe/Heading` | In-section h2/h3/h4. Props: `level`, `text`, `anchor?`. |
 | Structure | `hyperscribe/Prose` | Markdown paragraph block (CommonMark + GFM). Props: `markdown`. |
+| Media | `hyperscribe/Image` | Inline image. `src` accepts https:// URL (passthrough) or local path (base64 inlined). Props: `src`, `alt`, `caption?`, `width?`, `height?`. |
 | Emphasis | `hyperscribe/Callout` | Boxed highlight. Props: `severity` (`info`\|`note`\|`warn`\|`success`\|`danger`), `title?`, `body`. |
 | Emphasis | `hyperscribe/KPICard` | Metric card with optional delta. Props: `label`, `value`, `delta?`, `hint?`. |
 | Code | `hyperscribe/CodeBlock` | Single snippet with optional line highlights. Props: `lang`, `code`, `filename?`, `highlight?`. |
 | Code | `hyperscribe/CodeDiff` | Before/after unified diff hunks. Props: `filename`, `lang`, `hunks[]`. |
 | Diagrams | `hyperscribe/Mermaid` | Mermaid.js diagram with zoom/pan. Props: `kind`, `source`, `direction?`. |
 | Diagrams | `hyperscribe/Sequence` | Native SVG sequence diagram (Notion-styled, no CDN). Props: `participants[]`, `messages[]` (kind: sync/async/return/self/note). Prefer over `Mermaid` with `kind:sequence` for consistent design. |
+| Diagrams | `hyperscribe/FlowChart` | Native SVG directed graph with box/pill/diamond nodes. Caller supplies `ranks` (arrays of node ids) — no auto-layout. Props: `layout` (TD/LR), `nodes[]`, `edges[]`, `ranks[][]`. Prefer over Mermaid flowchart for simple pipelines. |
 | Diagrams | `hyperscribe/ArchitectureGrid` | Card-based architecture with SVG connectors. Props: `nodes[]`, `edges?[]`, `layout`, `groups?[]`. |
 | Data | `hyperscribe/DataTable` | Semantic HTML table. Props: `columns[]`, `rows[]`, `caption?`, `footer?`, `density?`. |
 | Data | `hyperscribe/Chart` | Chart.js wrapper. Props: `kind`, `data`, `xLabel?`, `yLabel?`, `unit?`. |
+| Data | `hyperscribe/PrettyChart` | Native SVG bar/line with gradient fills + soft drop shadow. Prefer over `Chart` when visual polish matters. Props: `kind` (bar/line), `data`, `title?`. |
 | Data | `hyperscribe/Comparison` | N-way comparison. Props: `items[]`, `mode` (`vs`\|`grid`). |
 | Narrative | `hyperscribe/Timeline` | Time-ordered events. Props: `items[]`, `orientation`. |
 | Narrative | `hyperscribe/StepList` | Ordered steps / checklist. Props: `steps[]`, `numbered?`. |

@@ -9,16 +9,19 @@ import { Page } from "./components/page.mjs";
 import { Section } from "./components/section.mjs";
 import { Heading } from "./components/heading.mjs";
 import { Prose } from "./components/prose.mjs";
+import { Image } from "./components/image.mjs";
 import { Callout } from "./components/callout.mjs";
 import { CodeBlock } from "./components/code-block.mjs";
 import { DataTable } from "./components/data-table.mjs";
 import { Mermaid } from "./components/mermaid.mjs";
 import { Sequence } from "./components/sequence.mjs";
 import { ArchitectureGrid } from "./components/architecture-grid.mjs";
+import { FlowChart } from "./components/flow-chart.mjs";
 import { Timeline } from "./components/timeline.mjs";
 import { StepList } from "./components/step-list.mjs";
 import { Comparison } from "./components/comparison.mjs";
 import { Chart } from "./components/chart.mjs";
+import { PrettyChart } from "./components/pretty-chart.mjs";
 import { CodeDiff } from "./components/code-diff.mjs";
 import { KPICard } from "./components/kpi-card.mjs";
 import { Dashboard } from "./components/dashboard.mjs";
@@ -36,16 +39,19 @@ const REGISTRY = {
   "hyperscribe/Section": Section,
   "hyperscribe/Heading": Heading,
   "hyperscribe/Prose": Prose,
+  "hyperscribe/Image": Image,
   "hyperscribe/Callout": Callout,
   "hyperscribe/CodeBlock": CodeBlock,
   "hyperscribe/DataTable": DataTable,
   "hyperscribe/Mermaid": Mermaid,
   "hyperscribe/Sequence": Sequence,
   "hyperscribe/ArchitectureGrid": ArchitectureGrid,
+  "hyperscribe/FlowChart": FlowChart,
   "hyperscribe/Timeline": Timeline,
   "hyperscribe/StepList": StepList,
   "hyperscribe/Comparison": Comparison,
   "hyperscribe/Chart": Chart,
+  "hyperscribe/PrettyChart": PrettyChart,
   "hyperscribe/CodeDiff": CodeDiff,
   "hyperscribe/KPICard": KPICard,
   "hyperscribe/Dashboard": Dashboard,
