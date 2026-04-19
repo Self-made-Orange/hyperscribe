@@ -199,7 +199,7 @@ Four bundled themes, each shipping both **light and dark modes** in a single CSS
 
 Themes are pure CSS-variable overrides (`plugins/hyperscribe/themes/*.css`). Each defines tokens under `[data-theme="<name>"]` (light) and `[data-theme="<name>"][data-mode="dark"]` (dark). Semantic tones (`--hs-tone-{info|warn|success|danger}-{bg|fg}`) and surface palette (`--hs-color-surface*`) keep components legible across all four.
 
-**Breaking change in v0.4:** The former `notion` and `midnight` theme names are renamed to `studio` and `midnight` respectively; `linear` is renamed to `midnight`. The old names no longer resolve — update any `--theme notion` / `--theme linear` calls to the new names. Running with the old names now throws `Unknown theme "notion". Available: studio, midnight, void, gallery`.
+**Breaking change in v0.4:** `notion` is renamed to `studio`, `linear` is renamed to `midnight`. The old names no longer resolve — update any `--theme notion` / `--theme linear` calls to the new names. Running with the old names now throws `Unknown theme "notion". Available: gallery, midnight, studio, void`.
 
 Your per-user theme + mode preference is stored at `~/.hyperscribe/preference.md` after first run. A project-local `./.hyperscribe/preference.md` overrides it. Delete either file to re-run first-run setup.
 
