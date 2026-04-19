@@ -43,6 +43,10 @@
                   "Segoe UI Emoji", "Segoe UI Symbol";
   --hs-font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular,
                   Menlo, Consolas, monospace;
+
+  --hs-note-bg: #fef9c3;
+  --hs-note-border: #eab308;
+  --hs-note-text: #713f12;
 }
 
 :root {
@@ -195,6 +199,23 @@ html, body {
 <ul><li>item one</li><li>item <strong>two</strong></li></ul>
 <ol><li>first</li><li>second</li></ol>
 <p>Links: <a href="https://example.com">site</a>.</p></div></main></article>
-
+<div class="hs-theme-switcher" aria-label="Theme"><select id="hs-theme-select"><option value="linear">linear</option><option value="notion" selected>notion</option><option value="notion-dark">notion-dark</option></select></div>
+<script>(function(){
+  var KEY='hyperscribe.theme';
+  var saved=null;try{saved=localStorage.getItem(KEY);}catch(e){}
+  var fallback='notion';
+  var initial = saved;
+  if (!initial) {
+    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    if (prefersDark && ["linear","notion","notion-dark"].indexOf(fallback + '-dark') !== -1) initial = fallback + '-dark';
+  }
+  if (!initial) initial = fallback;
+  document.documentElement.setAttribute('data-theme', initial);
+  var sel=document.getElementById('hs-theme-select');
+  if(sel){sel.value=initial;sel.addEventListener('change',function(){
+    document.documentElement.setAttribute('data-theme', sel.value);
+    try{localStorage.setItem(KEY, sel.value);}catch(e){}
+  });}
+})();</script>
 </body>
 </html>

@@ -1,0 +1,58 @@
+@import url('https://rsms.me/inter/inter.css');
+
+[data-theme="linear"] {
+  --hs-color-fg: #f7f8f8;
+  --hs-color-bg: #08090a;
+  --hs-color-accent: #7170ff;
+  --hs-color-accent-active: #828fff;
+  --hs-color-navy: #5e6ad2;
+  --hs-color-surface-alt: #0f1011;
+  --hs-color-surface-dark: #010102;
+  --hs-color-fg-muted: #8a8f98;
+  --hs-color-fg-placeholder: #62666d;
+  --hs-color-success: #27a644;
+  --hs-color-teal: #10b981;
+  --hs-color-warn: #ff9a62;
+  --hs-color-pink: #ff89d9;
+  --hs-color-purple: #7a7fad;
+  --hs-color-brown: #a8784d;
+  --hs-color-focus: #7170ff;
+  --hs-color-badge-bg: rgba(113, 112, 255, 0.12);
+  --hs-color-badge-text: #828fff;
+
+  --hs-border-whisper: 1px solid rgba(255, 255, 255, 0.08);
+  --hs-shadow-card: rgba(0,0,0,0.2) 0 0 0 1px,
+                    rgba(0,0,0,0.4) 0 2px 4px;
+  --hs-shadow-deep: rgba(0,0,0,0.3) 0px 8px 24px,
+                    rgba(0,0,0,0.2) 0px 0px 0px 1px;
+
+  --hs-font-sans: "Inter Variable", Inter, -apple-system, system-ui,
+                  "SF Pro Display", "Segoe UI", Helvetica, Arial;
+  --hs-font-mono: "Berkeley Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --hs-note-bg: rgba(113, 112, 255, 0.08);
+  --hs-note-border: rgba(113, 112, 255, 0.4);
+  --hs-note-text: #d0d6e0;
+}
+
+[data-theme="linear"] body {
+  font-feature-settings: "cv01", "ss03";
+  font-weight: 400;
+}
+
+[data-theme="linear"] .hs-page-title,
+[data-theme="linear"] .hs-section-title {
+  font-weight: 510;
+  letter-spacing: -0.022em;
+}
+
+[data-theme="linear"] .hs-heading-h2 { letter-spacing: -0.022em; font-weight: 510; }
+[data-theme="linear"] .hs-heading-h3 { letter-spacing: -0.012em; font-weight: 590; }
+[data-theme="linear"] .hs-heading-h4 { font-weight: 590; }
+
+[data-theme="linear"] .hs-page-subtitle,
+[data-theme="linear"] .hs-section-lead {
+  color: var(--hs-color-fg-muted);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
