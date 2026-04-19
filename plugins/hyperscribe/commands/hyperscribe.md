@@ -6,6 +6,8 @@ argument-hint: <natural language description>
 
 ## Step 0 — theme preference (run first, every invocation)
 
+**When `PREF` is empty below, you MUST prompt the user for theme + mode via `AskUserQuestion` BEFORE writing the preference file — theme options: `studio` (warm paper), `midnight` (cool developer-dark), `void` (pure black / electric blue), `gallery` (cinematic alternating surfaces); mode options: `light` / `dark` / `auto`. Use the answer to set `THEME` and `MODE`. If the user skips or the tool is unavailable, fall back silently to `studio` + `light`.**
+
 ```bash
 PREF=""
 for p in ./.hyperscribe/preference.md ~/.hyperscribe/preference.md; do
@@ -13,8 +15,8 @@ for p in ./.hyperscribe/preference.md ~/.hyperscribe/preference.md; do
 done
 
 if [ -z "$PREF" ]; then
-  # Prompt once (Claude Code: AskUserQuestion; other agents: text prompt).
-  THEME=studio; MODE=light  # populate from user answer; defaults on skip.
+  # See the instruction above — populate from AskUserQuestion or fall back.
+  THEME=studio; MODE=light
   mkdir -p ~/.hyperscribe; PREF=~/.hyperscribe/preference.md
   printf -- '---\ntheme: %s\nmode: %s\ncreated_at: %s\n---\n' \
     "$THEME" "$MODE" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$PREF"

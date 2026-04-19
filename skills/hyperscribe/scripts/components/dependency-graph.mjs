@@ -30,8 +30,11 @@ export function DependencyGraph(props) {
     });
   });
 
-  const width  = PAD * 2 + props.ranks.length * (NODE_W + GAP_X) - GAP_X;
-  const height = PAD * 2 + maxRankHeight * (NODE_H + GAP_Y) - GAP_Y;
+  const hasSelfLoop = (props.edges || []).some(e => e.from === e.to);
+  const selfLoopExtraRight = hasSelfLoop ? 40 : 0;
+  const selfLoopExtraTop   = hasSelfLoop ? 35 : 0;
+  const width  = PAD * 2 + props.ranks.length * (NODE_W + GAP_X) - GAP_X + selfLoopExtraRight;
+  const height = PAD * 2 + maxRankHeight * (NODE_H + GAP_Y) - GAP_Y + selfLoopExtraTop;
 
   const nodeSvg = [];
   for (const [id, pos] of positions) {
@@ -68,7 +71,8 @@ export function DependencyGraph(props) {
     edgeSvg.push(`<path class="hs-dep-graph-edge${kindCls}${cycleCls}" d="M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}" fill="none" marker-end="url(#hs-dep-arrow)"/>`);
   }
 
-  return `<svg class="hs-dep-graph" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dependency graph">
+  const viewMinY = hasSelfLoop ? -selfLoopExtraTop : 0;
+  return `<svg class="hs-dep-graph" viewBox="0 ${viewMinY} ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dependency graph">
 <defs>
   <marker id="hs-dep-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
     <path d="M0,0 L10,5 L0,10 z" class="hs-dep-graph-arrow-head"/>

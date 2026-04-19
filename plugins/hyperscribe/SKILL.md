@@ -158,7 +158,7 @@ Rules:
 
 ## Component inventory
 
-18 components across 9 categories. See `references/catalog.md` for full prop schemas and examples.
+27 components across 9 categories. See `references/catalog.md` for full prop schemas and examples.
 
 | Category | Component | Purpose |
 |---|---|---|

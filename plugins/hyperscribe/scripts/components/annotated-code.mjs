@@ -33,7 +33,7 @@ export function AnnotatedCode(props) {
   }).join("");
 
   const notes = anns.map(a => `
-<li class="hs-annotated-code-note" data-pin="${a.pin}">
+<li class="hs-annotated-code-note" data-pin="${escape(String(a.pin))}">
   <span class="hs-annotated-code-pin">${escape(pinLabel(a.pin, pinStyle))}</span>
   <div class="hs-annotated-code-note-body">
     <div class="hs-annotated-code-note-title">${escape(a.title)}</div>

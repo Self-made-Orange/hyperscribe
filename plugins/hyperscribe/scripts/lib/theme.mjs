@@ -34,7 +34,8 @@ export function modeTogglerHtml() {
 <script>(function(){
   var KEY='hyperscribe.mode';
   var saved=null;try{saved=localStorage.getItem(KEY);}catch(e){}
-  var mode = saved;
+  var ssr = document.documentElement.getAttribute('data-mode');
+  var mode = saved || ssr;
   if (!mode) {
     var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     mode = prefersDark ? 'dark' : 'light';

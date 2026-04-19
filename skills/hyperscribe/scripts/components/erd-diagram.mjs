@@ -21,7 +21,6 @@ function renderEntity(e) {
 function renderRelationship(r) {
   return `<li class="hs-erd-rel" data-from="${escape(r.from)}" data-to="${escape(r.to)}">
   <span class="hs-erd-rel-from">${escape(r.from)}</span>
-  <span class="hs-erd-rel-arrow" aria-hidden="true">→</span>
   <span class="hs-erd-rel-card">${escape(r.cardinality)}</span>
   <span class="hs-erd-rel-arrow" aria-hidden="true">→</span>
   <span class="hs-erd-rel-to">${escape(r.to)}</span>
