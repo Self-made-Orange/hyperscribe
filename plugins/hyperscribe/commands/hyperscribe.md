@@ -1,6 +1,6 @@
 ---
 name: hyperscribe
-description: Generate a visual HTML page from natural language. Picks the right components from the catalog (diagrams, tables, cards, timelines, comparisons, etc.) and renders a self-contained HTML file opened in the browser.
+description: Generate a visual HTML page from natural language. Picks the right components from the catalog (diagrams, tables, cards, process views, comparisons, etc.) and renders a self-contained HTML file opened in the browser.
 argument-hint: <natural language description>
 ---
 
@@ -41,6 +41,7 @@ $ARGUMENTS
    - Metrics summary → KPICards, Charts, and DataTable
    - Code review → CodeDiff + Callouts
    - Essay-style explanation → Page with Sections, Headings, Prose, and embedded components
+   - Repo / project explainer → start diagram-first with `ArchitectureGrid`, `FlowChart`, `Sequence`, or `Mermaid`, then use `FileTree`, `DependencyGraph`, `FileCard`, or `AnnotatedCode` as evidence
 
 2. **Read the catalog.** If you are uncertain about any component's schema or props, read `plugins/hyperscribe/references/catalog.md` BEFORE building the JSON.
 
@@ -67,6 +68,10 @@ $ARGUMENTS
    - Use `children` for container nesting (Page/Section).
    - Section `id` must be kebab-case (`[a-z0-9][a-z0-9-]*`).
    - Enum values are case-sensitive (e.g., Callout.severity: `info`, `warn`, etc., not `Warning`).
+   - For repo explainers, the first content section should usually be diagram-led, not prose-led.
+   - For repo explainers, use no more than 2 `Prose` blocks unless the user explicitly asks for prose-heavy output.
+   - Avoid `Comparison` as the dominant visual for repo explainers unless the source is truly about alternatives or trade-offs.
+   - Keep inline code readable. No more than 1-2 backticked spans per paragraph or list item.
 
 4. **Render via CLI.** Invoke the bash wrapper with the JSON piped in:
 
@@ -108,6 +113,8 @@ If the CLI exits with status 2 (schema validation failure), stderr contains line
 - Giant single Prose blocks — break into Sections with Headings when there are multiple topics
 - Mermaid for data tables — use DataTable
 - DataTable for system diagrams — use Mermaid or ArchitectureGrid
+- Repo explainers that read like essays with a decorative diagram attached
+- Over-formatting technical nouns with backticks until the page texture gets noisy
 
 ## Quick component picker
 
@@ -116,7 +123,7 @@ If the CLI exits with status 2 (schema validation failure), stderr contains line
 | "Draw/diagram a system" | Mermaid (flowchart) or ArchitectureGrid |
 | "Compare A and B" | Comparison |
 | "Show steps to X" | StepList |
-| "Timeline of X" | StepList or sectioned prose recap |
+| "Recap / progression of X" | StepList or sectioned prose recap |
 | "Metrics summary" | KPICards + Chart + DataTable |
 | "Explain X" | Page + Sections + Prose + Callouts |
 | "Review this diff" | use `/hyperscribe:diff` |

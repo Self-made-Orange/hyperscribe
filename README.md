@@ -19,10 +19,12 @@ Hyperscribe lets the model emit semantic component JSON instead of full HTML. Th
 
 Same source, same repo, same `context.md`, two spawned subagents.
 
+Compared against [`nicobailon/visual-explainer`](https://github.com/nicobailon/visual-explainer).
+
 <table>
 <tr>
 <th align="left">Metric</th>
-<th align="left">visual-explainer</th>
+<th align="left"><a href="https://github.com/nicobailon/visual-explainer">visual-explainer</a></th>
 <th align="left">Hyperscribe</th>
 </tr>
 <tr>
@@ -45,6 +47,7 @@ Same source, same repo, same `context.md`, two spawned subagents.
 Hyperscribe used <strong>5,096 fewer output tokens</strong> in this run.
 
 Benchmark artifacts live in [`benchmark/`](benchmark/).
+Prompt-tuning notes from the diagram-first feedback loops live in [`benchmark/feedback-loops.md`](benchmark/feedback-loops.md).
 
 <!-- components-gallery:start -->
 ## Components Gallery
