@@ -1,5 +1,9 @@
 # Hyperscribe
 
+<p align="center">
+  <img src="assets/hyperscribe-banner.png" alt="Hyperscribe banner" width="100%" />
+</p>
+
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Node >= 20](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](https://nodejs.org/)
 [![Claude Code plugin](https://img.shields.io/badge/claude--code-plugin-6E56CF.svg)](https://docs.claude.com/en/docs/claude-code)
