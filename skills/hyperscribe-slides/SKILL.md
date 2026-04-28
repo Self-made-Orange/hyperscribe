@@ -26,8 +26,23 @@ Do **not** use for: single-page docs (use `hyperscribe`), diff reviews (use `hyp
 1. **Root MUST be `hyperscribe/SlideDeck`**, never `hyperscribe/Page`. Slides don't nest inside Page.
 2. `SlideDeck.children` must be an array of `hyperscribe/Slide` objects — nothing else.
 3. Pick `aspect`: `"16:9"` (default widescreen) or `"4:3"` (compact/legacy).
-4. Optional `transition: "fade" | "slide"` for visual polish.
-5. Include a `footer` with topic + date.
+4. Optional `transition: "fade" | "slide"` for visual polish (deck mode only).
+5. Optional `mode`: navigation/interaction style (see table below).
+6. Include a `footer` with topic + date.
+
+## Mode picker
+
+| `mode` | Interaction | Use when |
+|---|---|---|
+| `"deck"` (default) | Keyboard / button nav, one slide at a time | Tech share-outs, demos, training — viewer controls pacing |
+| `"scroll-snap"` | Vertical scroll-snap inside a 100vh container, IntersectionObserver-driven reveal | Mobile-friendly walkthroughs, longer decks where the reader scrolls |
+| `"scroll-jack"` | Page-level scroll pinned via `position: sticky`, slides crossfade with scroll progress (Apple-style) | Impact pieces, product launches, hero storytelling |
+
+Notes:
+- `transition` is ignored in scroll-snap and scroll-jack modes (the modes own their motion).
+- Both scroll modes respect `prefers-reduced-motion` and degrade to instant slide swaps.
+- `scroll-jack` consumes page scroll, so reserve it for full-page decks (one deck per HTML output, no other long content below).
+- Keyboard arrows + button nav still work in scroll modes (they programmatically scroll to the target slide).
 
 ## Slide layout picker
 
@@ -107,7 +122,11 @@ open "$OUT"    # macOS; use xdg-open on Linux
 
 ## Interaction in output
 
-Users navigate with **arrow keys / space / Home / End**, or click the bottom nav buttons. Mention this when reporting the path.
+- **`deck` mode (default):** users navigate with **arrow keys / space / Home / End**, or click the bottom nav buttons.
+- **`scroll-snap` mode:** users scroll vertically inside the deck — each slide snaps into place. Buttons/keys still jump between slides.
+- **`scroll-jack` mode:** users scroll the page — slides crossfade as they scroll. The deck pins to the viewport while it owns the scroll.
+
+Mention the relevant interaction when reporting the path.
 
 ## Avoid
 

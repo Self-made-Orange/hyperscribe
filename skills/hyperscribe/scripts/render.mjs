@@ -31,6 +31,16 @@ import { FileTree } from "./components/file-tree.mjs";
 import { FileCard } from "./components/file-card.mjs";
 import { AnnotatedCode } from "./components/annotated-code.mjs";
 import { ERDDiagram } from "./components/erd-diagram.mjs";
+import { ProjectTile } from "./components/project-tile.mjs";
+import { MosaicGrid } from "./components/mosaic-grid.mjs";
+import { CountdownTimer } from "./components/countdown-timer.mjs";
+import { SiteHeader } from "./components/site-header.mjs";
+import { HeroCarousel } from "./components/hero-carousel.mjs";
+import { EditorialStatement } from "./components/editorial-statement.mjs";
+import { DivisionCard } from "./components/division-card.mjs";
+import { WorkTypeRow } from "./components/work-type-row.mjs";
+import { SiteFooter } from "./components/site-footer.mjs";
+import { PressMentions } from "./components/press-mentions.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PLUGIN_ROOT = resolve(__dirname, "..");
@@ -64,7 +74,17 @@ const REGISTRY = {
   "hyperscribe/FileTree": FileTree,
   "hyperscribe/FileCard": FileCard,
   "hyperscribe/AnnotatedCode": AnnotatedCode,
-  "hyperscribe/ERDDiagram": ERDDiagram
+  "hyperscribe/ERDDiagram": ERDDiagram,
+  "hyperscribe/ProjectTile": ProjectTile,
+  "hyperscribe/MosaicGrid": MosaicGrid,
+  "hyperscribe/CountdownTimer": CountdownTimer,
+  "hyperscribe/SiteHeader": SiteHeader,
+  "hyperscribe/HeroCarousel": HeroCarousel,
+  "hyperscribe/EditorialStatement": EditorialStatement,
+  "hyperscribe/DivisionCard": DivisionCard,
+  "hyperscribe/WorkTypeRow": WorkTypeRow,
+  "hyperscribe/SiteFooter": SiteFooter,
+  "hyperscribe/PressMentions": PressMentions
 };
 
 export async function render(doc, options = {}) {
@@ -159,7 +179,7 @@ function loadCatalog() {
 }
 
 function parseArgs(argv) {
-  const args = { in: null, out: null, theme: null, mode: null, title: null, quiet: false, validateOnly: false, saveEnvelope: true };
+  const args = { in: null, out: null, theme: null, mode: undefined, title: null, quiet: false, validateOnly: false, saveEnvelope: true };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     switch (a) {
@@ -188,7 +208,7 @@ function printHelp() {
 Options:
   --in <path>          JSON input file (or pipe via stdin)
   --out <path>         Output HTML file (required unless --validate-only)
-  --theme <name>       Theme name (studio|midnight|void|gallery|notion|linear|vercel|stripe|supabase); defaults to "studio"
+  --theme <name>       Theme name (studio|midnight|void|gallery|notion|linear|vercel|stripe|supabase|silent-house|audi-f1); defaults to "studio"
   --mode <light|dark|auto>  Initial color mode. Omitted = follow user preference / prefers-color-scheme.
   --title <string>     Override Page.title
   --quiet              Suppress progress logs

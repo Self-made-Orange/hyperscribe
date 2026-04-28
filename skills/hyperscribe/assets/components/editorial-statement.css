@@ -1,0 +1,53 @@
+/* === EditorialStatement — huge centered statement, silent-house "Three unique companies" feel === */
+.hs-editorial-statement {
+  padding: clamp(96px, 16vh, 220px) clamp(20px, 4vw, 80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+  background: var(--hs-color-bg);
+}
+.hs-editorial-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(32px, 4vh, 56px);
+}
+.hs-editorial-eyebrow {
+  font-family: var(--hs-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--hs-color-fg-muted);
+}
+.hs-editorial-text {
+  font-family: var(--hs-font-display, var(--hs-font-sans));
+  font-size: clamp(40px, 6vw, 96px);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  line-height: 1.04;
+  color: var(--hs-color-fg);
+  margin: 0;
+  max-width: 22ch;
+}
+.hs-editorial-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--hs-color-fg);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  letter-spacing: 0.01em;
+  padding-bottom: 4px;
+  border-bottom: 1px solid color-mix(in oklab, var(--hs-color-fg) 50%, transparent);
+  transition: gap var(--sh-speed-fast, 0.2s) var(--sh-ease-out, cubic-bezier(0.25, 1, 0.5, 1));
+}
+.hs-editorial-cta:hover { gap: 18px; }
+.hs-editorial-cta-arrow {
+  font-size: 18px;
+  line-height: 1;
+}

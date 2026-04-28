@@ -1,0 +1,45 @@
+/* === PressMentions — publication credits row === */
+.hs-press-mentions {
+  padding: clamp(56px, 8vh, 96px) clamp(20px, 4vw, 80px);
+  border-top: 1px solid color-mix(in oklab, var(--hs-color-fg) 8%, transparent);
+}
+.hs-press-eyebrow {
+  font-family: var(--hs-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--hs-color-fg-muted);
+  margin: 0 0 clamp(32px, 4vh, 48px) 0;
+}
+.hs-press-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: baseline;
+}
+.hs-press-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.hs-press-name {
+  font-family: var(--hs-font-display, var(--hs-font-sans));
+  font-size: clamp(22px, 2.8vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--hs-color-fg);
+  opacity: 0.35;
+  transition: opacity 0.2s ease;
+  line-height: 1;
+}
+.hs-press-item:hover .hs-press-name { opacity: 1; }
+.hs-press-note {
+  font-family: var(--hs-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--hs-color-fg-muted);
+}

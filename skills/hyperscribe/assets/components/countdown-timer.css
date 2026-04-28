@@ -1,0 +1,92 @@
+/* === CountdownTimer — Audi F1 signature element ===
+   Live-updating time display with Audi red accent on separators.
+   Tabular nums + uppercase labels for technical precision feel. */
+
+.hs-countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--hs-space-3, 12px);
+  margin: var(--hs-space-5, 24px) 0;
+  font-feature-settings: 'tnum' 1;
+}
+.hs-countdown-status {
+  font-family: var(--hs-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hs-color-accent, #eb0d3f);
+  position: relative;
+  padding-left: 18px;
+}
+.hs-countdown-status::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--hs-color-accent, #eb0d3f);
+  animation: hs-countdown-pulse 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+@keyframes hs-countdown-pulse {
+  0%, 100% { opacity: 1;   transform: translateY(-50%) scale(1); }
+  50%      { opacity: 0.4; transform: translateY(-50%) scale(0.8); }
+}
+
+.hs-countdown-cells {
+  display: flex;
+  align-items: flex-end;
+  gap: clamp(8px, 1vw, 16px);
+}
+.hs-countdown-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: clamp(56px, 7vw, 96px);
+}
+.hs-countdown-num {
+  font-family: var(--hs-font-display, var(--hs-font-sans));
+  font-weight: 700;
+  font-size: clamp(40px, 6vw, 80px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--hs-color-fg);
+  font-variant-numeric: tabular-nums;
+}
+.hs-countdown-unit {
+  font-family: var(--hs-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hs-color-fg-muted);
+  margin-top: 6px;
+}
+.hs-countdown-sep {
+  font-family: var(--hs-font-display, var(--hs-font-sans));
+  font-weight: 300;
+  font-size: clamp(36px, 5vw, 72px);
+  line-height: 1;
+  color: var(--hs-color-accent, #eb0d3f);
+  margin-bottom: clamp(16px, 1.7vw, 28px);
+  align-self: center;
+}
+
+.hs-countdown-live .hs-countdown-num {
+  color: var(--hs-color-accent, #eb0d3f);
+}
+.hs-countdown-live .hs-countdown-status {
+  animation: hs-countdown-flash 1s steps(2) infinite;
+}
+@keyframes hs-countdown-flash {
+  50% { opacity: 0.4; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hs-countdown-status::before,
+  .hs-countdown-live .hs-countdown-status {
+    animation: none;
+  }
+}

@@ -1,0 +1,106 @@
+/* === DivisionCard — horizontal numbered list item === */
+.hs-division-card {
+  display: grid;
+  grid-template-columns: 1fr clamp(180px, 24vw, 360px);
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
+  padding: clamp(40px, 6vh, 80px) clamp(20px, 4vw, 80px);
+  border-top: 1px solid color-mix(in oklab, var(--hs-color-fg) 10%, transparent);
+}
+.hs-division-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hs-space-3, 12px);
+}
+.hs-division-card-eyebrow {
+  font-family: var(--hs-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--hs-color-fg-muted);
+}
+.hs-division-card-title {
+  font-family: var(--hs-font-display, var(--hs-font-sans));
+  font-size: clamp(28px, 3.5vw, 52px);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  line-height: 1.05;
+  margin: 0;
+  color: var(--hs-color-fg);
+}
+.hs-division-card-desc {
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--hs-color-fg-muted);
+  margin: 0;
+  max-width: 48ch;
+}
+.hs-division-card-projects {
+  list-style: none;
+  margin: var(--hs-space-2, 8px) 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid color-mix(in oklab, var(--hs-color-fg) 10%, transparent);
+  padding-top: var(--hs-space-3, 12px);
+}
+.hs-division-card-projects li a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--hs-color-fg);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  transition: opacity 0.2s ease;
+}
+.hs-division-card-projects li a::before {
+  content: '↗';
+  font-size: 11px;
+  color: var(--hs-color-fg-muted);
+}
+.hs-division-card-projects li a:hover { opacity: 0.6; }
+.hs-division-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: var(--hs-space-2, 8px);
+  color: var(--hs-color-fg);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  padding-bottom: 3px;
+  border-bottom: 1px solid color-mix(in oklab, var(--hs-color-fg) 40%, transparent);
+  align-self: flex-start;
+  transition: gap 0.2s ease;
+}
+.hs-division-card-cta:hover { gap: 14px; }
+.hs-division-card-media {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+  aspect-ratio: 3/4;
+  background: var(--hs-color-surface, #191919);
+}
+.hs-division-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1.4s cubic-bezier(0.38, 0, 0.215, 1);
+}
+.hs-division-card:hover .hs-division-card-media img {
+  transform: scale(1.06);
+}
+
+@media (max-width: 760px) {
+  .hs-division-card {
+    grid-template-columns: 1fr;
+  }
+  .hs-division-card-media {
+    aspect-ratio: 16/9;
+    order: -1;
+  }
+}

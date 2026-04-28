@@ -1,0 +1,148 @@
+/* ===== Audi F1 theme — technical, sporty, signature red ===== */
+/* Tokens extracted from f1.audi.com.au source.
+   Philosophy: deep-charcoal canvas, signature Audi Red as the only chroma,
+   sharp corners (0.125rem / 0.5rem radii), Outfit as audiType substitute. */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+[data-theme="audi-f1"] {
+  /* Surfaces — Audi's deep-charcoal stack */
+  --hs-color-fg: #ffffff;
+  --hs-color-bg: #131313;                            /* deepcharcoal */
+  --hs-color-surface: #1b1b1b;                       /* midcharcoal */
+  --hs-color-surface-alt: #000000;
+  --hs-color-surface-dark: #000000;
+
+  --hs-color-fg-muted: #c2c2c2;                      /* midgrey */
+  --hs-color-fg-placeholder: #707582;                /* darkgrey */
+
+  /* Audi Red — the only chromatic accent */
+  --hs-color-accent: #eb0d3f;
+  --hs-color-accent-active: #c70934;
+  --hs-color-focus: #eb0d3f;
+  --hs-color-badge-bg: #eb0d3f1a;
+  --hs-color-badge-text: #eb0d3f;
+  --hs-color-success: #c2c2c2;
+  --hs-color-warn: #eb0d3f;
+
+  --hs-border-whisper: 1px solid #ffffff14;
+  --hs-shadow-card: 0 0 #0000;
+  --hs-shadow-deep: 0 18px 48px #00000080,
+                    0 0 0 1px #ffffff0a inset;
+
+  /* Outfit — geometric grotesque, closest free analogue of audiType */
+  --hs-font-sans:    'Outfit', Verdana, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --hs-font-display: 'Outfit', Verdana, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --hs-font-mono:    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Tonal surfaces */
+  --hs-tone-info-bg:    #eb0d3f1a;
+  --hs-tone-info-fg:    #eb0d3f;
+  --hs-tone-warn-bg:    #eb0d3f26;
+  --hs-tone-warn-fg:    #eb0d3f;
+  --hs-tone-success-bg: #1b1b1b;
+  --hs-tone-success-fg: #c2c2c2;
+  --hs-tone-danger-bg:  #eb0d3f33;
+  --hs-tone-danger-fg:  #ffffff;
+
+  --hs-note-bg:     #1b1b1b;
+  --hs-note-border: #eb0d3f;
+  --hs-note-text:   #ffffff;
+
+  /* Sharp Audi precision radii */
+  --hs-radius-micro: 2px;
+  --hs-radius-subtle: 2px;
+  --hs-radius-std: 2px;
+  --hs-radius-comfort: 4px;
+  --hs-radius-large: 8px;
+  --hs-radius-pill: 9999px;
+}
+
+/* Audi F1 stays dark by default; light mode is rare for this brand */
+[data-theme="audi-f1"][data-mode="light"] {
+  --hs-color-fg: #131313;
+  --hs-color-bg: #ffffff;
+  --hs-color-surface: #ecedee;
+  --hs-color-surface-alt: #ffffff;
+  --hs-color-surface-dark: #131313;
+  --hs-color-fg-muted: #3e3e3e;
+  --hs-color-fg-placeholder: #707582;
+  --hs-border-whisper: 1px solid #00000014;
+}
+
+/* Audi character: wide tracking on caps, mono numerals, sharp edges */
+[data-theme="audi-f1"] body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'tnum' 1, 'ss01' 1;
+}
+[data-theme="audi-f1"] .hs-page-title {
+  font-family: var(--hs-font-display);
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.025em;
+  font-size: clamp(48px, 7.5vw, 104px);
+  text-transform: uppercase;
+}
+[data-theme="audi-f1"] .hs-section-title {
+  font-family: var(--hs-font-display);
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  font-size: clamp(28px, 3.5vw, 48px);
+  text-transform: uppercase;
+}
+[data-theme="audi-f1"] .hs-heading-h2 {
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.005em;
+  text-transform: uppercase;
+  font-size: clamp(20px, 1.6vw, 24px);
+}
+[data-theme="audi-f1"] .hs-heading-h3 {
+  font-weight: 600;
+  line-height: 1.2;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+[data-theme="audi-f1"] .hs-page-subtitle,
+[data-theme="audi-f1"] .hs-section-lead {
+  font-weight: 300;
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  color: var(--hs-color-fg-muted);
+  font-size: clamp(15px, 1.05vw, 17px);
+}
+
+/* Section dividers — thin red top accent line on first heading after section */
+[data-theme="audi-f1"] .hs-section {
+  padding: clamp(48px, 7vh, 112px) 0;
+  position: relative;
+}
+[data-theme="audi-f1"] .hs-section + .hs-section {
+  border-top: 1px solid #ffffff14;
+}
+[data-theme="audi-f1"] .hs-section-title::before {
+  content: '';
+  display: block;
+  width: 32px;
+  height: 3px;
+  background: var(--hs-color-accent);
+  margin-bottom: var(--hs-space-3, 12px);
+}
+
+/* ProjectTile in Audi context — sharper edges, red category chips */
+[data-theme="audi-f1"] .hs-project-tile {
+  border-radius: 4px;
+  background: var(--hs-color-surface);
+}
+[data-theme="audi-f1"] .hs-project-tile-cats li {
+  border-color: var(--hs-color-accent);
+  color: var(--hs-color-accent);
+  letter-spacing: 0.12em;
+}
+[data-theme="audi-f1"] .hs-project-tile-title {
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+}

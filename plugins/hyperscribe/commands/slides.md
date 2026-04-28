@@ -37,8 +37,9 @@ $ARGUMENTS
 1. **Root MUST be `hyperscribe/SlideDeck`.** NOT Page. Slides never nest inside Page.
 2. SlideDeck's `children` must be an array of `hyperscribe/Slide` objects — nothing else.
 3. Choose `aspect`: `"16:9"` (default for widescreen) or `"4:3"` (compact/legacy).
-4. Optional `transition: "fade" | "slide"` for visual polish.
-5. Include a `footer` with the topic or date.
+4. Optional `transition: "fade" | "slide"` for visual polish (deck mode only).
+5. Optional `mode`: `"deck"` (default — keyboard nav, one slide at a time), `"scroll-snap"` (vertical scroll-snap inside a 100vh viewport, reveal-on-enter), or `"scroll-jack"` (page scroll pinned via sticky, slides crossfade with scroll progress, Apple-style). Both scroll modes respect `prefers-reduced-motion`. Reserve `scroll-jack` for full-page hero decks (it consumes page scroll).
+6. Include a `footer` with the topic or date.
 
 ## Slide layout picker
 
@@ -105,7 +106,11 @@ open "$OUT"
 
 ## Interaction in output
 
-The user can navigate with **arrow keys / space / Home / End**, or click the nav buttons at the bottom. Tell them this.
+- **`deck` mode (default):** users navigate with **arrow keys / space / Home / End**, or click the nav buttons at the bottom.
+- **`scroll-snap` mode:** users scroll vertically inside the deck — each slide snaps into place. Buttons/keys still jump.
+- **`scroll-jack` mode:** users scroll the page — the deck pins to the viewport and slides crossfade with scroll progress.
+
+Tell the user which interaction applies.
 
 ## Avoid
 

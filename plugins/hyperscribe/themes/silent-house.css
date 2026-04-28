@@ -1,0 +1,195 @@
+/* ===== Silent House theme — minimalist editorial portfolio ===== */
+/* Tokens extracted from silent-house.com source (Aktiv Grotesk → Inter swap).
+   Philosophy: dark canvas, near-zero chromatic accents, imagery-as-color,
+   editorial typography, signature easings used everywhere. */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+[data-theme="silent-house"] {
+  /* Native palette — black/white/grayscale, single surface tone for cards */
+  --hs-color-fg: #ffffff;
+  --hs-color-bg: #000000;
+  --hs-color-surface: #191919;
+  --hs-color-surface-alt: #0d0d0d;
+  --hs-color-surface-dark: #000000;
+
+  --hs-color-fg-muted: #c5c5c5;
+  --hs-color-fg-placeholder: #999999;
+
+  --hs-color-accent: #ffffff;
+  --hs-color-accent-active: #eaeaea;
+  --hs-color-focus: #ffffff;
+  --hs-color-badge-bg: #19191926;
+  --hs-color-badge-text: #c5c5c5;
+  --hs-color-success: #c5c5c5;
+  --hs-color-warn: #eaeaea;
+
+  --hs-border-whisper: 1px solid #ffffff14;
+  --hs-shadow-card: 0 0 #0000;
+  --hs-shadow-deep: 0 24px 60px #00000099;
+
+  --hs-font-sans:    'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", system-ui, sans-serif;
+  --hs-font-display: 'Inter', -apple-system, BlinkMacSystemFont, "Helvetica Neue", system-ui, sans-serif;
+  --hs-font-mono:    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+
+  --hs-tone-info-bg:    #19191926;
+  --hs-tone-info-fg:    #eaeaea;
+  --hs-tone-warn-bg:    #19191926;
+  --hs-tone-warn-fg:    #eaeaea;
+  --hs-tone-success-bg: #19191926;
+  --hs-tone-success-fg: #eaeaea;
+  --hs-tone-danger-bg:  #19191926;
+  --hs-tone-danger-fg:  #eaeaea;
+
+  --hs-note-bg:     #191919;
+  --hs-note-border: #c5c5c5;
+  --hs-note-text:   #ffffff;
+
+  /* Silent House signature easings */
+  --sh-ease-out:         cubic-bezier(0.25, 1, 0.5, 1);
+  --sh-ease-in-out:      cubic-bezier(0.65, 0, 0.35, 1);
+  --sh-ease-slow-out:    cubic-bezier(0.38, 0, 0.215, 1);
+  --sh-ease-slow-in-out: cubic-bezier(0.5, 0, 0, 1);
+  --sh-speed-fast:    0.2s;
+  --sh-speed-faster:  0.3s;
+  --sh-speed-normal:  0.4s;
+  --sh-speed-slow:    0.6s;
+  --sh-speed-slower:  0.8s;
+  --sh-speed-slowest: 1.0s;
+  --sh-stagger:       0.1s;
+
+  --sh-grid-columns: 12;
+  --sh-grid-gutter:  1rem;
+  --sh-grid-margin:  1.5rem;
+}
+
+[data-theme="silent-house"][data-mode="light"] {
+  --hs-color-fg: #000000;
+  --hs-color-bg: #ffffff;
+  --hs-color-surface: #f5f5f5;
+  --hs-color-surface-alt: #fafafa;
+  --hs-color-surface-dark: #ffffff;
+  --hs-color-fg-muted: #666666;
+  --hs-color-fg-placeholder: #999999;
+  --hs-color-accent: #000000;
+  --hs-color-focus: #000000;
+  --hs-border-whisper: 1px solid #00000014;
+  --hs-shadow-deep: 0 24px 60px #00000022;
+}
+
+@media (max-width: 640px) {
+  [data-theme="silent-house"] {
+    --sh-grid-columns: 4;
+    --sh-grid-margin: 1rem;
+  }
+}
+
+/* === Typography === */
+[data-theme="silent-house"] body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+[data-theme="silent-house"] .hs-page-title {
+  font-weight: 700;
+  line-height: 1.0;
+  letter-spacing: -0.02em;
+  font-size: clamp(48px, 7vw, 96px);
+}
+[data-theme="silent-house"] .hs-prose {
+  letter-spacing: -0.003em;
+  line-height: 1.55;
+}
+
+/* === Chrome rules === */
+[data-theme="silent-house"] .hs-mode-toggler { display: none !important; }
+
+[data-theme="silent-house"] .hs-page-chromeless {
+  display: block;
+  max-width: none;
+  padding: 0;
+  width: 100%;
+}
+[data-theme="silent-house"] .hs-page-chromeless > .hs-page-main {
+  display: block;
+  padding: 0;
+  max-width: none;
+  width: 100%;
+}
+[data-theme="silent-house"] body {
+  padding: 0 !important;
+  margin: 0;
+}
+
+/* === Nav — fixed transparent overlay === */
+[data-theme="silent-house"] .hs-site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: transparent;
+  border-bottom: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+[data-theme="silent-house"] .hs-site-header.hs-scrolled {
+  background: color-mix(in oklab, var(--hs-color-bg) 85%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: var(--hs-border-whisper);
+}
+
+/* === Sections — full-width, no container === */
+[data-theme="silent-house"] .hs-section {
+  padding: 0;
+  border-top: none;
+  max-width: none;
+  margin: 0;
+}
+[data-theme="silent-house"] .hs-section-title {
+  font-size: clamp(13px, 1vw, 15px);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-family: var(--hs-font-mono);
+  color: var(--hs-color-fg-muted);
+  padding: clamp(48px, 6vh, 80px) clamp(20px, 4vw, 80px) clamp(16px, 2vh, 24px);
+  border-top: var(--hs-border-whisper);
+  margin: 0;
+}
+[data-theme="silent-house"] .hs-section-body {
+  padding: 0;
+}
+
+/* === DivisionCard — stacks vertically (each card is full-width horizontal) === */
+[data-theme="silent-house"] .hs-division-card {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+[data-theme="silent-house"] .hs-division-card:last-child {
+  border-bottom: var(--hs-border-whisper);
+}
+
+/* === WorkTypeRow — compact for silent-house === */
+[data-theme="silent-house"] .hs-work-row {
+  padding: clamp(32px, 4vh, 56px) clamp(20px, 4vw, 80px);
+  max-width: 1400px;
+  margin: 0 auto;
+  gap: clamp(24px, 3vw, 56px);
+}
+[data-theme="silent-house"] .hs-work-row-title {
+  font-size: clamp(22px, 2.6vw, 36px);
+}
+[data-theme="silent-house"] .hs-work-row-media {
+  aspect-ratio: 16/10;
+}
+
+/* === EditorialStatement — tighter === */
+[data-theme="silent-house"] .hs-editorial-statement {
+  min-height: auto;
+  padding: clamp(80px, 12vh, 160px) clamp(20px, 4vw, 80px);
+  border-top: var(--hs-border-whisper);
+}
+[data-theme="silent-house"] .hs-editorial-text {
+  font-size: clamp(36px, 5.5vw, 80px);
+}

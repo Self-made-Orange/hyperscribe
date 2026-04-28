@@ -1,0 +1,35 @@
+/* === MosaicGrid — Audi F1-inspired tile grid ===
+   12-col CSS grid (configurable). Children with grid-column/row span (set
+   via ProjectTile.span/.rowSpan) tile freely. Auto-flow dense fills gaps. */
+
+.hs-mosaic-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--hs-mosaic-cols, 12), minmax(0, 1fr));
+  grid-auto-rows: var(--hs-mosaic-row, minmax(200px, auto));
+  gap: var(--hs-mosaic-gap, 1rem);
+  margin: var(--hs-space-5, 24px) 0;
+}
+.hs-mosaic-grid-dense {
+  grid-auto-flow: dense;
+}
+
+/* Mobile collapse — 12-col → 4-col, all spans clamp to ≤4 visually */
+@media (max-width: 960px) {
+  .hs-mosaic-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-auto-rows: minmax(160px, auto);
+  }
+  .hs-mosaic-grid > * {
+    grid-column: span 4 !important;
+    grid-row: auto !important;
+  }
+}
+@media (max-width: 640px) {
+  .hs-mosaic-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: minmax(140px, auto);
+  }
+  .hs-mosaic-grid > * {
+    grid-column: span 4 !important;
+  }
+}
