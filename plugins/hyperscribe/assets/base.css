@@ -26,7 +26,7 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: var(--hs-font-sans);
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.5;
   color: var(--hs-color-fg);
   background: var(--hs-color-bg);
@@ -41,18 +41,18 @@ html, body {
 }
 .hs-page-header { margin-bottom: var(--hs-space-6); }
 .hs-page-title {
-  font-size: 64px;
+  font-size: 40px;
   font-weight: 700;
-  line-height: 1;
-  letter-spacing: -2.125px;
+  line-height: 1.06;
+  letter-spacing: -1.2px;
   margin: 0 0 var(--hs-space-3);
   font-feature-settings: "lnum", "locl";
 }
 .hs-page-subtitle {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
-  line-height: 1.4;
-  letter-spacing: -0.125px;
+  line-height: 1.45;
+  letter-spacing: -0.08px;
   color: var(--hs-color-fg-muted);
   margin: 0;
 }
@@ -60,18 +60,18 @@ html, body {
 /* === Section === */
 .hs-section { margin-top: var(--hs-space-8); }
 .hs-section-title {
-  font-size: 48px;
+  font-size: 32px;
   font-weight: 700;
-  line-height: 1;
-  letter-spacing: -1.5px;
+  line-height: 1.08;
+  letter-spacing: -0.8px;
   margin: 0 0 var(--hs-space-4);
   font-feature-settings: "lnum", "locl";
 }
 .hs-section-lead {
   color: var(--hs-color-fg-muted);
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
-  line-height: 1.4;
+  line-height: 1.45;
   margin: 0 0 var(--hs-space-5);
 }
 .hs-section-lead p { margin: 0; }
@@ -80,19 +80,20 @@ html, body {
 /* === Headings === */
 .hs-heading { margin: var(--hs-space-5) 0 var(--hs-space-3); font-weight: 700; }
 .hs-heading-h2 {
-  font-size: 40px;
-  line-height: 1.5;
+  font-size: 26px;
+  line-height: 1.20;
+  letter-spacing: -0.4px;
   font-feature-settings: "lnum", "locl";
 }
 .hs-heading-h3 {
-  font-size: 26px;
-  line-height: 1.23;
-  letter-spacing: -0.625px;
+  font-size: 19px;
+  line-height: 1.30;
+  letter-spacing: -0.35px;
 }
 .hs-heading-h4 {
-  font-size: 22px;
-  line-height: 1.27;
-  letter-spacing: -0.25px;
+  font-size: 16px;
+  line-height: 1.36;
+  letter-spacing: -0.14px;
 }
 
 /* === Prose === */
@@ -211,4 +212,86 @@ html:not([data-mode="dark"]) .hs-mode-icon-sun  { display: none; }
 .hs-zoom-btn:focus-visible {
   outline: 2px solid var(--hs-color-focus);
   outline-offset: 2px;
+}
+
+/* === KPICards auto-grid when adjacent in a section === */
+.hs-section-body:has(> .hs-kpi + .hs-kpi) {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--hs-space-3);
+}
+.hs-section-body:has(> .hs-kpi + .hs-kpi) > * + * { margin-top: 0; }
+
+/* === Tables — horizontal scroll on narrow viewports === */
+.hs-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: var(--hs-space-4) 0;
+  border-radius: var(--hs-radius-comfort);
+}
+.hs-table-wrap > .hs-table { margin: 0; min-width: 100%; }
+
+/* === Responsive — tablet (≤960px) === */
+@media (max-width: 960px) {
+  .hs-page { padding: var(--hs-space-6) var(--hs-space-4); }
+  .hs-page-title { font-size: 34px; letter-spacing: -0.9px; }
+  .hs-section-title { font-size: 26px; letter-spacing: -0.55px; }
+  .hs-heading-h2 { font-size: 22px; letter-spacing: -0.32px; }
+  .hs-heading-h3 { font-size: 18px; letter-spacing: -0.28px; }
+  .hs-heading-h4 { font-size: 15px; }
+  .hs-section { margin-top: var(--hs-space-6); }
+  .hs-kpi-value { font-size: 26px; }
+}
+
+/* === Responsive — mobile (≤640px) === */
+@media (max-width: 640px) {
+  html, body { font-size: 14px; }
+  .hs-page {
+    padding: var(--hs-space-5) var(--hs-space-3);
+  }
+  .hs-page-header { margin-bottom: var(--hs-space-5); }
+  .hs-page-title {
+    font-size: 24px;
+    line-height: 1.10;
+    letter-spacing: -0.55px;
+  }
+  .hs-page-subtitle {
+    font-size: 14px;
+    line-height: 1.45;
+    letter-spacing: 0;
+  }
+  .hs-section { margin-top: var(--hs-space-5); }
+  .hs-section-title {
+    font-size: 20px;
+    line-height: 1.18;
+    letter-spacing: -0.34px;
+    margin-bottom: var(--hs-space-3);
+  }
+  .hs-section-lead {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: var(--hs-space-4);
+  }
+  .hs-heading-h2 { font-size: 17px; line-height: 1.24; letter-spacing: -0.22px; }
+  .hs-heading-h3 { font-size: 15px; line-height: 1.32; letter-spacing: -0.13px; }
+  .hs-heading-h4 { font-size: 14px; line-height: 1.38; letter-spacing: -0.08px; }
+  .hs-kpi-value { font-size: 19px; letter-spacing: -0.32px; }
+  .hs-kpi-label { font-size: 11px; letter-spacing: 0.4px; }
+  .hs-kpi { min-width: 0; padding: var(--hs-space-3); }
+  .hs-table th, .hs-table td { padding: var(--hs-space-2); }
+  .hs-table { font-size: 13px; }
+  .hs-mode-toggler {
+    top: 10px;
+    right: 10px;
+    width: 38px;
+    height: 38px;
+  }
+  .hs-zoom-btn { width: 32px; height: 32px; font-size: 15px; }
+  .hs-zoom-controls { top: 6px; right: 6px; gap: 6px; }
+}
+
+/* === Honor reduced-motion preferences === */
+@media (prefers-reduced-motion: reduce) {
+  .hs-mode-toggler, .hs-zoom-btn { transition: none; }
 }

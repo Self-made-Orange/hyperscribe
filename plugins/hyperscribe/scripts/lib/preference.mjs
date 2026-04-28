@@ -2,7 +2,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { homedir } from "node:os";
 
-const VALID_THEMES = new Set(["studio", "midnight", "void", "gallery"]);
+const VALID_THEMES = new Set(["studio", "midnight", "void", "gallery", "notion", "linear", "vercel", "stripe", "supabase"]);
 const VALID_MODES  = new Set(["light", "dark", "auto"]);
 
 export function defaults() {
@@ -43,7 +43,7 @@ Edit the values above to change your defaults. Delete this file to re-run
 the first-run setup on the next hyperscribe invocation.
 
 Valid values:
-  theme: studio | midnight | void | gallery
+  theme: studio | midnight | void | gallery | notion | linear | vercel | stripe | supabase
   mode:  light | dark | auto
 `;
 }

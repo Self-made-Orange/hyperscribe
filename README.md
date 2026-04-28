@@ -385,7 +385,7 @@ The design system is Notion-inspired — warm neutrals, whisper borders, Inter f
 
 ## Themes
 
-Four bundled themes, each shipping both **light and dark modes** in a single CSS file. Pass `--theme <name>` at render time to pick one; use `--mode light|dark` to force initial color mode (omit for `prefers-color-scheme` + localStorage).
+Nine bundled themes, each shipping both **light and dark modes** in a single CSS file. Pass `--theme <name>` at render time to pick one; use `--mode light|dark` to force initial color mode (omit for `prefers-color-scheme` + localStorage).
 
 | Name | Character | Best for |
 |---|---|---|
@@ -393,10 +393,17 @@ Four bundled themes, each shipping both **light and dark modes** in a single CSS
 | `midnight` | Cal.com — purely grayscale (no brand colors), Cal Sans display + Inter body, 3-layer ring shadow system | Technical writeups, minimalist reports, long-form reading |
 | `void` | Bugatti — architectural black canvas, Unbounded display at massive scale, UPPERCASE mono UI, 3-color palette (black/white/gray) | Launch decks, hero moments, high-drama showcases |
 | `gallery` | Apple — cinematic black↔light-gray section alternation, SF Pro with tight negative tracking, Apple Blue as sole accent | Executive summaries, product showcases, investor-facing decks |
+| `notion` | Notion — warm cream surfaces (`#f6f5f4`), warm near-black `rgba(0,0,0,0.95)`, Notion Blue `#0075de`, whisper-thin borders, signature pastel callouts | Long-form documents, knowledge bases, reading-first pages |
+| `linear` | Linear — dark-mode-native `#08090a` canvas, Inter Variable with `cv01`/`ss03` features, weight-510 signature, Indigo `#5e6ad2` accent | Engineering posts, changelog, precision-feel reports |
+| `vercel` | Vercel — gallery-empty white, Geist + Geist Mono with `liga`, shadow-as-border (`0 0 0 1px rgba(0,0,0,0.08)`), aggressive negative tracking | Developer docs, CLI references, code-forward pages |
+| `stripe` | Stripe — weight-300 luxury headlines, deep navy `#061b31`, blue-tinted multi-layer shadows `rgba(50,50,93,0.25)` | Premium pricing pages, fintech reports, sales decks |
+| `supabase` | Supabase — dark-mode-native, emerald green `#3ecf8e` accent, NO box-shadows (depth via border hierarchy `#242424` → `#2e2e2e` → `#363636`) | Developer-tool launches, dashboards, technical changelog |
 
-Themes are pure CSS-variable overrides (`plugins/hyperscribe/themes/*.css`). Each defines tokens under `[data-theme="<name>"]` (light) and `[data-theme="<name>"][data-mode="dark"]` (dark). Semantic tones (`--hs-tone-{info|warn|success|danger}-{bg|fg}`) and surface palette (`--hs-color-surface*`) keep components legible across all four.
+Themes are pure CSS-variable overrides (`plugins/hyperscribe/themes/*.css`). Each defines tokens under `[data-theme="<name>"]` (light) and `[data-theme="<name>"][data-mode="dark"]` (dark). Semantic tones (`--hs-tone-{info|warn|success|danger}-{bg|fg}`) and surface palette (`--hs-color-surface*`) keep components legible across all nine.
 
-**Breaking change in v0.4:** `notion` is renamed to `studio`, `linear` is renamed to `midnight`. The old names no longer resolve — update any `--theme notion` / `--theme linear` calls to the new names. Running with the old names now throws `Unknown theme "notion". Available: gallery, midnight, studio, void`.
+The `notion` / `linear` / `vercel` / `stripe` / `supabase` themes are sourced strictly from their public DESIGN.md specs (via the `getdesign` npm package). Hex codes, font stacks, OpenType features, and shadow stacks match the source where reasonable; border radii are normalized GitHub-style (4 / 6 / 6 / 6 / 12 + pill) for visual consistency across the bundle.
+
+**v0.4 breaking history:** `notion` and `linear` were briefly *alternate names* for the original default theme. v0.5 reintroduces them as **distinct brand-aligned themes** based on their actual DESIGN.md tokens. If you depended on the v0.3 default styling under those names, switch to `studio` (was `notion`) or `midnight` (was `linear`).
 
 Your per-user theme + mode preference is stored at `~/.hyperscribe/preference.md` after first run. A project-local `./.hyperscribe/preference.md` overrides it. Delete either file to re-run first-run setup.
 

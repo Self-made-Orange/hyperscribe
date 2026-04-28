@@ -15,7 +15,7 @@ test("render: default theme is studio", async () => {
   assert.match(html, /\[data-theme="studio"\]/);
 });
 
-for (const name of ["studio", "midnight", "void", "gallery"]) {
+for (const name of ["studio", "midnight", "void", "gallery", "notion", "linear", "vercel", "stripe", "supabase"]) {
   test(`render: --theme ${name} applied`, async () => {
     const html = await render(envelope, { theme: name });
     assert.match(html, new RegExp(`data-theme="${name}"`));
@@ -30,14 +30,6 @@ test("render: mode toggler always injected", async () => {
 
 test("render: unknown theme throws", async () => {
   await assert.rejects(() => render(envelope, { theme: "nope" }), /theme/i);
-});
-
-test("render: old theme name notion throws with clear error", async () => {
-  await assert.rejects(() => render(envelope, { theme: "notion" }), /Unknown theme/);
-});
-
-test("render: old theme name linear throws with clear error", async () => {
-  await assert.rejects(() => render(envelope, { theme: "linear" }), /Unknown theme/);
 });
 
 test("render: mode=dark injects data-mode on <html>", async () => {

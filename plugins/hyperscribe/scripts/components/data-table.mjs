@@ -25,5 +25,5 @@ export function DataTable(props) {
   const tfoot = props.footer
     ? `<tfoot><tr>${props.columns.map(c => renderCell(props.footer, c)).join("")}</tr></tfoot>`
     : "";
-  return `<table class="hs-table hs-table-${density}">${caption}${thead}${tbody}${tfoot}</table>`;
+  return `<div class="hs-table-wrap"><table class="hs-table hs-table-${density}">${caption}${thead}${tbody}${tfoot}</table></div>`;
 }

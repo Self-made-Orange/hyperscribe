@@ -188,7 +188,7 @@ function printHelp() {
 Options:
   --in <path>          JSON input file (or pipe via stdin)
   --out <path>         Output HTML file (required unless --validate-only)
-  --theme <name>       Theme name (studio|midnight|void|gallery); defaults to "studio"
+  --theme <name>       Theme name (studio|midnight|void|gallery|notion|linear|vercel|stripe|supabase); defaults to "studio"
   --mode <light|dark|auto>  Initial color mode. Omitted = follow user preference / prefers-color-scheme.
   --title <string>     Override Page.title
   --quiet              Suppress progress logs

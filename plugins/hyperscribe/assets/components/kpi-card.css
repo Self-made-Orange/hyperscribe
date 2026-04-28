@@ -8,17 +8,17 @@
 }
 .hs-kpi-label {
   color: var(--hs-color-fg-muted);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: var(--hs-space-2);
 }
 .hs-kpi-value {
-  font-size: 40px;
+  font-size: 32px;
   font-weight: 700;
   line-height: 1.1;
-  letter-spacing: -1px;
+  letter-spacing: -0.8px;
   font-feature-settings: "lnum", "tnum";
 }
 .hs-kpi-delta {
@@ -26,7 +26,7 @@
   align-items: center;
   gap: 4px;
   margin-top: var(--hs-space-2);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
   padding: 2px 6px;
   border-radius: var(--hs-radius-pill);
@@ -37,5 +37,5 @@
 .hs-kpi-hint {
   margin-top: var(--hs-space-2);
   color: var(--hs-color-fg-muted);
-  font-size: 13px;
+  font-size: 12px;
 }

@@ -21,7 +21,7 @@
 }
 .hs-arch-node-title { font-weight: 700; flex: 1; }
 .hs-arch-node-tag {
-  font-size: 11px;
+  font-size: 10px;
   padding: 2px 6px;
   background: var(--hs-color-badge-bg);
   color: var(--hs-color-badge-text);
@@ -31,7 +31,7 @@
 }
 .hs-arch-node-desc {
   color: var(--hs-color-fg-muted);
-  font-size: 14px;
+  font-size: 13px;
   margin-top: var(--hs-space-2);
 }
 
@@ -54,7 +54,7 @@
   list-style: none;
   padding: 0;
   margin: var(--hs-space-4) 0 0;
-  font-size: 14px;
+  font-size: 13px;
   color: var(--hs-color-fg-muted);
 }
 .hs-arch-edges li { padding: var(--hs-space-1) 0; }

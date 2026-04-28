@@ -52,6 +52,11 @@ Themes:  1) studio    (Airtable — clean enterprise canvas + Airtable Blue)
          2) midnight  (Cal.com — grayscale monochrome + Cal Sans display)
          3) void      (Bugatti — architectural black + 3-color discipline)
          4) gallery   (Apple — cinematic binary surfaces + SF Pro)
+         5) notion    (Notion — warm cream surfaces + Notion Blue)
+         6) linear    (Linear — precision dark-native + indigo + tight Inter)
+         7) vercel    (Vercel — gallery-empty white + Geist + shadow-as-border)
+         8) stripe    (Stripe — weight-300 luxury + deep navy + blue-tinted shadow)
+         9) supabase  (Supabase — dark-native + emerald green + border hierarchy)
 
 Modes:   light / dark / auto
 
@@ -80,7 +85,7 @@ Edit the values above to change your defaults. Delete this file to re-run
 the first-run setup on the next hyperscribe invocation.
 
 Valid values:
-  theme: studio | midnight | void | gallery
+  theme: studio | midnight | void | gallery | notion | linear | vercel | stripe | supabase
   mode:  light | dark | auto
 EOF
 fi

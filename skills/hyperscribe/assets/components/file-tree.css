@@ -1,7 +1,7 @@
 .hs-file-tree {
   margin: 1.5rem 0;
   font-family: var(--hs-font-mono);
-  font-size: 14px;
+  font-size: 13px;
   background: var(--hs-color-surface-alt);
   border: var(--hs-border-whisper);
   border-radius: 8px;
@@ -66,7 +66,7 @@
 .hs-file-tree-caption {
   margin-top: 0.75rem;
   font-family: var(--hs-font-sans);
-  font-size: 13px;
+  font-size: 12px;
   color: var(--hs-color-fg-muted);
   text-align: center;
 }

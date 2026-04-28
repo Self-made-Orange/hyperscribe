@@ -1,0 +1,176 @@
+/* ===== Vercel theme — strictly per Vercel DESIGN.md ===== */
+/*
+ *   Source: getdesign.md/vercel/design-md (extracted from getdesign npm v0.6.9)
+ *   Signature: shadow-as-border. Replaces traditional CSS borders with
+ *              `box-shadow: 0 0 0 1px rgba(0,0,0,0.08)` — see --hs-shadow-card.
+ *   Fonts: Geist + Geist Mono with OpenType "liga" globally.
+ *   Weights: 400 / 500 / 600 only — never 700+.
+ *   Radii: GitHub-clean 4 / 6 / 6 / 6 / 12.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap');
+
+[data-theme="vercel"] {
+  /* === Surfaces — overwhelmingly white, near-black text === */
+  --hs-color-fg: #171717;                            /* Vercel Black — DESIGN.md exact */
+  --hs-color-bg: #ffffff;
+  --hs-color-surface: #ffffff;
+  --hs-color-surface-alt: #fafafa;                   /* Gray 50 — inner-shadow highlight */
+  --hs-color-surface-dark: #171717;
+
+  --hs-color-fg-muted: #4d4d4d;                      /* Gray 600 */
+  --hs-color-fg-placeholder: #808080;                /* Gray 400 */
+
+  /* === Chrome === */
+  --hs-color-accent: #171717;                        /* Dark CTA — Geist primary */
+  --hs-color-accent-active: #000000;
+  --hs-color-navy: #0a72ef;                          /* Develop Blue */
+  --hs-color-purple: #7928ca;                        /* Console Purple */
+  --hs-color-pink: #de1d8d;                          /* Preview Pink */
+  --hs-color-teal: #0070f3;                          /* Console Blue */
+  --hs-color-brown: #ff5b4f;                         /* Ship Red repurposed */
+  --hs-color-focus: hsla(212, 100%, 48%, 1);         /* DESIGN.md focus color */
+  --hs-color-badge-bg: #ebf5ff;                      /* Badge Blue Bg */
+  --hs-color-badge-text: #0068d6;                    /* Badge Blue Text */
+  --hs-color-success: #0a72ef;                       /* Develop Blue (no green in palette) */
+  --hs-color-warn: #ff5b4f;
+
+  /* === Depth — Vercel's signature shadow-as-border (DESIGN.md verbatim) === */
+  --hs-border-whisper: 1px solid #ebebeb;            /* Gray 100 ring fallback */
+  --hs-shadow-card: rgba(0, 0, 0, 0.08) 0 0 0 1px,
+                    rgba(0, 0, 0, 0.04) 0 2px 2px,
+                    #fafafa 0 0 0 1px inset;
+  --hs-shadow-deep: rgba(0, 0, 0, 0.08) 0 0 0 1px,
+                    rgba(0, 0, 0, 0.04) 0 2px 2px,
+                    rgba(0, 0, 0, 0.04) 0 8px 8px -8px,
+                    #fafafa 0 0 0 1px inset;
+
+  /* === Radii — GitHub clean === */
+  --hs-radius-micro:   4px;
+  --hs-radius-subtle:  6px;
+  --hs-radius-std:     6px;
+  --hs-radius-comfort: 6px;
+  --hs-radius-large:   12px;
+
+  /* === Fonts — Geist with "liga" globally === */
+  --hs-font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI",
+                  Arial, "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  --hs-font-display: "Geist", -apple-system, system-ui, sans-serif;
+  --hs-font-mono: "Geist Mono", ui-monospace, SFMono-Regular, "Roboto Mono",
+                  Menlo, Monaco, "Liberation Mono", "DejaVu Sans Mono",
+                  "Courier New", monospace;
+
+  /* === Tones — workflow-accent inspired === */
+  --hs-tone-info-bg:    #ebf5ff;
+  --hs-tone-info-fg:    #0068d6;
+  --hs-tone-warn-bg:    rgba(255, 91, 79, 0.10);     /* Ship Red soft */
+  --hs-tone-warn-fg:    #d8392c;
+  --hs-tone-success-bg: #ebf5ff;                     /* No green in Vercel — use Develop Blue */
+  --hs-tone-success-fg: #0068d6;
+  --hs-tone-danger-bg:  rgba(255, 91, 79, 0.10);
+  --hs-tone-danger-fg:  #d8392c;
+
+  --hs-note-bg:     #fafafa;
+  --hs-note-border: #171717;
+  --hs-note-text:   #171717;
+}
+
+[data-theme="vercel"][data-mode="dark"] {
+  --hs-color-fg: #ededed;
+  --hs-color-bg: #000000;
+  --hs-color-surface: #0a0a0a;
+  --hs-color-surface-alt: #171717;
+  --hs-color-surface-dark: #000000;
+
+  --hs-color-fg-muted: #a1a1a1;
+  --hs-color-fg-placeholder: #666666;
+
+  --hs-color-accent: #ededed;                        /* Inverted near-white CTA */
+  --hs-color-accent-active: #ffffff;
+  --hs-color-focus: hsla(212, 100%, 60%, 1);
+  --hs-color-badge-bg: rgba(0, 112, 243, 0.15);
+  --hs-color-badge-text: #4cabff;
+
+  --hs-border-whisper: 1px solid #2a2a2a;
+  --hs-shadow-card: rgba(255, 255, 255, 0.06) 0 0 0 1px,
+                    rgba(0, 0, 0, 0.30) 0 2px 2px,
+                    rgba(255, 255, 255, 0.02) 0 0 0 1px inset;
+  --hs-shadow-deep: rgba(255, 255, 255, 0.08) 0 0 0 1px,
+                    rgba(0, 0, 0, 0.40) 0 2px 2px,
+                    rgba(0, 0, 0, 0.30) 0 8px 8px -8px,
+                    rgba(255, 255, 255, 0.02) 0 0 0 1px inset;
+
+  --hs-tone-info-bg:    rgba(0, 112, 243, 0.14);
+  --hs-tone-info-fg:    #4cabff;
+  --hs-tone-warn-bg:    rgba(255, 91, 79, 0.14);
+  --hs-tone-warn-fg:    #ff8a82;
+  --hs-tone-success-bg: rgba(0, 112, 243, 0.14);
+  --hs-tone-success-fg: #4cabff;
+  --hs-tone-danger-bg:  rgba(255, 91, 79, 0.16);
+  --hs-tone-danger-fg:  #ff8a82;
+
+  --hs-note-bg:     #171717;
+  --hs-note-border: #ededed;
+  --hs-note-text:   #ededed;
+}
+
+/* === Vercel character: Geist tight tracking, "liga" globally, three-weight discipline === */
+[data-theme="vercel"] body {
+  font-feature-settings: "liga";
+}
+[data-theme="vercel"] .hs-page-title {
+  /* 48px ← DESIGN.md "Display Hero": 600 / 1.00 / -2.4px (-0.05em) */
+  font-family: var(--hs-font-display);
+  font-weight: 600;
+  line-height: 1.00;
+  letter-spacing: -0.05em;                           /* -2.4px at 48px — extreme compression */
+}
+[data-theme="vercel"] .hs-section-title {
+  /* 40px ← DESIGN.md "Section Heading": 600 / 1.20 / -2.4px (-0.06em) */
+  font-family: var(--hs-font-display);
+  font-weight: 600;
+  line-height: 1.10;
+  letter-spacing: -0.06em;
+}
+[data-theme="vercel"] .hs-heading-h2 {
+  /* 32px ← DESIGN.md "Sub-heading Large": 600 / 1.25 / -1.28px (-0.04em) */
+  font-family: var(--hs-font-display);
+  font-weight: 600;
+  line-height: 1.20;
+  letter-spacing: -0.04em;
+}
+[data-theme="vercel"] .hs-heading-h3 {
+  /* 22px ← interpolated between Sub-heading Large (32) and Card Title (24/-0.96px) */
+  font-family: var(--hs-font-display);
+  font-weight: 600;
+  line-height: 1.27;
+  letter-spacing: -0.043em;
+}
+[data-theme="vercel"] .hs-heading-h4 {
+  /* 18px ← DESIGN.md "Body" 18px / 400 transitions; use 600 / -0.02em for emphasis */
+  font-family: var(--hs-font-display);
+  font-weight: 600;
+  line-height: 1.33;
+  letter-spacing: -0.02em;
+}
+[data-theme="vercel"] .hs-page-subtitle,
+[data-theme="vercel"] .hs-section-lead {
+  /* DESIGN.md "Body Large": 20px / 400 / 1.80 / normal */
+  font-weight: 400;
+  line-height: 1.60;
+  letter-spacing: 0;
+  color: var(--hs-color-fg-muted);
+}
+[data-theme="vercel"] .hs-prose {
+  font-weight: 400;
+  line-height: 1.56;
+  letter-spacing: 0;
+}
+[data-theme="vercel"] .hs-prose a {
+  color: #0072f5;                                    /* Link Blue — DESIGN.md exact */
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+[data-theme="vercel"][data-mode="dark"] .hs-prose a {
+  color: #4cabff;
+}

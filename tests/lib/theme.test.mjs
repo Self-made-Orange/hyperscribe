@@ -2,9 +2,9 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { loadTheme, listThemes, modeTogglerHtml } from "../../plugins/hyperscribe/scripts/lib/theme.mjs";
 
-test("listThemes: finds all four bundled themes", () => {
+test("listThemes: finds all nine bundled themes", () => {
   const names = listThemes();
-  for (const n of ["studio", "midnight", "void", "gallery"]) {
+  for (const n of ["studio", "midnight", "void", "gallery", "notion", "linear", "vercel", "stripe", "supabase"]) {
     assert.ok(names.includes(n), `missing theme ${n}`);
   }
 });
@@ -45,13 +45,38 @@ test("loadTheme: gallery theme defines both light and dark", () => {
   assert.match(css, /\[data-theme="gallery"\]\[data-mode="dark"\]/);
 });
 
-test("loadTheme: throws on unknown theme", () => {
-  assert.throws(() => loadTheme("does-not-exist"), /theme/i);
+test("loadTheme: notion theme defines both light and dark", () => {
+  const css = loadTheme("notion");
+  assert.match(css, /\[data-theme="notion"\]\s*\{/);
+  assert.match(css, /\[data-theme="notion"\]\[data-mode="dark"\]/);
 });
 
-test("loadTheme: old names notion/linear no longer resolve", () => {
-  assert.throws(() => loadTheme("notion"), /Unknown theme/);
-  assert.throws(() => loadTheme("linear"), /Unknown theme/);
+test("loadTheme: linear theme defines both light and dark", () => {
+  const css = loadTheme("linear");
+  assert.match(css, /\[data-theme="linear"\]\s*\{/);
+  assert.match(css, /\[data-theme="linear"\]\[data-mode="dark"\]/);
+});
+
+test("loadTheme: vercel theme defines both light and dark", () => {
+  const css = loadTheme("vercel");
+  assert.match(css, /\[data-theme="vercel"\]\s*\{/);
+  assert.match(css, /\[data-theme="vercel"\]\[data-mode="dark"\]/);
+});
+
+test("loadTheme: stripe theme defines both light and dark", () => {
+  const css = loadTheme("stripe");
+  assert.match(css, /\[data-theme="stripe"\]\s*\{/);
+  assert.match(css, /\[data-theme="stripe"\]\[data-mode="dark"\]/);
+});
+
+test("loadTheme: supabase theme defines both light and dark", () => {
+  const css = loadTheme("supabase");
+  assert.match(css, /\[data-theme="supabase"\]\s*\{/);
+  assert.match(css, /\[data-theme="supabase"\]\[data-mode="dark"\]/);
+});
+
+test("loadTheme: throws on unknown theme", () => {
+  assert.throws(() => loadTheme("does-not-exist"), /theme/i);
 });
 
 test("modeTogglerHtml: emits a single toggle button + init script", () => {
