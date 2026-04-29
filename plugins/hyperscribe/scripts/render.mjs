@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import { validate } from "./lib/schema.mjs";
 import { renderTree } from "./lib/tree.mjs";
 import { loadTheme, modeTogglerHtml } from "./lib/theme.mjs";
+import { renderCanvas } from "./canvas.mjs";
 import { Page } from "./components/page.mjs";
 import { Section } from "./components/section.mjs";
 import { Heading } from "./components/heading.mjs";
@@ -249,7 +250,11 @@ async function main() {
 
   let html;
   try {
-    html = await render(doc, { theme: args.theme, mode: args.mode, title: args.title });
+    if (doc.template === "canvas") {
+      html = renderCanvas(doc, REGISTRY);
+    } else {
+      html = await render(doc, { theme: args.theme, mode: args.mode, title: args.title });
+    }
   } catch (e) {
     if (e.code === "SCHEMA") {
       console.error("Schema validation failed:");
