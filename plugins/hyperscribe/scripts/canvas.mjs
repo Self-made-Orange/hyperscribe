@@ -29,6 +29,8 @@ import { readFileSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderTree } from "./lib/tree.mjs";
+import { EditorialStatement } from "./components/editorial-statement.mjs";
+import { DivisionCard } from "./components/division-card.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PLUGIN_ROOT = resolve(__dirname, "..");
@@ -182,12 +184,48 @@ export function renderCanvas(doc, REGISTRY) {
   </div>
 </section>`;
 
+  // ── Editorial Statement ──────────────────────────────────────────────
+  // meta.statement: { eyebrow, text, cta: { label, href } }
+  let editorialHtml = "";
+  if (meta.statement) {
+    const stmt = typeof meta.statement === "string"
+      ? { text: meta.statement }
+      : meta.statement;
+    editorialHtml = EditorialStatement(stmt);
+  }
+
+  // ── Divisions Section ─────────────────────────────────────────────────
+  // Each history item → DivisionCard (eyebrow = date · type, title, no image)
+  let divisionsHtml = "";
+  if (history.length > 0) {
+    const divLabel = escapeHtml(meta.divisionsLabel || "Previous Outputs");
+    const cards = history.map(item => {
+      const compType = item.content ? typeLabel(item.content.component) : "";
+      const eyebrowParts = [item.date, compType].filter(Boolean).join("  ·  ");
+      return DivisionCard({
+        eyebrow: eyebrowParts,
+        title: item.title || "Untitled",
+        description: item.description || "",
+      });
+    }).join("\n");
+
+    divisionsHtml = `
+<section class="hs-section hs-canvas-divisions" id="canvas-divisions">
+  <h2 class="hs-section-title">${divLabel}</h2>
+  <div class="hs-section-body">
+    ${cards}
+  </div>
+</section>`;
+  }
+
   // ── CSS ──────────────────────────────────────────────────────────────
-  const shTheme       = loadCss("themes/silent-house.css");
-  const baseCss       = loadCss("assets/base.css");
-  const siteHeaderCss = loadCss("assets/components/site-header.css");
-  const heroCss       = loadCss("assets/components/hero-carousel.css");
-  const canvasCss     = loadCss("assets/components/canvas-stage.css");
+  const shTheme         = loadCss("themes/silent-house.css");
+  const baseCss         = loadCss("assets/base.css");
+  const siteHeaderCss   = loadCss("assets/components/site-header.css");
+  const heroCss         = loadCss("assets/components/hero-carousel.css");
+  const canvasCss       = loadCss("assets/components/canvas-stage.css");
+  const editorialCss    = loadCss("assets/components/editorial-statement.css");
+  const divisionCss     = loadCss("assets/components/division-card.css");
 
   // Collect all used component CSS
   const usedComponents = new Set();
@@ -239,7 +277,7 @@ export function renderCanvas(doc, REGISTRY) {
 }
 `;
 
-  const css = [shTheme, baseCss, siteHeaderCss, heroCss, canvasCss, componentCss, extraCss]
+  const css = [shTheme, baseCss, siteHeaderCss, heroCss, canvasCss, editorialCss, divisionCss, componentCss, extraCss]
     .filter(Boolean).join("\n");
 
   // ── Interactive JS ───────────────────────────────────────────────────
@@ -258,6 +296,10 @@ export function renderCanvas(doc, REGISTRY) {
 ${navHtml}
 
 ${stageHtml}
+
+${editorialHtml}
+
+${divisionsHtml}
 
 <script>${interactiveJs}</script>
 <script>${CANVAS_JS}</script>
