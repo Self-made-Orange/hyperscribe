@@ -293,6 +293,8 @@ body { margin: 0; padding: 0 !important; background: var(--hs-color-bg); }
 .hs-hero-stage {
   background: var(--hs-color-bg) !important;
 }
+/* ── Remove image-vignette gradient — canvas uses solid bg, not images ── */
+.hs-hero-slide::after { display: none; }
 /* Slide-meta bottom-left label */
 .hs-hero-slide-meta {
   position: absolute;
