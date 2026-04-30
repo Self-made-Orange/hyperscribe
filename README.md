@@ -1,8 +1,4 @@
-# Hyperscribe
-
-<p align="center">
-  <img src="assets/hyperscribe-banner.png" alt="Hyperscribe banner" width="100%" />
-</p>
+# agent-outprint-skills
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![Node >= 20](https://img.shields.io/badge/node-%3E%3D20-brightgreen.svg)](https://nodejs.org/)
@@ -17,7 +13,7 @@ The result is usually ugly, expensive, and annoying to revise. You burn a pile o
 
 So I built the renderer myself.
 
-Hyperscribe lets the model emit semantic component JSON instead of full HTML. The renderer handles layout, styling, validation, and offline packaging. You get a self-contained HTML page or slide deck that is cheaper to generate, easier to iterate on, and much more consistent.
+agent-outprint-skills lets the model emit semantic component JSON instead of full HTML. The renderer handles layout, styling, validation, and offline packaging. You get a self-contained HTML page or slide deck that is cheaper to generate, easier to iterate on, and much more consistent.
 
 ## Benchmark
 
@@ -29,7 +25,7 @@ Compared against [`nicobailon/visual-explainer`](https://github.com/nicobailon/v
 <tr>
 <th align="left">Metric</th>
 <th align="left"><a href="https://github.com/nicobailon/visual-explainer">visual-explainer</a></th>
-<th align="left">Hyperscribe</th>
+<th align="left">agent-outprint-skills</th>
 </tr>
 <tr>
 <td>Model output format</td>
@@ -48,7 +44,7 @@ Compared against [`nicobailon/visual-explainer`](https://github.com/nicobailon/v
 </tr>
 </table>
 
-Hyperscribe used <strong>5,096 fewer output tokens</strong> in this run.
+agent-outprint-skills used <strong>5,096 fewer output tokens</strong> in this run.
 
 Benchmark artifacts live in [`benchmark/`](benchmark/).
 Prompt-tuning notes from the diagram-first feedback loops live in [`benchmark/feedback-loops.md`](benchmark/feedback-loops.md).
@@ -206,17 +202,17 @@ Visual previews for 19 non-text page-mode components.
 </table>
 <!-- components-gallery:end -->
 
-## Why Hyperscribe
+## Why agent-outprint-skills
 
 What I wanted was a better contract between the model and the renderer.
 
-Instead of asking the LLM to emit a complete HTML document, Hyperscribe asks it to emit a JSON envelope against a fixed catalog of 23 default page components plus 2 slide-mode-only components, and ships the renderer itself.
+Instead of asking the LLM to emit a complete HTML document, the renderer asks it to emit a JSON envelope against a fixed catalog of 23 default page components plus 2 slide-mode-only components, and ships the renderer itself.
 
 That shift has three practical consequences:
 
-- **Token cost.** A medium page of HTML runs 5,000+ output tokens. The equivalent Hyperscribe envelope is typically 200–1,500 tokens of JSON — an 80–90% reduction on the output side, which is the side that dominates latency and spend.
+- **Token cost.** A medium page of HTML runs 5,000+ output tokens. The equivalent envelope is typically 200–1,500 tokens of JSON — an 80–90% reduction on the output side, which is the side that dominates latency and spend.
 - **Schema-checked output.** The CLI validates the envelope before rendering. Missing required props, unknown component names, and out-of-range enums fail with a `path: message` error the model can read and retry against. HTML has no equivalent guardrail.
-- **Multi-agent reuse.** The envelope format is declarative JSON — anything that can emit JSON can produce a Hyperscribe page. The Claude Code plugin is the first surface; Codex, custom agents, RAG pipelines, and hand-written tooling can target the same renderer without any LLM in the loop. The renderer is 100% offline and has no network dependencies at runtime.
+- **Multi-agent reuse.** The envelope format is declarative JSON — anything that can emit JSON can drive the renderer. The Claude Code plugin is the first surface; Codex, custom agents, RAG pipelines, and hand-written tooling can target the same renderer without any LLM in the loop. The renderer is 100% offline and has no network dependencies at runtime.
 
 That shift to a catalog-based JSON protocol is an intentional tradeoff — slightly less expressive (you can't invent new layouts on the fly), significantly cheaper to run, and easier to validate and revise.
 
@@ -229,7 +225,7 @@ If you use Claude Code, start here.
 If you want the `/hyperscribe`, `/hyperscribe:slides`, `/hyperscribe:diff`, and `/hyperscribe:share` slash commands, install via the plugin marketplace:
 
 ```
-/plugin marketplace add Atipico1/hyperscribe
+/plugin marketplace add Self-made-Orange/agent-outprint-skills
 /plugin install hyperscribe@hyperscribe-marketplace
 ```
 
@@ -238,7 +234,7 @@ You can also install the skills with `npx skills` if you want the `SKILL.md` flo
 ### Any agent — Codex, Cursor, OpenCode, Gemini CLI, … 
 
 ```bash
-npx skills add Atipico1/hyperscribe
+npx skills add Self-made-Orange/agent-outprint-skills
 ```
 
 This installs four skills via the [open agent skills CLI](https://github.com/vercel-labs/skills):
@@ -253,8 +249,8 @@ This installs four skills via the [open agent skills CLI](https://github.com/ver
 The CLI auto-detects which agents are present (Claude Code, Codex, Cursor, OpenCode, Gemini CLI, Windsurf, Warp, and 40+ more) and writes each `SKILL.md` into that agent's skill path. Pick a subset with `--skill` or target one agent with `-a`:
 
 ```bash
-npx skills add Atipico1/hyperscribe --skill hyperscribe --skill hyperscribe-slides
-npx skills add Atipico1/hyperscribe -a claude-code -a codex
+npx skills add Self-made-Orange/agent-outprint-skills --skill hyperscribe --skill hyperscribe-slides
+npx skills add Self-made-Orange/agent-outprint-skills -a claude-code -a codex
 ```
 
 The `hyperscribe` skill is the only one that carries the renderer; the other three depend on it being installed.
@@ -264,8 +260,8 @@ The `hyperscribe` skill is the only one that carries the renderer; the other thr
 The renderer has zero runtime dependencies:
 
 ```bash
-git clone https://github.com/Atipico1/hyperscribe.git
-cd hyperscribe
+git clone https://github.com/Self-made-Orange/agent-outprint-skills.git
+cd agent-outprint-skills
 
 # Pipe an A2UI envelope on stdin, write HTML to stdout or --out
 echo '<envelope.json>' | node plugins/hyperscribe/scripts/render.mjs --out page.html
@@ -277,7 +273,7 @@ Any agent or tool that can emit the JSON envelope described in [`plugins/hypersc
 
 ```bash
 # One-shot: removes all four skills from every agent (project + global scope)
-curl -fsSL https://raw.githubusercontent.com/Atipico1/hyperscribe/main/uninstall.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Self-made-Orange/agent-outprint-skills/main/uninstall.sh | bash
 
 # Or use the skills CLI directly:
 npx skills remove --agent '*' hyperscribe hyperscribe-slides hyperscribe-diff hyperscribe-share
@@ -435,14 +431,14 @@ Before opening one:
 
 If you are changing the envelope format or component schemas, start with [`plugins/hyperscribe/references/catalog.md`](plugins/hyperscribe/references/catalog.md) and [`plugins/hyperscribe/spec/catalog.json`](plugins/hyperscribe/spec/catalog.json).
 
-Issues and discussion: [github.com/Atipico1/hyperscribe/issues](https://github.com/Atipico1/hyperscribe/issues).
+Issues and discussion: [github.com/Self-made-Orange/agent-outprint-skills/issues](https://github.com/Self-made-Orange/agent-outprint-skills/issues).
 
 ## License
 
 MIT — see [LICENSE](LICENSE).
 
-Copyright (c) 2026 Hyperscribe contributors.
+Copyright (c) 2026 agent-outprint-skills contributors.
 
 ## Credits
 
-- [A2UI v0.9](https://developers.googleblog.com/) (Google Developers Blog) — the envelope shape (`a2ui_version`, `catalog`, `parts`, `is_task_complete`) is borrowed so Hyperscribe documents can follow an existing structured UI contract.
+- [A2UI v0.9](https://developers.googleblog.com/) (Google Developers Blog) — the envelope shape (`a2ui_version`, `catalog`, `parts`, `is_task_complete`) is borrowed so rendered documents can follow an existing structured UI contract.
