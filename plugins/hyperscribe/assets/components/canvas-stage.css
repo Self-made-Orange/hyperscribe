@@ -1,5 +1,4 @@
-/* === CanvasStage — full-viewport content showcase (canvas template) === */
-
+/* === CanvasStage — full-viewport content showcase === */
 .hs-canvas-stage {
   position: relative;
   width: 100%;
@@ -8,7 +7,7 @@
   align-items: center;
   justify-content: center;
   background: var(--hs-color-bg);
-  padding: clamp(80px, 12vh, 120px) clamp(20px, 4vw, 80px) clamp(64px, 8vh, 100px);
+  padding: clamp(80px, 12vh, 120px) clamp(16px, 4vw, 64px) clamp(64px, 8vh, 100px);
 }
 
 .hs-canvas-stage-inner {
@@ -18,8 +17,8 @@
 
 .hs-canvas-stage-meta {
   position: absolute;
-  left: clamp(20px, 3vw, 48px);
-  bottom: clamp(20px, 3vh, 40px);
+  left: clamp(16px, 2.5vw, 40px);
+  bottom: clamp(16px, 2.5vh, 32px);
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -28,68 +27,56 @@
 .hs-canvas-stage-date {
   font-family: var(--hs-font-mono);
   font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--hs-color-fg-placeholder);
+  letter-spacing: 0.08em;
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-placeholder));
 }
 
 .hs-canvas-stage-empty {
   font-family: var(--hs-font-mono);
   font-size: 13px;
   letter-spacing: 0.04em;
-  color: var(--hs-color-fg-placeholder);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-placeholder));
   text-align: center;
   padding: 80px 0;
 }
 
 /* Suppress inner hs-page/section chrome inside the stage */
-.hs-canvas-stage-inner .hs-page {
-  max-width: none;
-  padding: 0;
-  margin: 0;
-}
-.hs-canvas-stage-inner .hs-page-main {
-  padding: 0;
-  max-width: none;
-}
-.hs-canvas-stage-inner .hs-section {
-  padding: 0;
-  border-top: none;
-  max-width: none;
-}
+.hs-canvas-stage-inner .hs-page { max-width: none; padding: 0; margin: 0; }
+.hs-canvas-stage-inner .hs-page-main { padding: 0; max-width: none; }
+.hs-canvas-stage-inner .hs-section { padding: 0; border-top: none; max-width: none; }
 .hs-canvas-stage-inner .hs-section-title {
-  font-size: 12px;
-  letter-spacing: 0.14em;
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   font-family: var(--hs-font-mono);
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   padding: 0;
   border-top: none;
   margin-bottom: 24px;
 }
 
-/* ── Canvas History Feed ─────────────────────────────── */
-
+/* Canvas History Feed */
 .hs-canvas-history {
-  border-top: var(--hs-border-whisper);
+  border-top: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
 }
 
 .hs-canvas-history-eyebrow {
   display: block;
   font-family: var(--hs-font-mono);
   font-size: 11px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--hs-color-fg-muted);
-  padding: clamp(48px, 6vh, 80px) clamp(20px, 4vw, 80px) clamp(16px, 2vh, 24px);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
+  padding: clamp(40px, 5vh, 64px) clamp(16px, 3vw, 48px) clamp(16px, 2vh, 24px);
 }
 
 .hs-canvas-history-item {
   display: grid;
   grid-template-columns: minmax(160px, 1fr) 3fr;
-  gap: clamp(32px, 5vw, 80px);
+  gap: clamp(24px, 4vw, 64px);
   align-items: start;
-  padding: clamp(40px, 6vh, 72px) clamp(20px, 4vw, 80px);
-  border-top: 1px solid color-mix(in oklab, var(--hs-color-fg) 8%, transparent);
+  padding: clamp(32px, 5vh, 60px) clamp(16px, 3vw, 48px);
+  border-top: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
   max-width: 1400px;
   margin: 0 auto;
 }
@@ -97,9 +84,9 @@
 .hs-canvas-history-header {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   position: sticky;
-  top: clamp(72px, 10vh, 96px);
+  top: clamp(64px, 9vh, 88px);
 }
 
 .hs-canvas-history-meta-row {
@@ -111,71 +98,57 @@
 .hs-canvas-history-label {
   font-family: var(--hs-font-mono);
   font-size: 11px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
 }
 
 .hs-canvas-history-date {
   font-family: var(--hs-font-mono);
   font-size: 11px;
-  letter-spacing: 0.1em;
-  color: var(--hs-color-fg-placeholder);
+  letter-spacing: 0.08em;
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-placeholder));
 }
 
 .hs-canvas-history-title {
   font-family: var(--hs-font-display, var(--hs-font-sans));
-  font-size: clamp(22px, 2.4vw, 36px);
+  font-size: clamp(18px, 2vw, 28px);
   font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
   margin: 0;
   color: var(--hs-color-fg);
 }
 
 .hs-canvas-history-content {
-  background: var(--hs-color-surface-alt, #0d0d0d);
-  border: 1px solid color-mix(in oklab, var(--hs-color-fg) 8%, transparent);
-  border-radius: 8px;
-  padding: clamp(24px, 3vw, 48px);
+  background: var(--hs-color-card, var(--hs-color-surface));
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius, 0.5rem);
+  padding: clamp(20px, 2.5vw, 40px);
   overflow-x: auto;
+  box-shadow: var(--hs-shadow-card);
 }
 
-/* Flatten inner page/section wrappers inside history content */
-.hs-canvas-history-content .hs-page {
-  max-width: none;
-  padding: 0;
-  margin: 0;
-}
-.hs-canvas-history-content .hs-page-main {
-  padding: 0;
-  max-width: none;
-}
-.hs-canvas-history-content .hs-section {
-  padding: 0;
-  border-top: none;
-  max-width: none;
-}
+/* Flatten inner wrappers inside history content */
+.hs-canvas-history-content .hs-page { max-width: none; padding: 0; margin: 0; }
+.hs-canvas-history-content .hs-page-main { padding: 0; max-width: none; }
+.hs-canvas-history-content .hs-section { padding: 0; border-top: none; max-width: none; }
 .hs-canvas-history-content .hs-section-title {
-  font-size: 12px;
-  letter-spacing: 0.14em;
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   font-family: var(--hs-font-mono);
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   padding: 0;
   border-top: none;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 @media (max-width: 760px) {
   .hs-canvas-history-item {
     grid-template-columns: 1fr;
-    gap: 24px;
+    gap: 20px;
   }
-  .hs-canvas-history-header {
-    position: static;
-  }
-  .hs-canvas-stage {
-    padding-top: 88px;
-  }
+  .hs-canvas-history-header { position: static; }
+  .hs-canvas-stage { padding-top: 88px; }
 }

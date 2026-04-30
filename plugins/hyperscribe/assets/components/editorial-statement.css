@@ -1,34 +1,34 @@
-/* === EditorialStatement — huge centered statement, silent-house "Three unique companies" feel === */
+/* === EditorialStatement — large centered statement === */
 .hs-editorial-statement {
-  padding: clamp(96px, 16vh, 220px) clamp(20px, 4vw, 80px);
+  padding: clamp(64px, 12vh, 160px) clamp(16px, 4vw, 64px);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 70vh;
+  border-top: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
   background: var(--hs-color-bg);
 }
 .hs-editorial-inner {
-  max-width: 1200px;
+  max-width: 960px;
   margin: 0 auto;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(32px, 4vh, 56px);
+  gap: clamp(24px, 3vh, 40px);
 }
 .hs-editorial-eyebrow {
   font-family: var(--hs-font-mono);
-  font-size: 12px;
-  letter-spacing: 0.18em;
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
 }
 .hs-editorial-text {
   font-family: var(--hs-font-display, var(--hs-font-sans));
-  font-size: clamp(40px, 6vw, 96px);
+  font-size: clamp(28px, 4vw, 56px);
   font-weight: 600;
-  letter-spacing: -0.022em;
-  line-height: 1.04;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
   color: var(--hs-color-fg);
   margin: 0;
   max-width: 22ch;
@@ -36,18 +36,21 @@
 .hs-editorial-cta {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  color: var(--hs-color-fg);
+  gap: 10px;
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   text-decoration: none;
   font-weight: 500;
-  font-size: 15px;
+  font-size: 14px;
   letter-spacing: 0.01em;
-  padding-bottom: 4px;
-  border-bottom: 1px solid color-mix(in oklab, var(--hs-color-fg) 50%, transparent);
-  transition: gap var(--sh-speed-fast, 0.2s) var(--sh-ease-out, cubic-bezier(0.25, 1, 0.5, 1));
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  transition: gap 120ms ease, color 120ms ease;
 }
-.hs-editorial-cta:hover { gap: 18px; }
+.hs-editorial-cta:hover {
+  gap: 16px;
+  color: var(--hs-color-fg);
+}
 .hs-editorial-cta-arrow {
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1;
 }

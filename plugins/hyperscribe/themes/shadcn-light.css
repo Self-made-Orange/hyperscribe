@@ -1,0 +1,82 @@
+/* ===== shadcn/ui Light theme ===== */
+/* Maps shadcn light mode tokens to --hs-* variables.
+   Philosophy: clean white canvas, zinc muted tones,
+   crisp visible borders, functional typography. */
+
+[data-theme="shadcn-light"] {
+  /* Core palette */
+  --hs-color-fg:              hsl(240 10% 3.9%);         /* #09090b */
+  --hs-color-bg:              hsl(0 0% 100%);             /* #ffffff */
+  --hs-color-surface:         hsl(0 0% 100%);             /* card — same as bg */
+  --hs-color-surface-alt:     hsl(240 4.8% 95.9%);        /* #f4f4f5 — muted */
+  --hs-color-surface-dark:    hsl(240 5.9% 10%);          /* dark inverse surface */
+
+  --hs-color-fg-muted:        hsl(240 3.8% 46.1%);        /* #71717a */
+  --hs-color-fg-placeholder:  hsl(240 3.8% 65%);
+
+  --hs-color-accent:          hsl(240 4.8% 95.9%);        /* accent bg */
+  --hs-color-accent-active:   hsl(240 4.8% 88%);
+  --hs-color-focus:           hsl(240 5% 64.9%);          /* ring */
+
+  --hs-color-badge-bg:        hsl(240 4.8% 95.9%);
+  --hs-color-badge-text:      hsl(240 3.8% 46.1%);
+
+  --hs-color-success:         hsl(142 71% 35%);
+  --hs-color-warn:            hsl(38 92% 40%);
+
+  /* Border shorthand */
+  --hs-border-whisper:        1px solid hsl(240 5.9% 90%);
+
+  /* Shadows — very subtle for light */
+  --hs-shadow-card:           0 1px 2px hsl(0 0% 0% / 0.05);
+  --hs-shadow-deep:           0 8px 32px hsl(0 0% 0% / 0.08);
+
+  /* Fonts — system stack, no external dependency */
+  --hs-font-sans:    ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --hs-font-display: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --hs-font-mono:    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+  /* Tone variants — semantic colors */
+  --hs-tone-info-bg:    hsl(213 100% 96%);
+  --hs-tone-info-fg:    hsl(213 93% 38%);
+  --hs-tone-warn-bg:    hsl(48 100% 94%);
+  --hs-tone-warn-fg:    hsl(38 92% 30%);
+  --hs-tone-success-bg: hsl(138 62% 95%);
+  --hs-tone-success-fg: hsl(142 71% 28%);
+  --hs-tone-danger-bg:  hsl(0 86% 97%);
+  --hs-tone-danger-fg:  hsl(0 72% 42%);
+
+  /* Note callout */
+  --hs-note-bg:     hsl(240 4.8% 95.9%);
+  --hs-note-border: hsl(240 3.8% 46.1%);
+  --hs-note-text:   hsl(240 10% 3.9%);
+
+  /* ── New shadcn tokens ── */
+  --hs-radius:            0.5rem;
+  --hs-radius-sm:         calc(var(--hs-radius) - 2px);
+  --hs-radius-lg:         calc(var(--hs-radius) + 2px);
+
+  --hs-color-border:      hsl(240 5.9% 90%);             /* #e4e4e7 */
+  --hs-color-card:        hsl(0 0% 100%);                 /* card background */
+  --hs-color-card-fg:     hsl(240 10% 3.9%);              /* card foreground */
+  --hs-color-muted:       hsl(240 4.8% 95.9%);            /* muted background */
+  --hs-color-muted-fg:    hsl(240 3.8% 46.1%);            /* muted text */
+  --hs-color-input:       hsl(240 5.9% 90%);              /* input background */
+  --hs-color-ring:        hsl(240 5% 64.9%);              /* focus ring */
+  --hs-color-primary:     hsl(240 5.9% 10%);              /* #18181b */
+  --hs-color-primary-fg:  hsl(0 0% 98%);                  /* primary foreground */
+  --hs-color-destructive:     hsl(0 84.2% 60.2%);
+  --hs-color-destructive-fg:  hsl(0 0% 98%);
+
+  /* Chart colors */
+  --hs-chart-1: hsl(220 70% 50%);
+  --hs-chart-2: hsl(160 60% 45%);
+  --hs-chart-3: hsl(30 80% 55%);
+  --hs-chart-4: hsl(280 65% 60%);
+  --hs-chart-5: hsl(340 75% 55%);
+}
+
+[data-theme="shadcn-light"] body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,7 +1,4 @@
-/* === HeroCarousel — full-bleed rotating imagery, silent-house signature ===
-   Stage = 100lvh (handles mobile safe-area). Slides crossfade with slow ease.
-   Counter + Play Reel button overlaid bottom-right / bottom-center. */
-
+/* === HeroCarousel — full-bleed rotating imagery === */
 .hs-hero-carousel {
   position: relative;
   width: 100%;
@@ -13,7 +10,7 @@
   height: 100lvh;
   min-height: 600px;
   overflow: hidden;
-  background: var(--hs-color-surface, #191919);
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
 }
 .hs-hero-slide {
   position: absolute;
@@ -21,8 +18,8 @@
   opacity: 0;
   visibility: hidden;
   transition:
-    opacity var(--sh-speed-slowest, 1s) var(--sh-ease-slow-in-out, cubic-bezier(0.5, 0, 0, 1)),
-    visibility 0s linear var(--sh-speed-slowest, 1s);
+    opacity 0.8s ease,
+    visibility 0s linear 0.8s;
   pointer-events: none;
 }
 .hs-hero-slide-active {
@@ -30,7 +27,7 @@
   visibility: visible;
   pointer-events: auto;
   transition:
-    opacity var(--sh-speed-slowest, 1s) var(--sh-ease-slow-in-out, cubic-bezier(0.5, 0, 0, 1)),
+    opacity 0.8s ease,
     visibility 0s linear 0s;
 }
 .hs-hero-slide img {
@@ -38,27 +35,26 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  transform: scale(1.04);
+  transform: scale(1.03);
   transition: transform 8s linear;
 }
 .hs-hero-slide-active img {
   transform: scale(1);
   transition: transform 8s linear;
 }
-/* Edge-fade for legibility */
 .hs-hero-slide::after {
   content: '';
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, rgba(0,0,0,0.32) 0%, transparent 22%, transparent 60%, rgba(0,0,0,0.55) 100%);
+    linear-gradient(180deg, rgba(0,0,0,0.24) 0%, transparent 20%, transparent 60%, rgba(0,0,0,0.48) 100%);
   pointer-events: none;
 }
 
 .hs-hero-slide-meta {
   position: absolute;
-  left: clamp(20px, 3vw, 48px);
-  bottom: clamp(80px, 10vh, 140px);
+  left: clamp(16px, 3vw, 48px);
+  bottom: clamp(72px, 9vh, 120px);
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -69,23 +65,23 @@
 .hs-hero-slide-subtitle {
   font-family: var(--hs-font-mono);
   font-size: 11px;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 .hs-hero-slide-title {
   font-family: var(--hs-font-display, var(--hs-font-sans));
-  font-size: clamp(28px, 3vw, 44px);
+  font-size: clamp(24px, 2.8vw, 40px);
   font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
+  letter-spacing: -0.018em;
+  line-height: 1.08;
 }
 
 .hs-hero-overlay {
   position: absolute;
-  bottom: clamp(20px, 3vh, 40px);
-  left: clamp(20px, 3vw, 48px);
-  right: clamp(20px, 3vw, 48px);
+  bottom: clamp(16px, 2.5vh, 32px);
+  left: clamp(16px, 3vw, 48px);
+  right: clamp(16px, 3vw, 48px);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -97,41 +93,40 @@
 
 .hs-hero-counter {
   font-family: var(--hs-font-mono);
-  font-size: 12px;
-  letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.85);
-  background: rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(0, 0, 0, 0.36);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 5px 10px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .hs-hero-play-reel {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 10px 18px 10px 14px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.92);
-  color: #000;
+  gap: 8px;
+  padding: 8px 16px 8px 12px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #09090b;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 13px;
-  letter-spacing: 0.02em;
-  transition: transform var(--sh-speed-fast, 0.2s) var(--sh-ease-out, cubic-bezier(0.25, 1, 0.5, 1)),
-              background var(--sh-speed-fast, 0.2s) ease;
+  letter-spacing: 0.01em;
+  transition: background 120ms ease, transform 120ms ease;
 }
 .hs-hero-play-reel:hover {
   transform: translate3d(0, -2px, 0);
   background: #ffffff;
 }
 .hs-hero-play-reel-icon {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: #000;
+  background: #09090b;
   color: #fff;
   display: inline-flex;
   align-items: center;
@@ -141,38 +136,27 @@
 }
 
 .hs-hero-lead {
-  padding: clamp(80px, 14vh, 200px) clamp(20px, 3vw, 48px);
+  padding: clamp(64px, 12vh, 160px) clamp(16px, 3vw, 48px);
   max-width: 1200px;
   margin: 0 auto;
 }
 .hs-hero-lead p {
   font-family: var(--hs-font-display, var(--hs-font-sans));
-  font-size: clamp(28px, 3.6vw, 56px);
+  font-size: clamp(24px, 3.2vw, 48px);
   font-weight: 600;
-  letter-spacing: -0.02em;
-  line-height: 1.1;
+  letter-spacing: -0.018em;
+  line-height: 1.12;
   color: var(--hs-color-fg);
   max-width: 22ch;
   margin: 0;
 }
 
 @media (max-width: 640px) {
-  .hs-hero-slide-meta {
-    bottom: 100px;
-  }
-  .hs-hero-overlay {
-    flex-direction: column-reverse;
-    align-items: flex-start;
-    gap: 12px;
-  }
+  .hs-hero-slide-meta { bottom: 88px; }
+  .hs-hero-overlay { flex-direction: column-reverse; align-items: flex-start; gap: 10px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hs-hero-slide img,
-  .hs-hero-slide-active img {
-    transform: none;
-    transition: none;
-  }
-  .hs-hero-slide {
-    transition: opacity 0.3s linear;
-  }
+  .hs-hero-slide-active img { transform: none; transition: none; }
+  .hs-hero-slide { transition: opacity 0.3s linear; }
 }

@@ -1,8 +1,4 @@
-/* === ProjectTile — silent-house style portfolio tile ===
-   Image-on-top, body-below. Lift + scale on hover via custom easing.
-   When inside MosaicGrid, tiles inherit grid-column/row from inline style.
-   Standalone use (outside grid) flows naturally. */
-
+/* === ProjectTile — portfolio card with image and body === */
 .hs-project-tile {
   display: flex;
   flex-direction: column;
@@ -10,27 +6,29 @@
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  background: var(--hs-color-surface, #191919);
-  border-radius: var(--hs-radius-comfort, 12px);
+  background: var(--hs-color-card, var(--hs-color-surface));
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius-lg, calc(0.5rem + 2px));
+  box-shadow: var(--hs-shadow-card);
   transition:
-    transform var(--sh-speed-slow, 0.6s) var(--sh-ease-out, cubic-bezier(0.25, 1, 0.5, 1)),
-    box-shadow var(--sh-speed-slow, 0.6s) var(--sh-ease-out, cubic-bezier(0.25, 1, 0.5, 1));
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.2s ease;
   isolation: isolate;
 }
-a.hs-project-tile {
-  cursor: pointer;
-}
+a.hs-project-tile { cursor: pointer; }
 a.hs-project-tile:hover,
 a.hs-project-tile:focus-visible {
-  transform: translate3d(0, -4px, 0);
-  box-shadow: var(--hs-shadow-deep, 0 24px 60px #00000099);
+  transform: translate3d(0, -2px, 0);
+  box-shadow: var(--hs-shadow-deep);
+  border-color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   outline: none;
 }
 
 .hs-project-tile-media {
   position: relative;
   overflow: hidden;
-  background: var(--hs-color-surface-alt, #0d0d0d);
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
   flex: 1 1 auto;
   min-height: 0;
 }
@@ -39,7 +37,7 @@ a.hs-project-tile:focus-visible {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform var(--sh-speed-slowest, 1s) var(--sh-ease-slow-out, cubic-bezier(0.38, 0, 0.215, 1));
+  transition: transform 0.6s ease;
 }
 a.hs-project-tile:hover .hs-project-tile-media img,
 a.hs-project-tile:focus-visible .hs-project-tile-media img {
@@ -50,28 +48,24 @@ a.hs-project-tile:focus-visible .hs-project-tile-media img {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(135deg, transparent 49%, rgba(255,255,255,0.04) 50%, transparent 51%),
-    linear-gradient(45deg, transparent 49%, rgba(255,255,255,0.04) 50%, transparent 51%);
+    linear-gradient(135deg, transparent 49%, rgba(127,127,127,0.04) 50%, transparent 51%),
+    linear-gradient(45deg, transparent 49%, rgba(127,127,127,0.04) 50%, transparent 51%);
   background-size: 24px 24px;
 }
 
-/* Aspect ratios — used when the tile flows in normal layout (no grid row spans).
-   Inside MosaicGrid the row span overrides natural aspect. */
 .hs-project-tile-aspect-landscape .hs-project-tile-media { aspect-ratio: 16/10; }
 .hs-project-tile-aspect-square    .hs-project-tile-media { aspect-ratio: 1/1;   }
 .hs-project-tile-aspect-portrait  .hs-project-tile-media { aspect-ratio: 3/4;   }
 .hs-project-tile-aspect-wide      .hs-project-tile-media { aspect-ratio: 21/9;  }
 
-/* When inside a grid with row span, image fills available height (aspect overridden) */
-.hs-mosaic-grid .hs-project-tile-media {
-  aspect-ratio: auto;
-}
+.hs-mosaic-grid .hs-project-tile-media { aspect-ratio: auto; }
 
 .hs-project-tile-body {
-  padding: var(--hs-space-4, 16px) var(--hs-space-5, 24px) var(--hs-space-5, 24px);
+  padding: var(--hs-space-3) var(--hs-space-4) var(--hs-space-4);
   display: flex;
   flex-direction: column;
-  gap: var(--hs-space-2, 8px);
+  gap: var(--hs-space-2);
+  border-top: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
 }
 .hs-project-tile-cats {
   list-style: none;
@@ -79,41 +73,36 @@ a.hs-project-tile:focus-visible .hs-project-tile-media img {
   padding: 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 4px;
 }
 .hs-project-tile-cats li {
   font-family: var(--hs-font-mono);
   font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--hs-color-fg-muted);
-  padding: 4px 8px;
-  border: 1px solid color-mix(in oklab, var(--hs-color-fg) 16%, transparent);
-  border-radius: var(--hs-radius-pill, 9999px);
-  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
+  padding: 2px 8px;
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius-sm, calc(0.5rem - 2px));
+  line-height: 1.4;
 }
 .hs-project-tile-title {
-  font-size: clamp(18px, 1.4vw, 22px);
+  font-size: clamp(15px, 1.2vw, 18px);
   font-weight: 600;
-  letter-spacing: -0.012em;
+  letter-spacing: -0.01em;
   margin: 0;
-  line-height: 1.25;
+  line-height: 1.3;
   color: var(--hs-color-fg);
 }
 .hs-project-tile-meta {
   font-family: var(--hs-font-mono);
-  font-size: 12px;
+  font-size: 11px;
   letter-spacing: 0.04em;
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hs-project-tile,
-  .hs-project-tile-media img {
-    transition: none;
-  }
+  .hs-project-tile-media img { transition: none; }
   a.hs-project-tile:hover,
-  a.hs-project-tile:focus-visible {
-    transform: none;
-  }
+  a.hs-project-tile:focus-visible { transform: none; }
 }

@@ -1,9 +1,10 @@
 .hs-mermaid-wrap {
   margin: var(--hs-space-5) 0;
   padding: var(--hs-space-5);
-  border: var(--hs-border-whisper);
-  border-radius: var(--hs-radius-comfort);
-  background: var(--hs-color-surface);
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius, 0.5rem);
+  background: var(--hs-color-card, var(--hs-color-surface));
+  box-shadow: var(--hs-shadow-card);
   overflow-x: auto;
   text-align: center;
 }
@@ -18,7 +19,7 @@
   font-family: var(--hs-font-sans) !important;
 }
 .hs-mermaid-wrap .mermaid .actor {
-  stroke: color-mix(in srgb, var(--hs-color-fg-muted) 28%, transparent) !important;
+  stroke: var(--hs-color-border, var(--hs-color-surface-alt)) !important;
   stroke-width: 1 !important;
 }
 .hs-mermaid-wrap .mermaid text,
@@ -35,7 +36,7 @@
 }
 .hs-mermaid-wrap .mermaid .messageLine0,
 .hs-mermaid-wrap .mermaid .messageLine1 {
-  stroke: var(--hs-color-fg-muted) !important;
+  stroke: var(--hs-color-muted-fg, var(--hs-color-fg-muted)) !important;
   stroke-width: 1.25 !important;
 }
 .hs-mermaid-wrap .mermaid .messageText {
@@ -55,13 +56,13 @@
 .hs-mermaid-wrap .mermaid .node polygon,
 .hs-mermaid-wrap .mermaid .node circle,
 .hs-mermaid-wrap .mermaid .node ellipse {
-  stroke: color-mix(in srgb, var(--hs-color-fg-muted) 28%, transparent) !important;
+  stroke: var(--hs-color-border, var(--hs-color-surface-alt)) !important;
   stroke-width: 1 !important;
 }
 .hs-mermaid-wrap .mermaid .edgePath .path,
 .hs-mermaid-wrap .mermaid .flowchart-link,
 .hs-mermaid-wrap .mermaid marker path {
-  stroke: var(--hs-color-fg-muted) !important;
-  fill: var(--hs-color-fg-muted) !important;
+  stroke: var(--hs-color-muted-fg, var(--hs-color-fg-muted)) !important;
+  fill: var(--hs-color-muted-fg, var(--hs-color-fg-muted)) !important;
   stroke-width: 1.25 !important;
 }

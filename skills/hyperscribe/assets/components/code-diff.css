@@ -1,19 +1,21 @@
 .hs-diff {
   margin: var(--hs-space-4) 0;
-  border: var(--hs-border-whisper);
-  border-radius: var(--hs-radius-std);
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius, 0.5rem);
   overflow: hidden;
-  background: var(--hs-color-surface);
+  background: var(--hs-color-muted, var(--hs-color-surface));
+  box-shadow: var(--hs-shadow-card);
 }
 .hs-diff-filename {
   font-family: var(--hs-font-mono);
-  font-size: 13px;
+  font-size: 12px;
   padding: var(--hs-space-2) var(--hs-space-3);
   background: var(--hs-color-surface-alt);
-  border-bottom: var(--hs-border-whisper);
+  border-bottom: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
 }
 .hs-diff-hunk {
-  border-bottom: var(--hs-border-whisper);
+  border-bottom: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
 }
 .hs-diff-hunk:last-child { border-bottom: none; }
 .hs-diff-hunk-header {
@@ -21,14 +23,15 @@
   font-size: 12px;
   padding: var(--hs-space-1) var(--hs-space-3);
   background: var(--hs-color-surface-alt);
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
+  border-bottom: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
 }
 .hs-diff-pre {
   margin: 0;
   padding: var(--hs-space-1) 0;
   font-family: var(--hs-font-mono);
   font-size: 13px;
-  line-height: 1.3;
+  line-height: 1.5;
   overflow-x: auto;
 }
 .hs-diff-pre code { display: block; }
@@ -40,11 +43,17 @@
 .hs-diff-marker {
   display: inline-block;
   width: 1.2em;
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   user-select: none;
 }
-.hs-diff-add { background: var(--hs-tone-success-bg); color: var(--hs-tone-success-fg); }
+.hs-diff-add {
+  background: var(--hs-tone-success-bg);
+  color: var(--hs-tone-success-fg);
+}
 .hs-diff-add .hs-diff-marker { color: var(--hs-tone-success-fg); }
-.hs-diff-remove { background: var(--hs-tone-danger-bg); color: var(--hs-tone-danger-fg); }
+.hs-diff-remove {
+  background: var(--hs-tone-danger-bg);
+  color: var(--hs-tone-danger-fg);
+}
 .hs-diff-remove .hs-diff-marker { color: var(--hs-tone-danger-fg); }
 .hs-diff-context { color: var(--hs-color-fg); }

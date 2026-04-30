@@ -8,7 +8,7 @@
   grid-template-columns: 76px 1fr;
   gap: var(--hs-space-3);
   padding: var(--hs-space-3) 0;
-  border-bottom: var(--hs-border-whisper);
+  border-bottom: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
   align-items: start;
 }
 .hs-step:last-child { border-bottom: none; }
@@ -24,12 +24,14 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  background: var(--hs-color-surface-alt);
-  border-radius: var(--hs-radius-pill);
-  font-weight: 700;
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius-sm, calc(0.5rem - 2px));
+  font-weight: 600;
   font-size: 13px;
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   flex: 0 0 28px;
+  font-family: var(--hs-font-mono);
 }
 .hs-step-indicator {
   display: inline-flex;
@@ -38,17 +40,20 @@
   width: 28px;
   height: 28px;
   font-size: 16px;
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   flex: 0 0 28px;
 }
-.hs-step-done .hs-step-indicator, .hs-step-done .hs-step-index { color: var(--hs-color-success); }
-.hs-step-doing .hs-step-indicator, .hs-step-doing .hs-step-index { color: var(--hs-color-accent); }
-.hs-step-skipped { opacity: 0.6; }
-.hs-step-title { font-weight: 700; }
+.hs-step-done .hs-step-indicator,
+.hs-step-done .hs-step-index    { color: var(--hs-tone-success-fg); border-color: var(--hs-tone-success-fg); }
+.hs-step-doing .hs-step-indicator,
+.hs-step-doing .hs-step-index   { color: var(--hs-color-primary, var(--hs-color-fg)); border-color: var(--hs-color-primary, var(--hs-color-fg)); }
+.hs-step-skipped { opacity: 0.5; }
+.hs-step-title  { font-weight: 600; font-size: 14px; }
 .hs-step-body {
-  color: var(--hs-color-fg-muted);
-  font-size: 15px;
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
+  font-size: 14px;
   margin-top: var(--hs-space-1);
+  line-height: 1.5;
 }
 .hs-step-body > p:first-child { margin-top: 0; }
-.hs-step-body > p:last-child { margin-bottom: 0; }
+.hs-step-body > p:last-child  { margin-bottom: 0; }

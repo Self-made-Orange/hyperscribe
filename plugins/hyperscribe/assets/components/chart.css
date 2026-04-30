@@ -1,17 +1,25 @@
+/* === Chart — shadcn/ui style via Chart.js === */
 .hs-chart-wrap {
-  margin: var(--hs-space-5) 0;
-  padding: var(--hs-space-4);
-  border: var(--hs-border-whisper);
-  border-radius: var(--hs-radius-comfort);
-  background: var(--hs-color-surface);
+  margin: 0;
+  position: relative;
 }
+
 .hs-chart {
-  max-width: 100%;
-  max-height: 420px;
+  display: block;
+  width: 100% !important;
+  max-height: 380px;
 }
+
+/* Legend overrides — align with shadcn muted text */
+.hs-chart-wrap canvas {
+  color: var(--hs-color-muted-fg);
+}
+
 .hs-chart-cap {
   text-align: center;
-  color: var(--hs-color-fg-muted);
-  font-size: 12px;
-  margin-top: var(--hs-space-2);
+  color: var(--hs-color-muted-fg);
+  font-size: 11px;
+  font-family: var(--hs-font-mono);
+  letter-spacing: 0.04em;
+  margin-top: 12px;
 }

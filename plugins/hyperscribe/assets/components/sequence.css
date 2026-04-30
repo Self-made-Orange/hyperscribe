@@ -1,9 +1,10 @@
 .hs-seq-wrap {
   margin: var(--hs-space-5) 0;
   padding: var(--hs-space-5);
-  border: var(--hs-border-whisper);
-  border-radius: var(--hs-radius-comfort);
-  background: var(--hs-color-surface);
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius, 0.5rem);
+  background: var(--hs-color-card, var(--hs-color-surface));
+  box-shadow: var(--hs-shadow-card);
   overflow-x: auto;
 }
 .hs-seq {
@@ -13,8 +14,8 @@
   max-width: 100%;
 }
 .hs-seq-pbox {
-  fill: var(--hs-color-surface-alt);
-  stroke: color-mix(in srgb, var(--hs-color-fg-muted) 28%, transparent);
+  fill: var(--hs-color-muted, var(--hs-color-surface-alt));
+  stroke: var(--hs-color-border, var(--hs-color-surface-alt));
   stroke-width: 1;
 }
 .hs-seq-ptitle {
@@ -27,12 +28,12 @@
   font-family: var(--hs-font-sans);
   font-size: 10px;
   font-weight: 500;
-  fill: var(--hs-color-fg-muted);
+  fill: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
 }
 .hs-seq-lifeline {
-  stroke: color-mix(in srgb, var(--hs-color-fg-muted) 38%, transparent);
+  stroke: var(--hs-color-border, var(--hs-color-surface-alt));
   stroke-width: 1;
-  stroke-dasharray: 3 4;
+  stroke-dasharray: 4 4;
 }
 .hs-seq-arrow {
   stroke: var(--hs-color-fg);

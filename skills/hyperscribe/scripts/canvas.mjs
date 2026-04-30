@@ -61,7 +61,7 @@ function componentFileBase(componentName) {
     .toLowerCase();
 }
 
-// Carousel + scroll + nav JS, all self-contained
+// Carousel + scroll + nav + theme-toggle JS, all self-contained
 const CANVAS_JS = `
 (function () {
   var slides   = Array.from(document.querySelectorAll('[data-canvas-slide]'));
@@ -95,6 +95,28 @@ const CANVAS_JS = `
     window.addEventListener('scroll', function () {
       hdr.classList.toggle('hs-scrolled', window.scrollY > 40);
     }, { passive: true });
+  }
+
+  // Theme toggle
+  var toggleBtn = document.getElementById('hs-theme-toggle');
+  var html      = document.documentElement;
+  function applyTheme(theme) {
+    html.setAttribute('data-theme', theme);
+    localStorage.setItem('hs-theme', theme);
+    if (toggleBtn) {
+      toggleBtn.setAttribute('aria-label', theme === 'shadcn-dark' ? 'Switch to light mode' : 'Switch to dark mode');
+      toggleBtn.innerHTML = theme === 'shadcn-dark' ? ICON_SUN : ICON_MOON;
+    }
+  }
+  var ICON_SUN  = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
+  var ICON_MOON = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>';
+  var saved = localStorage.getItem('hs-theme') || html.getAttribute('data-theme') || 'shadcn-dark';
+  applyTheme(saved);
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function () {
+      var next = html.getAttribute('data-theme') === 'shadcn-dark' ? 'shadcn-light' : 'shadcn-dark';
+      applyTheme(next);
+    });
   }
 
   show(0);
@@ -146,6 +168,7 @@ export function renderCanvas(doc, REGISTRY) {
   const navHtml = `<header class="hs-site-header">
   <a class="hs-site-header-brand">Self made Orange</a>
   ${navLinksHtml}
+  <button class="hs-canvas-theme-toggle" id="hs-theme-toggle" aria-label="Toggle theme" type="button"></button>
 </header>`;
 
   // ── Slide HTML ───────────────────────────────────────────────────────
@@ -219,7 +242,7 @@ export function renderCanvas(doc, REGISTRY) {
   }
 
   // ── CSS ──────────────────────────────────────────────────────────────
-  const shTheme         = loadCss("themes/silent-house.css");
+  const theme           = loadCss("themes/shadcn-dark.css") + "\n" + loadCss("themes/shadcn-light.css");
   const baseCss         = loadCss("assets/base.css");
   const siteHeaderCss   = loadCss("assets/components/site-header.css");
   const heroCss         = loadCss("assets/components/hero-carousel.css");
@@ -244,9 +267,71 @@ export function renderCanvas(doc, REGISTRY) {
     if (existsSync(p)) componentCss += "\n/* " + comp + " */\n" + readFileSync(p, "utf8");
   }
 
-  // Extra CSS: slide body centering + active nav link style
+  // Extra CSS: canvas-specific layout overrides (theme-agnostic)
   const extraCss = `
-/* Canvas slide body — centered scrollable content inside full-viewport slide */
+/* ── Body / page reset for canvas full-bleed ── */
+body { margin: 0; padding: 0 !important; background: var(--hs-color-bg); }
+
+/* ── Fixed transparent nav → frosted on scroll ── */
+.hs-site-header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  background: transparent;
+  border-bottom: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  z-index: 50;
+}
+.hs-site-header.hs-scrolled {
+  background: color-mix(in oklab, var(--hs-color-bg) 85%, transparent);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid var(--hs-color-border);
+}
+
+/* ── Hero stage: force bg-color (not muted) for deep dark look ── */
+.hs-hero-stage {
+  background: var(--hs-color-bg) !important;
+}
+/* Slide-meta bottom-left label */
+.hs-hero-slide-meta {
+  position: absolute;
+  left: clamp(20px, 3vw, 48px);
+  bottom: clamp(24px, 4vh, 48px);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--hs-color-fg);
+  z-index: 2;
+}
+.hs-hero-slide-subtitle {
+  font-family: var(--hs-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hs-color-muted-fg);
+}
+.hs-hero-slide-title {
+  font-size: clamp(24px, 3vw, 44px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+/* Counter bottom-right */
+.hs-hero-counter {
+  font-family: var(--hs-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--hs-color-muted-fg);
+  background: color-mix(in oklab, var(--hs-color-bg) 70%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 5px 12px;
+  border-radius: var(--hs-radius);
+  border: 1px solid var(--hs-color-border);
+}
+
+/* ── Slide body: centered content ── */
 .hs-canvas-slide-body {
   position: absolute;
   inset: 0;
@@ -259,32 +344,79 @@ export function renderCanvas(doc, REGISTRY) {
 .hs-canvas-slide-inner {
   width: 100%;
   max-width: 1100px;
+  background: var(--hs-color-card);
+  border: 1px solid var(--hs-color-border);
+  border-radius: var(--hs-radius-lg);
+  padding: clamp(24px, 3vw, 48px);
+  box-shadow: var(--hs-shadow-deep);
 }
-/* Flatten inner page/section wrappers */
+/* Flatten inner wrappers */
 .hs-canvas-slide-inner .hs-page { max-width: none; padding: 0; margin: 0; }
 .hs-canvas-slide-inner .hs-page-main { padding: 0; max-width: none; }
-.hs-canvas-slide-inner .hs-section { padding: 0; border-top: none; max-width: none; }
+.hs-canvas-slide-inner .hs-section { padding: 0; border: none; max-width: none; }
 .hs-canvas-slide-inner .hs-section-title {
-  font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase;
-  font-family: var(--hs-font-mono); color: var(--hs-color-fg-muted);
-  padding: 0; border-top: none; margin-bottom: 24px;
+  font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+  font-family: var(--hs-font-mono); color: var(--hs-color-muted-fg);
+  padding: 0; border: none; margin-bottom: 20px;
 }
-/* Active nav link */
-[data-theme="silent-house"] .hs-site-header-nav a.hs-canvas-nav-active {
+
+/* ── Sections below the hero ── */
+.hs-section { border-top: 1px solid var(--hs-color-border); }
+.hs-section-title {
+  font-family: var(--hs-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--hs-color-muted-fg);
+  padding: clamp(40px, 5vh, 64px) clamp(20px, 4vw, 80px) 16px;
+}
+.hs-section-body { padding: 0; }
+
+/* ── Active nav link — plain text, no underline, no radius ── */
+.hs-site-header-nav a {
+  border-radius: 0 !important;
+}
+.hs-site-header-nav a.hs-canvas-nav-active {
   opacity: 1;
-  border-bottom: 1px solid rgba(255,255,255,0.5);
-  padding-bottom: 2px;
+  color: var(--hs-color-fg);
+  background: transparent !important;
+  font-weight: 500;
 }
+
+/* ── Theme toggle button ── */
+.hs-canvas-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--hs-color-border);
+  border-radius: var(--hs-radius-sm);
+  color: var(--hs-color-muted-fg);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
+}
+.hs-canvas-theme-toggle:hover {
+  background: var(--hs-color-muted);
+  color: var(--hs-color-fg);
+  border-color: var(--hs-color-muted-fg);
+}
+
+/* ── Mode toggler hide ── */
+.hs-mode-toggler { display: none !important; }
 `;
 
-  const css = [shTheme, baseCss, siteHeaderCss, heroCss, canvasCss, editorialCss, divisionCss, componentCss, extraCss]
+  const css = [theme, baseCss, siteHeaderCss, heroCss, canvasCss, editorialCss, divisionCss, componentCss, extraCss]
     .filter(Boolean).join("\n");
 
   // ── Interactive JS ───────────────────────────────────────────────────
   const interactiveJs = readFileSync(resolve(PLUGIN_ROOT, "assets/interactive.js"), "utf8");
 
   return `<!doctype html>
-<html lang="en" data-theme="silent-house" data-mode="dark">
+<html lang="en" data-theme="shadcn-dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">

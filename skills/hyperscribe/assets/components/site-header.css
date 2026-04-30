@@ -1,4 +1,4 @@
-/* === SiteHeader — minimal sticky brand+nav row === */
+/* === SiteHeader — shadcn-style sticky brand+nav row === */
 .hs-site-header {
   position: sticky;
   top: 0;
@@ -6,18 +6,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: clamp(16px, 1.6vw, 24px) clamp(20px, 3vw, 48px);
-  background: color-mix(in oklab, var(--hs-color-bg) 92%, transparent);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border-bottom: 1px solid color-mix(in oklab, var(--hs-color-fg) 8%, transparent);
+  padding: 0 clamp(16px, 2.5vw, 32px);
+  height: 56px;
+  background: color-mix(in oklab, var(--hs-color-bg) 95%, transparent);
+  backdrop-filter: blur(8px) saturate(160%);
+  -webkit-backdrop-filter: blur(8px) saturate(160%);
+  border-bottom: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
   font-size: 14px;
-  letter-spacing: 0.02em;
 }
 .hs-site-header-brand {
-  font-family: var(--hs-font-display, var(--hs-font-sans));
-  font-weight: 700;
-  font-size: 16px;
+  font-family: var(--hs-font-sans);
+  font-weight: 600;
+  font-size: 15px;
   letter-spacing: -0.01em;
   color: var(--hs-color-fg);
   text-decoration: none;
@@ -25,45 +25,50 @@
 .hs-site-header-nav {
   list-style: none;
   display: flex;
-  gap: clamp(16px, 2.2vw, 32px);
+  gap: clamp(4px, 1.5vw, 8px);
   margin: 0;
   padding: 0;
 }
 .hs-site-header-nav a {
-  color: var(--hs-color-fg);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   text-decoration: none;
-  font-weight: 500;
-  position: relative;
-  transition: opacity var(--sh-speed-fast, 0.2s) var(--sh-ease-out, cubic-bezier(0.25, 1, 0.5, 1));
+  font-weight: 400;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: var(--hs-radius-sm, calc(0.5rem - 2px));
+  transition: background 120ms ease, color 120ms ease;
 }
-.hs-site-header-nav a:hover { opacity: 0.6; }
+.hs-site-header-nav a:hover {
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
+  color: var(--hs-color-fg);
+}
 .hs-site-header-cta {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  color: var(--hs-color-fg);
+  gap: 6px;
+  color: var(--hs-color-primary-fg, var(--hs-color-bg));
   text-decoration: none;
-  font-weight: 600;
-  padding: 8px 14px;
-  border: 1px solid color-mix(in oklab, var(--hs-color-fg) 20%, transparent);
-  border-radius: 999px;
+  font-weight: 500;
+  padding: 7px 14px;
+  background: var(--hs-color-primary, var(--hs-color-fg));
+  border: 1px solid var(--hs-color-primary, var(--hs-color-fg));
+  border-radius: var(--hs-radius-sm, calc(0.5rem - 2px));
   font-size: 13px;
-  transition: background var(--sh-speed-fast, 0.2s) var(--sh-ease-out, cubic-bezier(0.25, 1, 0.5, 1));
+  transition: opacity 120ms ease;
 }
-.hs-site-header-cta:hover {
-  background: color-mix(in oklab, var(--hs-color-fg) 12%, transparent);
-}
+.hs-site-header-cta:hover { opacity: 0.88; }
 .hs-site-header-cta-dot {
   display: inline-block;
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--hs-color-accent, currentColor);
-  animation: hs-site-header-pulse 2s var(--sh-ease-in-out, cubic-bezier(0.65, 0, 0.35, 1)) infinite;
+  background: currentColor;
+  opacity: 0.7;
+  animation: hs-site-header-pulse 2s ease infinite;
 }
 @keyframes hs-site-header-pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.4; transform: scale(0.8); }
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(0.8); }
 }
 @media (max-width: 720px) {
   .hs-site-header-nav { display: none; }

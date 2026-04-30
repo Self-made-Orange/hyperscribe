@@ -1,24 +1,24 @@
 .hs-kpi {
-  background: var(--hs-color-surface);
-  border: var(--hs-border-whisper);
-  border-radius: var(--hs-radius-comfort);
+  background: var(--hs-color-card, var(--hs-color-surface));
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius, 0.5rem);
   padding: var(--hs-space-4);
   box-shadow: var(--hs-shadow-card);
   min-width: 180px;
 }
 .hs-kpi-label {
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   font-size: 12px;
   font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.01em;
   margin-bottom: var(--hs-space-2);
+  text-transform: none;
 }
 .hs-kpi-value {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 2rem;
+  font-weight: 600;
   line-height: 1.1;
-  letter-spacing: -0.8px;
+  letter-spacing: -0.02em;
   font-feature-settings: "lnum", "tnum";
 }
 .hs-kpi-delta {
@@ -26,16 +26,29 @@
   align-items: center;
   gap: 4px;
   margin-top: var(--hs-space-2);
-  font-size: 13px;
-  font-weight: 600;
-  padding: 2px 6px;
-  border-radius: var(--hs-radius-pill);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: var(--hs-radius-sm, calc(0.5rem - 2px));
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
 }
-.hs-kpi-delta-up { background: var(--hs-tone-success-bg); color: var(--hs-tone-success-fg); }
-.hs-kpi-delta-down { background: var(--hs-tone-danger-bg); color: var(--hs-tone-danger-fg); }
-.hs-kpi-delta-flat { background: var(--hs-color-surface-alt); color: var(--hs-color-fg-muted); }
+.hs-kpi-delta-up {
+  background: var(--hs-tone-success-bg);
+  color: var(--hs-tone-success-fg);
+  border-color: transparent;
+}
+.hs-kpi-delta-down {
+  background: var(--hs-tone-danger-bg);
+  color: var(--hs-tone-danger-fg);
+  border-color: transparent;
+}
+.hs-kpi-delta-flat {
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
+  border-color: transparent;
+}
 .hs-kpi-hint {
   margin-top: var(--hs-space-2);
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   font-size: 12px;
 }

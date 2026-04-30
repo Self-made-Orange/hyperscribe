@@ -5,13 +5,14 @@
 .hs-quadrant-plot {
   position: relative;
   min-height: 420px;
-  border: var(--hs-border-whisper);
-  border-radius: var(--hs-radius-comfort);
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius, 0.5rem);
   background:
-    linear-gradient(to right, transparent calc(50% - 0.5px), color-mix(in srgb, var(--hs-color-fg-muted) 18%, transparent) calc(50% - 0.5px), color-mix(in srgb, var(--hs-color-fg-muted) 18%, transparent) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
-    linear-gradient(to bottom, transparent calc(50% - 0.5px), color-mix(in srgb, var(--hs-color-fg-muted) 18%, transparent) calc(50% - 0.5px), color-mix(in srgb, var(--hs-color-fg-muted) 18%, transparent) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
-    linear-gradient(180deg, color-mix(in srgb, var(--hs-color-surface-alt) 68%, transparent), transparent);
+    linear-gradient(to right, transparent calc(50% - 0.5px), var(--hs-color-border, hsl(0 0% 50% / 0.2)) calc(50% - 0.5px), var(--hs-color-border, hsl(0 0% 50% / 0.2)) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    linear-gradient(to bottom, transparent calc(50% - 0.5px), var(--hs-color-border, hsl(0 0% 50% / 0.2)) calc(50% - 0.5px), var(--hs-color-border, hsl(0 0% 50% / 0.2)) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    var(--hs-color-card, var(--hs-color-surface));
   overflow: hidden;
+  box-shadow: var(--hs-shadow-card);
 }
 
 .hs-quadrant-grid {
@@ -28,24 +29,25 @@
 }
 
 .hs-quadrant-title {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 .hs-quadrant-description {
   max-width: 28ch;
   font-size: 13px;
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
+  line-height: 1.4;
 }
 
 .hs-quadrant-axis {
   position: absolute;
   z-index: 2;
   font-family: var(--hs-font-mono);
-  font-size: 12px;
-  color: var(--hs-color-fg-muted);
+  font-size: 11px;
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
 }
 
 .hs-quadrant-axis-y {
@@ -78,45 +80,42 @@
 }
 
 .hs-quadrant-point-dot {
-  width: 12px;
-  height: 12px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  background: var(--hs-color-accent);
+  background: var(--hs-color-primary, var(--hs-color-fg));
   border: 2px solid var(--hs-color-bg);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--hs-color-accent) 14%, transparent);
+  box-shadow: 0 0 0 2px var(--hs-color-border, var(--hs-color-surface-alt));
 }
 
 .hs-quadrant-point-muted .hs-quadrant-point-dot {
-  background: var(--hs-color-fg-muted);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--hs-color-fg-muted) 14%, transparent);
+  background: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
 }
 
 .hs-quadrant-point-success .hs-quadrant-point-dot {
-  background: var(--hs-color-success);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--hs-color-success) 14%, transparent);
+  background: var(--hs-tone-success-fg);
 }
 
 .hs-quadrant-point-warn .hs-quadrant-point-dot {
-  background: var(--hs-color-warn);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--hs-color-warn) 14%, transparent);
+  background: var(--hs-tone-warn-fg);
 }
 
 .hs-quadrant-point-label {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 8px;
-  border: var(--hs-border-whisper);
-  border-radius: var(--hs-radius-pill);
-  background: color-mix(in srgb, var(--hs-color-surface) 94%, transparent);
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius-sm, calc(0.5rem - 2px));
+  background: var(--hs-color-card, var(--hs-color-surface));
   box-shadow: var(--hs-shadow-card);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   white-space: nowrap;
 }
 
 .hs-quadrant-point-tag {
   font-family: var(--hs-font-mono);
-  font-size: 11px;
-  color: var(--hs-color-accent);
+  font-size: 10px;
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
 }

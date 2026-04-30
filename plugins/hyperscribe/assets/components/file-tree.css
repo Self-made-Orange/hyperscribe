@@ -1,11 +1,11 @@
 .hs-file-tree {
-  margin: 1.5rem 0;
+  margin: var(--hs-space-4) 0;
   font-family: var(--hs-font-mono);
   font-size: 13px;
-  background: var(--hs-color-surface-alt);
-  border: var(--hs-border-whisper);
-  border-radius: 8px;
-  padding: 1rem 1.25rem;
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius, 0.5rem);
+  padding: var(--hs-space-3) var(--hs-space-4);
   box-shadow: var(--hs-shadow-card);
 }
 
@@ -18,7 +18,7 @@
 
 .hs-file-tree-children {
   padding-left: 1.25rem;
-  border-left: 1px dashed rgba(127,127,127,0.2);
+  border-left: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
   margin-left: 0.5rem;
 }
 
@@ -26,14 +26,19 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.15rem 0;
+  padding: 0.2rem 0.35rem;
   color: var(--hs-color-fg);
+  border-radius: var(--hs-radius-sm, calc(0.5rem - 2px));
+  transition: background 120ms ease;
+}
+.hs-file-tree-node:hover {
+  background: var(--hs-color-border, var(--hs-color-surface-alt));
 }
 
 .hs-file-tree-icon {
   width: 1rem;
   text-align: center;
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   flex: 0 0 auto;
 }
 
@@ -42,20 +47,21 @@
 }
 
 .hs-file-tree-file .hs-file-tree-label {
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
 }
 
 .hs-file-tree-node-highlight-primary {
-  background: var(--hs-color-badge-bg);
-  color: var(--hs-color-badge-text);
-  border-radius: 4px;
+  background: var(--hs-color-card, var(--hs-color-surface));
+  color: var(--hs-color-fg);
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius-sm, calc(0.5rem - 2px));
   padding-inline: 0.4rem;
 }
 
 .hs-file-tree-node-highlight-secondary {
   background: var(--hs-tone-info-bg);
   color: var(--hs-tone-info-fg);
-  border-radius: 4px;
+  border-radius: var(--hs-radius-sm, calc(0.5rem - 2px));
   padding-inline: 0.4rem;
 }
 
@@ -67,6 +73,6 @@
   margin-top: 0.75rem;
   font-family: var(--hs-font-sans);
   font-size: 12px;
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   text-align: center;
 }

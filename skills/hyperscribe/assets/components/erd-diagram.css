@@ -1,12 +1,12 @@
 .hs-erd {
-  margin: 1.5rem 0;
+  margin: var(--hs-space-4) 0;
   font-family: var(--hs-font-sans);
   color: var(--hs-color-fg);
 }
 
 .hs-erd-entities {
   display: grid;
-  gap: 1rem;
+  gap: var(--hs-space-3);
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
 }
 
@@ -14,40 +14,41 @@
   display: flex;
   flex-direction: row;
   overflow-x: auto;
-  gap: 1rem;
+  gap: var(--hs-space-3);
 }
 
 .hs-erd[data-layout="columns"] .hs-erd-entity { min-width: 260px; }
 
 .hs-erd-entity {
-  background: var(--hs-color-surface);
-  border: var(--hs-border-whisper);
-  border-radius: 10px;
+  background: var(--hs-color-card, var(--hs-color-surface));
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius, 0.5rem);
   overflow: hidden;
   box-shadow: var(--hs-shadow-card);
 }
 
 .hs-erd-entity-name {
-  font-weight: 700;
-  padding: 0.55rem 0.9rem;
-  background: var(--hs-color-surface-alt);
-  border-bottom: var(--hs-border-whisper);
-  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 14px;
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
+  border-bottom: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  font-size: 13px;
+  font-family: var(--hs-font-mono);
 }
 
 .hs-erd-fields { width: 100%; border-collapse: collapse; }
 .hs-erd-fields td {
-  padding: 0.35rem 0.9rem;
-  border-top: var(--hs-border-whisper);
+  padding: 6px 14px;
+  border-top: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
   font-family: var(--hs-font-mono);
-  font-size: 12.5px;
+  font-size: 12px;
   vertical-align: top;
 }
 .hs-erd-fields tr:first-child td { border-top: 0; }
 
 .hs-erd-field-name { display: flex; align-items: center; gap: 0.4rem; }
 .hs-erd-field-type {
-  color: var(--hs-color-fg-muted);
+  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
   overflow-wrap: anywhere;
   word-break: break-word;
   white-space: normal;
@@ -55,31 +56,34 @@
 
 .hs-erd-field-key-tag {
   font-family: var(--hs-font-sans);
-  font-size: 9.5px;
-  font-weight: 700;
+  font-size: 10px;
+  font-weight: 600;
   padding: 1px 5px;
-  border-radius: 3px;
-  letter-spacing: 0.04em;
+  border-radius: var(--hs-radius-sm, calc(0.5rem - 2px));
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  letter-spacing: 0.02em;
 }
 
 .hs-erd-field-key-pk .hs-erd-field-key-tag {
-  background: var(--hs-color-badge-bg);
-  color: var(--hs-color-badge-text);
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
+  color: var(--hs-color-fg);
+  border-color: var(--hs-color-border, var(--hs-color-surface-alt));
 }
 .hs-erd-field-key-fk .hs-erd-field-key-tag {
   background: var(--hs-tone-info-bg);
   color: var(--hs-tone-info-fg);
+  border-color: transparent;
 }
 
-.hs-erd-field-nullable .hs-erd-field-type { opacity: 0.85; }
+.hs-erd-field-nullable .hs-erd-field-type { opacity: 0.65; }
 
 .hs-erd-rels {
   list-style: none;
-  margin: 1rem 0 0;
-  padding: 0.75rem 1rem;
-  background: var(--hs-color-surface-alt);
-  border: var(--hs-border-whisper);
-  border-radius: 8px;
+  margin: var(--hs-space-3) 0 0;
+  padding: var(--hs-space-3) var(--hs-space-4);
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--hs-radius, 0.5rem);
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem 1rem;
@@ -90,18 +94,19 @@
   align-items: center;
   gap: 0.4rem;
   font-family: var(--hs-font-mono);
-  font-size: 12.5px;
+  font-size: 12px;
 }
 
 .hs-erd-rel-card {
-  background: var(--hs-color-badge-bg);
-  color: var(--hs-color-badge-text);
+  background: var(--hs-color-card, var(--hs-color-surface));
+  color: var(--hs-color-fg);
+  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
   padding: 1px 6px;
-  border-radius: 4px;
+  border-radius: var(--hs-radius-sm, calc(0.5rem - 2px));
   font-family: var(--hs-font-sans);
   font-weight: 600;
   font-size: 11px;
 }
 
-.hs-erd-rel-arrow { color: var(--hs-color-fg-muted); }
-.hs-erd-rel-label { color: var(--hs-color-fg-muted); font-style: italic; }
+.hs-erd-rel-arrow { color: var(--hs-color-muted-fg, var(--hs-color-fg-muted)); }
+.hs-erd-rel-label { color: var(--hs-color-muted-fg, var(--hs-color-fg-muted)); font-style: italic; }
