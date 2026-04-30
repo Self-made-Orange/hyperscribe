@@ -1,5 +1,5 @@
 ---
-name: hyperscribe
+name: agent-outprint-skills
 description: Generate self-contained HTML pages and slide decks (diagrams, comparison tables, architecture overviews, diff reviews, visual recaps) by emitting semantic component JSON. Use whenever a visual artifact communicates better than terminal prose — proactively trigger on 4+ row tables, ASCII flowcharts, multi-stage pipelines, or explicit "make a diagram / slides / recap" requests.
 license: MIT
 metadata:
@@ -243,6 +243,80 @@ Rules:
 - Exactly one element in `parts`. Its `component` is `hyperscribe/Page` (default) or `hyperscribe/SlideDeck` (slide mode only). Multiple pages per envelope are not supported.
 - Container components use `children: []`. Leaf components omit `children`.
 - Any unknown component name or missing required prop fails validation with exit 2.
+
+## Canvas template — agent output dashboard
+
+Use `"template": "canvas"` when the output is an **ongoing agent report**: a full-viewport hero carousel of outputs with an editorial statement and scrollable history feed below. This template bypasses the standard envelope entirely — use the shape below instead.
+
+```json
+{
+  "template": "canvas",
+  "meta": {
+    "title": "Product Analytics",
+    "date": "2026-04-30",
+    "agent": "Claude",
+    "topic": "Q1 Report",
+    "description": "Optional subtitle shown below the slide title (max 3 lines)",
+    "statement": {
+      "eyebrow": "Self made Orange",
+      "text": "One agent. Every output, beautifully rendered.",
+      "cta": { "label": "View all outputs", "href": "#canvas-divisions" }
+    },
+    "divisionsLabel": "Previous Outputs"
+  },
+  "featured": {
+    "component": "hyperscribe/Chart",
+    "props": { "kind": "bar", "data": { "labels": [...], "series": [...] } }
+  },
+  "history": [
+    {
+      "title": "Key Metrics — April",
+      "date": "2026-04-30 14:20",
+      "description": "MRR and ARR up double digits. Churn down 0.6pp.",
+      "content": {
+        "component": "hyperscribe/Section",
+        "props": { "title": "KPI Dashboard", "id": "kpi" },
+        "children": [
+          { "component": "hyperscribe/KPICard", "props": { "label": "MRR", "value": "$94K", "delta": { "value": "+18%", "direction": "up" } } }
+        ]
+      }
+    }
+  ]
+}
+```
+
+### Canvas JSON rules
+
+- `template: "canvas"` — required, triggers the canvas renderer (skips schema validation).
+- **`meta`** — page-level metadata:
+  - `title` — shown in the nav brand area and as the hero slide 0 title.
+  - `agent` / `topic` — shown bottom-left of every slide as `AGENT · TOPIC · COMPONENT TYPE`.
+  - `description` — optional subtitle below the featured slide title (up to 3 lines).
+  - `statement` — editorial statement section rendered below the hero (optional).
+  - `divisionsLabel` — heading for the history cards section below (default: `"Previous Outputs"`).
+- **`featured`** — any single hyperscribe component node. Becomes slide 0 in the carousel.
+- **`history`** — array of past outputs, each becoming a nav-linked slide AND a card in the divisions section below. Order: newest first.
+  - `title` — slide title (shown large, bottom-left) and nav link text.
+  - `date` — shown in the divisions section card eyebrow.
+  - `description` — optional subtitle below the slide title (up to 3 lines).
+  - `content` — any hyperscribe component node (same as `featured`).
+
+### Canvas render command
+
+```bash
+echo '<json>' | "$HS" --out ~/.hyperscribe/out/<slug>.html
+```
+
+No `--theme` or `--mode` flags needed — the canvas template always uses `shadcn-dark` + `shadcn-light` with a built-in toggle button.
+
+### When to use canvas vs standard envelope
+
+| Use canvas when | Use standard envelope when |
+|---|---|
+| Building a recurring agent output dashboard | One-off document, diagram, or explainer |
+| Multiple outputs need to be browsed as slides | Single focused artifact |
+| The audience needs dark/light toggle + history feed | Theme preference matters |
+| The content is an analytics/status report | The content is a narrative, comparison, or code review |
 
 ## Component inventory
 
