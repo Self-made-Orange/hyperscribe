@@ -326,8 +326,12 @@ body { margin: 0; padding: 0 !important; background: var(--hs-color-bg); }
   font-size: clamp(12px, 1.2vw, 14px);
   color: var(--hs-color-muted-fg);
   line-height: 1.5;
-  max-width: 480px;
+  max-width: 560px;
   margin-top: 2px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 /* Counter bottom-right */
 .hs-hero-counter {
