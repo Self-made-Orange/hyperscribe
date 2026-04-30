@@ -177,20 +177,25 @@ export function renderCanvas(doc, REGISTRY) {
 
   if (feat) {
     slides.push({
-      title:       meta.title       || "Untitled",
-      subtitle:    typeLabel(feat.component),
-      description: meta.description || "",
-      date:        meta.date        || "",
+      title:       meta.title                              || "Untitled",
+      navLabel:    meta.navLabel    || meta.title          || "Untitled",
+      subtitle:    meta.subtitle    || typeLabel(feat.component),
+      description: meta.description                        || "",
+      date:        meta.date                               || "",
       contentHtml: renderTree(feat, REGISTRY, ctx),
     });
   }
 
   history.forEach(item => {
+    const autoSubtitle = contentTypeLabel(item.content);
+    const autoEyebrow  = [item.date, autoSubtitle].filter(Boolean).join("  ·  ");
     slides.push({
-      title:       item.title              || "Untitled",
-      subtitle:    contentTypeLabel(item.content),
-      description: item.description        || "",
-      date:        item.date               || "",
+      title:       item.title                                    || "Untitled",
+      navLabel:    item.navLabel    || item.title                || "Untitled",
+      subtitle:    item.subtitle    || autoSubtitle,
+      description: item.description                              || "",
+      date:        item.date                                     || "",
+      eyebrow:     item.eyebrow     || autoEyebrow,
       contentHtml: item.content ? renderContent(item.content, REGISTRY, ctx) : "",
     });
   });
@@ -202,7 +207,7 @@ export function renderCanvas(doc, REGISTRY) {
   const navLinksHtml = slides.length > 1
     ? `<ul class="hs-site-header-nav">
         ${slides.map((s, i) =>
-          `<li><a href="#" data-canvas-nav="${i}"${i === 0 ? ' class="hs-canvas-nav-active"' : ""}>${escapeHtml(s.title)}</a></li>`
+          `<li><a href="#" data-canvas-nav="${i}"${i === 0 ? ' class="hs-canvas-nav-active"' : ""}>${escapeHtml(s.navLabel)}</a></li>`
         ).join("")}
       </ul>`
     : "";
@@ -266,11 +271,10 @@ export function renderCanvas(doc, REGISTRY) {
   if (history.length > 0) {
     const divLabel = escapeHtml(meta.divisionsLabel || "Previous Outputs");
     const cards = history.map(item => {
-      const compType = contentTypeLabel(item.content);
-      const eyebrowParts = [item.date, compType].filter(Boolean).join("  ·  ");
+      const autoEyebrow = [item.date, contentTypeLabel(item.content)].filter(Boolean).join("  ·  ");
       return DivisionCard({
-        eyebrow: eyebrowParts,
-        title: item.title || "Untitled",
+        eyebrow:     item.eyebrow     || autoEyebrow,
+        title:       item.title       || "Untitled",
         description: item.description || "",
       });
     }).join("\n");
