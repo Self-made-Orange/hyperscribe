@@ -4,9 +4,11 @@
 # Behaviors added on top of vanilla render.mjs:
 # 1. Force --theme + --mode defaults (LLMs routinely drop these).
 # 2. Inspect envelope JSON for component diversity. Bypass via --allow-prose-only.
-# 3. Auto canvas-wrap: general envelope (parts[]) without site/slide-mode
-#    components is wrapped into `template: "canvas"` so canvas.mjs renders
-#    with hero carousel + section-as-slide layout. Bypass via --no-canvas-wrap.
+# 3. Optional canvas-wrap: pass --canvas-wrap to convert a general envelope
+#    (parts[Page]) into `template: "canvas"` so canvas.mjs renders with
+#    hero carousel + section-as-slide layout. Off by default — page envelopes
+#    render as page mode unless the caller explicitly asks for canvas.
+#    Skipped for site-mode (SiteHeader / etc.) and slide-mode (SlideDeck) envelopes.
 #
 # Install (user-local):
 #   ln -s "$(pwd)/tools/claw/hyperscribe-render" ~/.local/bin/hyperscribe-render
@@ -29,7 +31,7 @@ CANVAS_WRAP_HELPER="$SCRIPT_DIR/canvas-wrap.py"
 has_theme=0
 has_mode=0
 allow_prose_only=0
-no_canvas_wrap=0
+canvas_wrap=0
 in_path=""
 expect_in=0
 forwarded_args=()
@@ -44,7 +46,7 @@ for arg in "$@"; do
     --in)              expect_in=1 ;;
     --in=*)            in_path="${arg#--in=}" ;;
     --allow-prose-only) allow_prose_only=1; continue ;;  # claw-only flag, do not forward
-    --no-canvas-wrap)   no_canvas_wrap=1;   continue ;;  # claw-only flag, do not forward
+    --canvas-wrap)      canvas_wrap=1;      continue ;;  # claw-only flag, do not forward
   esac
   forwarded_args+=("$arg")
 done
@@ -75,10 +77,12 @@ if [ "$allow_prose_only" -eq 0 ] && [ -n "$in_path" ] && [ -f "$in_path" ]; then
 fi
 # -------------------------------------------------------------------------
 
-# --- canvas auto-wrap ----------------------------------------------------
-# Convert general envelope (parts[]) to canvas template unless explicitly opted out
-# or the envelope uses site/slide-mode components.
-if [ "$no_canvas_wrap" -eq 0 ] && [ -n "$in_path" ] && [ -f "$in_path" ] && [ -f "$CANVAS_WRAP_HELPER" ]; then
+# --- canvas auto-wrap (opt-in) -------------------------------------------
+# Convert general envelope (parts[]) to canvas template ONLY when the caller
+# explicitly asks via --canvas-wrap. Page envelopes default to page mode so the
+# caller's envelope shape (parts[]) is honored, not silently rewritten.
+# Site-mode and slide-mode envelopes are still skipped inside canvas-wrap.py.
+if [ "$canvas_wrap" -eq 1 ] && [ -n "$in_path" ] && [ -f "$in_path" ] && [ -f "$CANVAS_WRAP_HELPER" ]; then
   wrapped=$(python3 "$CANVAS_WRAP_HELPER" "$in_path" 2>/dev/null | tail -1)
   if [ -n "$wrapped" ] && [ "$wrapped" != "$in_path" ] && [ -f "$wrapped" ]; then
     new_args=()
