@@ -3,7 +3,15 @@ import assert from "node:assert/strict";
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve, join, basename } from "node:path";
-import { render } from "../plugins/hyperscribe/scripts/render.mjs";
+import { render, resolveRenderer } from "../plugins/hyperscribe/scripts/render.mjs";
+import { renderCanvas } from "../plugins/hyperscribe/scripts/canvas.mjs";
+import { Page } from "../plugins/hyperscribe/scripts/components/page.mjs";
+import { Prose } from "../plugins/hyperscribe/scripts/components/prose.mjs";
+
+const MINIMAL_REGISTRY = {
+  "hyperscribe/Page":  Page,
+  "hyperscribe/Prose": Prose,
+};
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FIXTURES = resolve(__dirname, "fixtures");
@@ -12,6 +20,71 @@ const GOLDEN = resolve(__dirname, "golden");
 mkdirSync(GOLDEN, { recursive: true });
 
 const fixtures = readdirSync(FIXTURES).filter(f => f.endsWith(".json"));
+
+// ── Canvas-first routing ─────────────────────────────────────────────────────
+
+test("resolveRenderer: defaults to canvas for bare component", () => {
+  assert.equal(resolveRenderer({ component: "hyperscribe/Prose", props: {} }), "canvas");
+});
+
+test("resolveRenderer: returns page when parts[] present", () => {
+  assert.equal(resolveRenderer({ parts: [{}] }), "page");
+});
+
+test("resolveRenderer: returns page when template=page", () => {
+  assert.equal(resolveRenderer({ template: "page" }), "page");
+});
+
+test("resolveRenderer: returns canvas when template=canvas", () => {
+  assert.equal(resolveRenderer({ template: "canvas" }), "canvas");
+});
+
+// ── Standalone bare component ────────────────────────────────────────────────
+
+test("canvas: bare component renders without error", () => {
+  const doc = { component: "hyperscribe/Prose", props: { markdown: "standalone prose" } };
+  const html = renderCanvas(doc, MINIMAL_REGISTRY);
+  assert.ok(html.includes("standalone prose"), "content should appear in output");
+  assert.ok(html.includes("<!doctype html>"), "should produce full HTML document");
+});
+
+// ── history[].content as array ───────────────────────────────────────────────
+
+test("canvas: history content array renders all components", () => {
+  const doc = {
+    template: "canvas",
+    meta: { title: "Multi-content test" },
+    history: [
+      {
+        title: "Slide A",
+        content: [
+          { component: "hyperscribe/Prose", props: { markdown: "first item" } },
+          { component: "hyperscribe/Prose", props: { markdown: "second item" } },
+        ],
+      },
+    ],
+  };
+  const html = renderCanvas(doc, MINIMAL_REGISTRY);
+  assert.ok(html.includes("first item"), "first component should render");
+  assert.ok(html.includes("second item"), "second component should render");
+});
+
+test("canvas: history content single object still works (backward compat)", () => {
+  const doc = {
+    template: "canvas",
+    meta: { title: "Single content test" },
+    history: [
+      {
+        title: "Slide B",
+        content: { component: "hyperscribe/Prose", props: { markdown: "single item" } },
+      },
+    ],
+  };
+  const html = renderCanvas(doc, MINIMAL_REGISTRY);
+  assert.ok(html.includes("single item"), "single content should still render");
+});
+
+// ── Golden file regression ───────────────────────────────────────────────────
 
 for (const fx of fixtures) {
   test(`golden: ${fx}`, async () => {

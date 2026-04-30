@@ -49,8 +49,8 @@ test("SlideDeck: includes navigation JS with idempotent guard", () => {
 
 test("SlideDeck CSS: keeps slide viewport palette independent from page mode", () => {
   const css = readFileSync(new URL("../../plugins/hyperscribe/assets/components/slide-deck.css", import.meta.url), "utf8");
-  assert.match(css, /--hs-slide-bg: #ffffff/);
-  assert.match(css, /--hs-color-fg: var\(--hs-slide-fg\)/);
+  assert.match(css, /--hs-slide-bg:\s+#ffffff/);
+  assert.match(css, /--hs-color-fg:\s+var\(--hs-slide-fg\)/);
   assert.match(css, /\.hs-deck-slides \{\s*position: relative;\s*background: var\(--hs-slide-bg\)/m);
 });
 

@@ -88,7 +88,23 @@ const REGISTRY = {
   "hyperscribe/PressMentions": PressMentions
 };
 
+/**
+ * Decide which renderer handles a doc.
+ * Returns "canvas" (default) or "page" (explicit template/parts).
+ * Exported so tests can assert routing without spawning a subprocess.
+ */
+export function resolveRenderer(doc) {
+  if (doc.template === "page" || Array.isArray(doc.parts)) return "page";
+  return "canvas";
+}
+
 export async function render(doc, options = {}) {
+  if (!Array.isArray(doc.parts) || doc.parts.length === 0) {
+    const err = new Error("render() requires doc.parts[]. For canvas docs use renderCanvas().");
+    err.code = "SCHEMA";
+    err.errors = [{ path: "parts", message: "parts must be a non-empty array" }];
+    throw err;
+  }
   const catalog = options.catalog || loadCatalog();
   const errors = validate(doc, catalog);
   if (errors.length > 0) {
@@ -250,10 +266,10 @@ async function main() {
 
   let html;
   try {
-    if (doc.template === "canvas") {
-      html = renderCanvas(doc, REGISTRY);
-    } else {
+    if (resolveRenderer(doc) === "page") {
       html = await render(doc, { theme: args.theme, mode: args.mode, title: args.title });
+    } else {
+      html = renderCanvas(doc, REGISTRY);
     }
   } catch (e) {
     if (e.code === "SCHEMA") {

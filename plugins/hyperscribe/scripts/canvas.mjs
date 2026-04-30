@@ -123,7 +123,47 @@ const CANVAS_JS = `
 }());
 `.trim();
 
+/**
+ * Normalise any valid input into a canvas doc shape.
+ *
+ * Handles:
+ *   { template: "canvas", ... }  → pass-through
+ *   { parts: [...] }             → pass-through (page mode, routed elsewhere)
+ *   { component, props, ... }    → bare component → wrap as featured slide
+ */
+function normalizeDoc(doc) {
+  if (doc.template || doc.parts || doc.featured || doc.history) return doc;
+  if (typeof doc.component === "string") {
+    return { template: "canvas", meta: {}, featured: doc, history: [] };
+  }
+  return doc;
+}
+
+/**
+ * Render a history item's content field.
+ * content can be:
+ *   - a single component node  { component, props, children? }
+ *   - an array of component nodes
+ */
+function renderContent(content, registry, ctx) {
+  if (Array.isArray(content)) {
+    return content.map(node => renderTree(node, registry, ctx)).join("\n");
+  }
+  return renderTree(content, registry, ctx);
+}
+
+/**
+ * Build a human-readable type label for a content value.
+ * Handles both single node and array.
+ */
+function contentTypeLabel(content) {
+  if (!content) return "";
+  if (Array.isArray(content)) return content.map(n => typeLabel(n.component)).join(", ");
+  return typeLabel(content.component);
+}
+
 export function renderCanvas(doc, REGISTRY) {
+  doc = normalizeDoc(doc);
   const meta    = doc.meta    || {};
   const feat    = doc.featured;
   const history = Array.isArray(doc.history) ? doc.history : [];
@@ -147,11 +187,11 @@ export function renderCanvas(doc, REGISTRY) {
 
   history.forEach(item => {
     slides.push({
-      title:       item.title       || "Untitled",
-      subtitle:    item.content ? typeLabel(item.content.component) : "",
-      description: item.description || "",
-      date:        item.date        || "",
-      contentHtml: item.content ? renderTree(item.content, REGISTRY, ctx) : "",
+      title:       item.title              || "Untitled",
+      subtitle:    contentTypeLabel(item.content),
+      description: item.description        || "",
+      date:        item.date               || "",
+      contentHtml: item.content ? renderContent(item.content, REGISTRY, ctx) : "",
     });
   });
 
@@ -226,7 +266,7 @@ export function renderCanvas(doc, REGISTRY) {
   if (history.length > 0) {
     const divLabel = escapeHtml(meta.divisionsLabel || "Previous Outputs");
     const cards = history.map(item => {
-      const compType = item.content ? typeLabel(item.content.component) : "";
+      const compType = contentTypeLabel(item.content);
       const eyebrowParts = [item.date, compType].filter(Boolean).join("  ·  ");
       return DivisionCard({
         eyebrow: eyebrowParts,
@@ -261,7 +301,11 @@ export function renderCanvas(doc, REGISTRY) {
     if (Array.isArray(node.children)) node.children.forEach(collectDeep);
   }
   if (feat) collectDeep(feat);
-  history.forEach(h => { if (h.content) collectDeep(h.content); });
+  history.forEach(h => {
+    if (!h.content) return;
+    if (Array.isArray(h.content)) h.content.forEach(collectDeep);
+    else collectDeep(h.content);
+  });
 
   let componentCss = "";
   for (const comp of usedComponents) {
