@@ -57,7 +57,7 @@
   --hs-radius-lg:         calc(var(--hs-radius) + 2px);
 
   --hs-color-border:      hsl(240 3.7% 15.9%);          /* explicit border */
-  --hs-color-card:        hsl(240 10% 3.9%);             /* card background */
+  --hs-color-card:        hsl(240 5.9% 10%);              /* card background — elevated from bg */
   --hs-color-card-fg:     hsl(0 0% 98%);                 /* card foreground */
   --hs-color-muted:       hsl(240 3.7% 15.9%);           /* muted background */
   --hs-color-muted-fg:    hsl(240 5% 64.9%);             /* muted text */

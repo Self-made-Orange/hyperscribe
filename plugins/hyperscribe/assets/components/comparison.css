@@ -7,7 +7,7 @@
 .hs-compare-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
 
 .hs-compare-item {
-  background: var(--hs-color-card, var(--hs-color-surface));
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
   border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
   border-radius: var(--hs-radius, 0.5rem);
   padding: var(--hs-space-4);

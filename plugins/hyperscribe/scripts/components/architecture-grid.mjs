@@ -1,10 +1,12 @@
 import { escape } from "../lib/html.mjs";
 
 function renderNode(node) {
-  const icon = node.icon ? `<span class="hs-arch-node-icon">${escape(node.icon)}</span>` : "";
-  const tag = node.tag ? `<span class="hs-arch-node-tag">${escape(node.tag)}</span>` : "";
-  const desc = node.description ? `<div class="hs-arch-node-desc">${escape(node.description)}</div>` : "";
-  return `<article class="hs-arch-node" data-node-id="${escape(node.id)}"><div class="hs-arch-node-head">${icon}<div class="hs-arch-node-title">${escape(node.title)}</div>${tag}</div>${desc}</article>`;
+  const icon  = node.icon ? `<span class="hs-arch-node-icon">${escape(node.icon)}</span>` : "";
+  const title = node.title || node.label || node.id;
+  const tagTxt = node.tag || node.sublabel || node.subtitle || "";
+  const tag   = tagTxt ? `<span class="hs-arch-node-tag">${escape(tagTxt)}</span>` : "";
+  const desc  = node.description ? `<div class="hs-arch-node-desc">${escape(node.description)}</div>` : "";
+  return `<article class="hs-arch-node" data-node-id="${escape(node.id)}"><div class="hs-arch-node-head">${icon}<div class="hs-arch-node-title">${escape(title)}</div>${tag}</div>${desc}</article>`;
 }
 
 function renderEdges(nodes, edges) {
@@ -21,7 +23,7 @@ function renderEdges(nodes, edges) {
 }
 
 export function ArchitectureGrid(props) {
-  const layout = props.layout;
+  const layout = props.layout || "grid";
   const edges = renderEdges(props.nodes || [], props.edges);
 
   let body;

@@ -8,7 +8,7 @@
 .hs-arch-layers  { grid-template-columns: 1fr; }
 
 .hs-arch-node {
-  background: var(--hs-color-card, var(--hs-color-surface));
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
   border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
   border-radius: var(--hs-radius, 0.5rem);
   padding: var(--hs-space-3) var(--hs-space-4);

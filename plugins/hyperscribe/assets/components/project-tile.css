@@ -6,7 +6,7 @@
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  background: var(--hs-color-card, var(--hs-color-surface));
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
   border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
   border-radius: var(--hs-radius-lg, calc(0.5rem + 2px));
   box-shadow: var(--hs-shadow-card);

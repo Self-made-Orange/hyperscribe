@@ -20,7 +20,7 @@
 .hs-erd[data-layout="columns"] .hs-erd-entity { min-width: 260px; }
 
 .hs-erd-entity {
-  background: var(--hs-color-card, var(--hs-color-surface));
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
   border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
   border-radius: var(--hs-radius, 0.5rem);
   overflow: hidden;
@@ -98,7 +98,7 @@
 }
 
 .hs-erd-rel-card {
-  background: var(--hs-color-card, var(--hs-color-surface));
+  background: var(--hs-color-muted, var(--hs-color-surface-alt));
   color: var(--hs-color-fg);
   border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
   padding: 1px 6px;
