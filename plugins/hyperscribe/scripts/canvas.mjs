@@ -137,18 +137,20 @@ export function renderCanvas(doc, REGISTRY) {
 
   if (feat) {
     slides.push({
-      title:      meta.title || "Untitled",
-      subtitle:   typeLabel(feat.component),
-      date:       meta.date  || "",
+      title:       meta.title       || "Untitled",
+      subtitle:    typeLabel(feat.component),
+      description: meta.description || "",
+      date:        meta.date        || "",
       contentHtml: renderTree(feat, REGISTRY, ctx),
     });
   }
 
   history.forEach(item => {
     slides.push({
-      title:      item.title || "Untitled",
-      subtitle:   item.content ? typeLabel(item.content.component) : "",
-      date:       item.date  || "",
+      title:       item.title       || "Untitled",
+      subtitle:    item.content ? typeLabel(item.content.component) : "",
+      description: item.description || "",
+      date:        item.date        || "",
       contentHtml: item.content ? renderTree(item.content, REGISTRY, ctx) : "",
     });
   });
@@ -183,6 +185,7 @@ export function renderCanvas(doc, REGISTRY) {
       ? `<div class="hs-hero-slide-meta">
           ${subtitleParts ? `<span class="hs-hero-slide-subtitle">${subtitleParts}</span>` : ""}
           ${s.title ? `<span class="hs-hero-slide-title">${escapeHtml(s.title)}</span>` : ""}
+          ${s.description ? `<span class="hs-hero-slide-desc">${escapeHtml(s.description)}</span>` : ""}
         </div>`
       : "";
     return `
@@ -318,6 +321,13 @@ body { margin: 0; padding: 0 !important; background: var(--hs-color-bg); }
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.05;
+}
+.hs-hero-slide-desc {
+  font-size: clamp(12px, 1.2vw, 14px);
+  color: var(--hs-color-muted-fg);
+  line-height: 1.5;
+  max-width: 480px;
+  margin-top: 2px;
 }
 /* Counter bottom-right */
 .hs-hero-counter {
