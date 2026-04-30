@@ -109,24 +109,28 @@ Full prop schemas: [`plugins/hyperscribe/references/catalog.md`](plugins/hypersc
 
 ## Themes
 
-11 bundled themes, each with light and dark modes.
+5 bundled themes — each strictly per their public DESIGN.md tokens. Every output inlines both light and dark variants; the toggle button + system `prefers-color-scheme` switch them at view time, so color mode is not a setting.
 
 | Theme | Character |
 |---|---|
-| `studio` | Clean enterprise canvas, Airtable Blue accent |
-| `midnight` | Purely grayscale, Cal Sans display |
-| `void` | Architectural black, Unbounded display, high drama |
-| `gallery` | Apple-style cinematic black ↔ light-gray sections |
-| `notion` | Warm cream, whisper borders, reading-first |
-| `linear` | Dark-native, Inter Variable, Indigo accent |
+| `notion` | Warm cream surfaces, whisper borders, Notion Blue accent — reading-first |
+| `linear` | Dark-native canvas, Inter Variable + cv01/ss03, indigo accent |
 | `vercel` | Gallery white, Geist + Geist Mono, shadow-as-border |
-| `stripe` | Weight-300 luxury headlines, deep navy |
-| `supabase` | Dark-native, emerald green, no box-shadows |
-| `shadcn-dark` | shadcn/ui dark palette, chart CSS vars |
-| `silent-house` | Editorial editorial, monospace utility layer |
+| `stripe` | Weight-300 luxury headlines, deep navy `#061b31`, blue-tinted shadow |
+| `supabase` | Dark-native, emerald `#3ecf8e` accent, NO box-shadows (border hierarchy) |
+
+Default: `notion`.
 
 ```bash
-node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html --theme shadcn-dark
+node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html --theme stripe
+```
+
+## Renderer mode
+
+Two output shapes — the **page** renderer for traditional one-shot documents and the **canvas** renderer for the persistent agent dashboard. By default (`auto`) the renderer is inferred from the envelope shape: `parts[]` or `template: "page"` → page; otherwise canvas. Override with `--renderer canvas|page`.
+
+```bash
+node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html --renderer page
 ```
 
 ---

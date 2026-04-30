@@ -30,9 +30,11 @@ Do **not** use Hyperscribe when:
 - The user explicitly asks to stay in the terminal.
 - The task is pure code editing with no explanation artifact needed.
 
-## Step 0 — resolve the user's theme preference (always run first)
+## Step 0 — resolve the user's theme + renderer preference (always run first)
 
-Before building any envelope, resolve the user's theme + mode. If no preference file exists yet, prompt once, save, then proceed. This runs on every invocation of the main skill and its variants.
+Before building any envelope, resolve the user's theme and renderer mode. If no preference file exists yet, prompt once, save, then proceed. This runs on every invocation of the main skill and its variants.
+
+Color mode (light/dark) is **not** a preference: every output inlines both variants, and the toggle button + `prefers-color-scheme` handle switching at view time.
 
 ```bash
 # 1. Resolve preference path: project-local first, then global.
@@ -43,39 +45,37 @@ done
 
 # 2. First run — prompt and save defaults to ~/.hyperscribe/preference.md
 if [ -z "$PREF" ]; then
-  # Claude Code: ask via AskUserQuestion (theme 4-choice, mode 3-choice).
+  # Claude Code: ask via AskUserQuestion (theme 5-choice, renderer 3-choice).
   # Other agents: print the prompt below and wait for a single-line answer.
   cat <<'PROMPT'
-Hyperscribe first-run setup. Pick a theme and mode.
+Hyperscribe first-run setup. Pick a theme and renderer mode.
 
-Themes:  1) studio    (Airtable — clean enterprise canvas + Airtable Blue)
-         2) midnight  (Cal.com — grayscale monochrome + Cal Sans display)
-         3) void      (Bugatti — architectural black + 3-color discipline)
-         4) gallery   (Apple — cinematic binary surfaces + SF Pro)
-         5) notion    (Notion — warm cream surfaces + Notion Blue)
-         6) linear    (Linear — precision dark-native + indigo + tight Inter)
-         7) vercel    (Vercel — gallery-empty white + Geist + shadow-as-border)
-         8) stripe    (Stripe — weight-300 luxury + deep navy + blue-tinted shadow)
-         9) supabase  (Supabase — dark-native + emerald green + border hierarchy)
+Themes:    1) notion    (Notion — warm cream + serif-feel headings + Notion Blue)
+           2) linear    (Linear — precision dark-native + indigo + tight Inter)
+           3) vercel    (Vercel — gallery white + Geist + shadow-as-border)
+           4) stripe    (Stripe — weight-300 luxury + deep navy + blue-tinted shadow)
+           5) supabase  (Supabase — dark-native + emerald green + border hierarchy)
 
-Modes:   light / dark / auto
+Renderer:  auto    (default — page if envelope has parts[]/template:page, else canvas)
+           canvas  (force canvas — persistent dashboard with featured + history)
+           page    (force page — single-render document)
 
-Reply with "<theme> <mode>" (e.g., "studio light"),
-a single theme name (mode=light),
-or "skip" to use studio + light.
+Reply with "<theme> <renderer>" (e.g., "notion auto"),
+a single theme name (renderer=auto),
+or "skip" to use notion + auto.
 PROMPT
-  # Parse the user's answer into $THEME and $MODE.
+  # Parse the user's answer into $THEME and $RENDERER.
   # If unparseable or empty, fall back to defaults silently.
-  THEME="studio"
-  MODE="light"
-  # (Agents with AskUserQuestion populate $THEME and $MODE from the structured answer.)
+  THEME="notion"
+  RENDERER="auto"
+  # (Agents with AskUserQuestion populate $THEME and $RENDERER from the structured answer.)
 
   mkdir -p ~/.hyperscribe
   PREF=~/.hyperscribe/preference.md
   cat > "$PREF" <<EOF
 ---
 theme: $THEME
-mode: $MODE
+renderer: $RENDERER
 created_at: $(date -u +%Y-%m-%dT%H:%M:%SZ)
 ---
 
@@ -85,19 +85,19 @@ Edit the values above to change your defaults. Delete this file to re-run
 the first-run setup on the next hyperscribe invocation.
 
 Valid values:
-  theme: studio | midnight | void | gallery | notion | linear | vercel | stripe | supabase
-  mode:  light | dark | auto
+  theme:    notion | linear | vercel | stripe | supabase
+  renderer: auto | canvas | page
 EOF
 fi
 
 # 3. Read preference into env vars (every run)
-THEME=$(awk -F': *' '/^theme:/{print $2; exit}' "$PREF")
-MODE=$(awk -F': *'  '/^mode:/{print $2; exit}'  "$PREF")
-[ -z "$THEME" ] && THEME=studio
-[ -z "$MODE" ]  && MODE=light
+THEME=$(awk    -F': *' '/^theme:/{print $2; exit}'    "$PREF")
+RENDERER=$(awk -F': *' '/^renderer:/{print $2; exit}' "$PREF")
+[ -z "$THEME" ]    && THEME=notion
+[ -z "$RENDERER" ] && RENDERER=auto
 ```
 
-When invoking the renderer in later steps, always pass `--theme "$THEME"` and — when `$MODE` is `light` or `dark` — `--mode "$MODE"`. When `$MODE` is `auto`, omit `--mode` so the page follows `prefers-color-scheme` and localStorage at load time.
+When invoking the renderer in later steps, always pass `--theme "$THEME"` and `--renderer "$RENDERER"`. Color mode is intentionally not passed — both variants are inlined and toggled at view time.
 
 ## How to use
 
@@ -115,12 +115,8 @@ When invoking the renderer in later steps, always pass `--theme "$THEME"` and �
      ./plugins/hyperscribe
    do [ -x "$p/scripts/hyperscribe" ] && { echo "$p/scripts/hyperscribe"; break; }; done)
 
-   MODE_FLAG=""
-   [ "$MODE" = "light" ] && MODE_FLAG="--mode light"
-   [ "$MODE" = "dark" ]  && MODE_FLAG="--mode dark"
-
    mkdir -p ~/.hyperscribe/out
-   echo '<json>' | "$HS" --theme "$THEME" $MODE_FLAG --out ~/.hyperscribe/out/<slug>.html
+   echo '<json>' | "$HS" --theme "$THEME" --renderer "$RENDERER" --out ~/.hyperscribe/out/<slug>.html
    ```
    Omit `--out` to let the CLI write `~/.hyperscribe/out/<slug-from-title>-<timestamp>.html` and print the path.
 5. **Open it for the user.** On macOS: `open <path>`. On Linux: `xdg-open <path>`.

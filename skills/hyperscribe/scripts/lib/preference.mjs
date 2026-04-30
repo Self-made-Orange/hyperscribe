@@ -2,11 +2,14 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { homedir } from "node:os";
 
-const VALID_THEMES = new Set(["studio", "midnight", "void", "gallery", "notion", "linear", "vercel", "stripe", "supabase"]);
-const VALID_MODES  = new Set(["light", "dark", "auto"]);
+const VALID_THEMES    = new Set(["notion", "linear", "vercel", "stripe", "supabase"]);
+const VALID_RENDERERS = new Set(["auto", "canvas", "page"]);
+// Color mode (light/dark) is intentionally NOT part of preference anymore.
+// Both variants are inlined into the output and the toggle button + system
+// `prefers-color-scheme` handle switching at view time.
 
 export function defaults() {
-  return { theme: "studio", mode: "light" };
+  return { theme: "notion", renderer: "auto" };
 }
 
 export function parsePreference(src) {
@@ -20,20 +23,20 @@ export function parsePreference(src) {
     if (!kv) continue;
     const key = kv[1];
     const val = kv[2];
-    if (key === "theme" || key === "mode") out[key] = val;
+    if (key === "theme" || key === "renderer") out[key] = val;
   }
-  if (!out.theme && !out.mode) return null;
+  if (!out.theme && !out.renderer) return null;
   return {
-    theme: out.theme ?? defaults().theme,
-    mode:  out.mode  ?? defaults().mode
+    theme:    out.theme    ?? defaults().theme,
+    renderer: out.renderer ?? defaults().renderer
   };
 }
 
-export function formatPreference({ theme, mode }) {
+export function formatPreference({ theme, renderer }) {
   const created = new Date().toISOString().replace(/\.\d+Z$/, "Z");
   return `---
 theme: ${theme}
-mode: ${mode}
+renderer: ${renderer}
 created_at: ${created}
 ---
 
@@ -43,8 +46,8 @@ Edit the values above to change your defaults. Delete this file to re-run
 the first-run setup on the next hyperscribe invocation.
 
 Valid values:
-  theme: studio | midnight | void | gallery | notion | linear | vercel | stripe | supabase
-  mode:  light | dark | auto
+  theme:    notion | linear | vercel | stripe | supabase
+  renderer: auto | canvas | page
 `;
 }
 
@@ -62,13 +65,15 @@ export function readPreference(path) {
   return parsePreference(src);
 }
 
-export function writePreference(path, { theme, mode }) {
+export function writePreference(path, { theme, renderer }) {
   if (!VALID_THEMES.has(theme)) {
     throw new Error(`Invalid theme "${theme}". Allowed: ${[...VALID_THEMES].join("|")}`);
   }
-  if (!VALID_MODES.has(mode)) {
-    throw new Error(`Invalid mode "${mode}". Allowed: ${[...VALID_MODES].join("|")}`);
+  if (!VALID_RENDERERS.has(renderer)) {
+    throw new Error(`Invalid renderer "${renderer}". Allowed: ${[...VALID_RENDERERS].join("|")}`);
   }
   mkdirSync(dirname(path), { recursive: true });
-  writeFileSync(path, formatPreference({ theme, mode }), "utf8");
+  writeFileSync(path, formatPreference({ theme, renderer }), "utf8");
 }
+
+export { VALID_THEMES, VALID_RENDERERS };

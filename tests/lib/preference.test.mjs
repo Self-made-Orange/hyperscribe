@@ -1,4 +1,4 @@
-import { test, before, after } from "node:test";
+import { test } from "node:test";
 import assert from "node:assert/strict";
 import { mkdtempSync, rmSync, writeFileSync, existsSync, readFileSync, mkdirSync } from "node:fs";
 import { tmpdir } from "node:os";
@@ -12,34 +12,41 @@ import {
   writePreference
 } from "../../plugins/hyperscribe/scripts/lib/preference.mjs";
 
-test("defaults: studio + light", () => {
-  assert.deepEqual(defaults(), { theme: "studio", mode: "light" });
+test("defaults: notion + auto", () => {
+  assert.deepEqual(defaults(), { theme: "notion", renderer: "auto" });
 });
 
 test("parsePreference: reads YAML frontmatter", () => {
-  const src = `---\ntheme: void\nmode: dark\n---\n\n# body`;
-  assert.deepEqual(parsePreference(src), { theme: "void", mode: "dark" });
+  const src = `---\ntheme: linear\nrenderer: page\n---\n\n# body`;
+  assert.deepEqual(parsePreference(src), { theme: "linear", renderer: "page" });
 });
 
 test("parsePreference: missing frontmatter returns null", () => {
   assert.equal(parsePreference("no frontmatter here"), null);
 });
 
-test("parsePreference: extra fields preserved only for known keys", () => {
-  const src = `---\ntheme: midnight\nmode: auto\nout_dir: ~/x\n---`;
-  assert.deepEqual(parsePreference(src), { theme: "midnight", mode: "auto" });
+test("parsePreference: ignores unknown keys", () => {
+  const src = `---\ntheme: vercel\nrenderer: canvas\nmode: dark\nout_dir: ~/x\n---`;
+  assert.deepEqual(parsePreference(src), { theme: "vercel", renderer: "canvas" });
 });
 
 test("parsePreference: trims whitespace around values", () => {
-  const src = `---\ntheme:   gallery \nmode:  light  \n---`;
-  assert.deepEqual(parsePreference(src), { theme: "gallery", mode: "light" });
+  const src = `---\ntheme:   stripe \nrenderer:  auto  \n---`;
+  assert.deepEqual(parsePreference(src), { theme: "stripe", renderer: "auto" });
+});
+
+test("parsePreference: missing renderer falls back to default", () => {
+  const src = `---\ntheme: supabase\n---`;
+  assert.deepEqual(parsePreference(src), { theme: "supabase", renderer: "auto" });
 });
 
 test("formatPreference: produces canonical YAML + body", () => {
-  const out = formatPreference({ theme: "void", mode: "dark" });
-  assert.match(out, /^---\ntheme: void\nmode: dark\ncreated_at: /);
+  const out = formatPreference({ theme: "linear", renderer: "page" });
+  assert.match(out, /^---\ntheme: linear\nrenderer: page\ncreated_at: /);
   assert.match(out, /# Hyperscribe preferences/);
   assert.match(out, /Valid values:/);
+  // No mode field anywhere — color mode is intentionally not a preference
+  assert.doesNotMatch(out, /^mode:/m);
 });
 
 test("resolvePreferencePath: project-local wins over global", () => {
@@ -48,9 +55,9 @@ test("resolvePreferencePath: project-local wins over global", () => {
     const local = join(tmp, ".hyperscribe");
     mkdirSync(local, { recursive: true });
     const localFile = join(local, "preference.md");
-    writeFileSync(localFile, "---\ntheme: void\nmode: dark\n---");
+    writeFileSync(localFile, "---\ntheme: linear\nrenderer: page\n---");
     const globalFile = join(tmp, "_global_preference.md");
-    writeFileSync(globalFile, "---\ntheme: studio\nmode: light\n---");
+    writeFileSync(globalFile, "---\ntheme: notion\nrenderer: auto\n---");
     const found = resolvePreferencePath({ cwd: tmp, homeFile: globalFile });
     assert.equal(found, localFile);
   } finally { rmSync(tmp, { recursive: true, force: true }); }
@@ -60,7 +67,7 @@ test("resolvePreferencePath: falls back to global when no project-local", () => 
   const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
   try {
     const globalFile = join(tmp, "_global_preference.md");
-    writeFileSync(globalFile, "---\ntheme: gallery\nmode: auto\n---");
+    writeFileSync(globalFile, "---\ntheme: vercel\nrenderer: auto\n---");
     const found = resolvePreferencePath({ cwd: tmp, homeFile: globalFile });
     assert.equal(found, globalFile);
   } finally { rmSync(tmp, { recursive: true, force: true }); }
@@ -78,8 +85,8 @@ test("readPreference: returns parsed values or null", () => {
   const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
   try {
     const p = join(tmp, "pref.md");
-    writeFileSync(p, "---\ntheme: midnight\nmode: dark\n---\n");
-    assert.deepEqual(readPreference(p), { theme: "midnight", mode: "dark" });
+    writeFileSync(p, "---\ntheme: stripe\nrenderer: canvas\n---\n");
+    assert.deepEqual(readPreference(p), { theme: "stripe", renderer: "canvas" });
     assert.equal(readPreference(join(tmp, "nope.md")), null);
   } finally { rmSync(tmp, { recursive: true, force: true }); }
 });
@@ -88,24 +95,24 @@ test("writePreference: creates parent dir and writes frontmatter", () => {
   const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
   try {
     const target = join(tmp, "nested", "preference.md");
-    writePreference(target, { theme: "void", mode: "light" });
+    writePreference(target, { theme: "linear", renderer: "page" });
     assert.ok(existsSync(target));
     const content = readFileSync(target, "utf8");
-    assert.match(content, /theme: void/);
-    assert.match(content, /mode: light/);
+    assert.match(content, /theme: linear/);
+    assert.match(content, /renderer: page/);
   } finally { rmSync(tmp, { recursive: true, force: true }); }
 });
 
 test("writePreference: throws on invalid theme", () => {
   const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
   try {
-    assert.throws(() => writePreference(join(tmp, "p.md"), { theme: "nope", mode: "light" }), /theme/i);
+    assert.throws(() => writePreference(join(tmp, "p.md"), { theme: "studio", renderer: "auto" }), /theme/i);
   } finally { rmSync(tmp, { recursive: true, force: true }); }
 });
 
-test("writePreference: throws on invalid mode", () => {
+test("writePreference: throws on invalid renderer", () => {
   const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
   try {
-    assert.throws(() => writePreference(join(tmp, "p.md"), { theme: "studio", mode: "rainy" }), /mode/i);
+    assert.throws(() => writePreference(join(tmp, "p.md"), { theme: "notion", renderer: "rainy" }), /renderer/i);
   } finally { rmSync(tmp, { recursive: true, force: true }); }
 });

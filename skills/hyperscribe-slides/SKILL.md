@@ -7,7 +7,7 @@ metadata:
   requires: "hyperscribe"
 ---
 
-> **Step 0 — Preference:** Before running any renderer command, perform the theme-preference resolution block from the base `hyperscribe` skill (`~/.claude/skills/hyperscribe/SKILL.md`, section "Step 0"). It sets `$THEME` and `$MODE`. If absent, this wrapper falls back to `studio` + `light`.
+> **Step 0 — Preference:** Before running any renderer command, perform the theme-preference resolution block from the base `hyperscribe` skill (`~/.claude/skills/hyperscribe/SKILL.md`, section "Step 0"). It sets `$THEME` and `$RENDERER`. If absent, this wrapper falls back to `notion` + `auto`.
 
 # Hyperscribe — Slides mode
 
@@ -110,11 +110,7 @@ fi
 
 mkdir -p ~/.hyperscribe/out
 OUT=~/.hyperscribe/out/slides-$(date +%Y%m%d-%H%M%S).html
-MODE_FLAG=""
-[ "${MODE:-}" = "light" ] && MODE_FLAG="--mode light"
-[ "${MODE:-}" = "dark" ]  && MODE_FLAG="--mode dark"
-
-cat <<'EOF' | "$HS" --theme "${THEME:-studio}" $MODE_FLAG --out "$OUT"
+cat <<'EOF' | "$HS" --theme "${THEME:-notion}" --renderer "${RENDERER:-auto}" --out "$OUT"
 <the JSON you built>
 EOF
 open "$OUT"    # macOS; use xdg-open on Linux

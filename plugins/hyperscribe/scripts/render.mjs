@@ -90,10 +90,20 @@ const REGISTRY = {
 
 /**
  * Decide which renderer handles a doc.
- * Returns "canvas" (default) or "page" (explicit template/parts).
+ *
+ * Optional `options.renderer` overrides auto-detection:
+ *   - "auto" (default) → infer from envelope shape
+ *   - "page"   → force page renderer
+ *   - "canvas" → force canvas renderer
+ *
+ * Auto rule: an envelope is "page" iff it explicitly sets `template: "page"`
+ * or carries a `parts[]` array; otherwise it's a canvas doc.
+ *
  * Exported so tests can assert routing without spawning a subprocess.
  */
-export function resolveRenderer(doc) {
+export function resolveRenderer(doc, options = {}) {
+  const r = options.renderer;
+  if (r === "page" || r === "canvas") return r;
   if (doc.template === "page" || Array.isArray(doc.parts)) return "page";
   return "canvas";
 }
@@ -114,7 +124,7 @@ export async function render(doc, options = {}) {
     throw err;
   }
 
-  const themeName = options.theme || "studio";
+  const themeName = options.theme || "notion";
   const themeCss = loadTheme(themeName); // throws if unknown
 
   const MODES = new Set(["light", "dark", "auto"]);
@@ -196,7 +206,7 @@ function loadCatalog() {
 }
 
 function parseArgs(argv) {
-  const args = { in: null, out: null, theme: null, mode: undefined, title: null, quiet: false, validateOnly: false, saveEnvelope: true };
+  const args = { in: null, out: null, theme: null, mode: undefined, renderer: null, title: null, quiet: false, validateOnly: false, saveEnvelope: true };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     switch (a) {
@@ -204,6 +214,7 @@ function parseArgs(argv) {
       case "--out": args.out = argv[++i]; break;
       case "--theme": args.theme = argv[++i]; break;
       case "--mode": args.mode = argv[++i]; break;
+      case "--renderer": args.renderer = argv[++i]; break;
       case "--title": args.title = argv[++i]; break;
       case "--quiet": args.quiet = true; break;
       case "--validate-only": args.validateOnly = true; break;
@@ -225,8 +236,10 @@ function printHelp() {
 Options:
   --in <path>          JSON input file (or pipe via stdin)
   --out <path>         Output HTML file (required unless --validate-only)
-  --theme <name>       Theme name (studio|midnight|void|gallery|notion|linear|vercel|stripe|supabase|silent-house|audi-f1); defaults to "studio"
-  --mode <light|dark|auto>  Initial color mode. Omitted = follow user preference / prefers-color-scheme.
+  --theme <name>       Theme name (notion|linear|vercel|stripe|supabase); defaults to "notion"
+  --renderer <mode>    Renderer (auto|canvas|page); defaults to "auto"
+                       auto = infer from envelope (parts[] / template:page → page; else canvas)
+  --mode <light|dark|auto>  Initial color mode. Omit to let the toggle + prefers-color-scheme handle it.
   --title <string>     Override Page.title
   --quiet              Suppress progress logs
   --validate-only      Validate JSON, do not render
@@ -266,7 +279,10 @@ async function main() {
 
   let html;
   try {
-    if (resolveRenderer(doc) === "page") {
+    if (args.renderer && !["auto", "canvas", "page"].includes(args.renderer)) {
+      throw new Error(`Invalid --renderer "${args.renderer}". Allowed: auto|canvas|page`);
+    }
+    if (resolveRenderer(doc, { renderer: args.renderer || "auto" }) === "page") {
       html = await render(doc, { theme: args.theme, mode: args.mode, title: args.title });
     } else {
       html = renderCanvas(doc, REGISTRY);
