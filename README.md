@@ -5,316 +5,35 @@
 [![Claude Code plugin](https://img.shields.io/badge/claude--code-plugin-6E56CF.svg)](https://docs.claude.com/en/docs/claude-code)
 [![Status: alpha](https://img.shields.io/badge/status-alpha-orange.svg)](#roadmap)
 
-I like visual explanations.
+Agent skill that turns semantic JSON into self-contained HTML — no raw markup, no token waste, no external dependencies at runtime.
 
-I do not like asking a model to dump raw HTML for them.
+The model emits a component envelope. The renderer handles layout, theming, validation, and packaging. Output is a single `.html` file that opens offline.
 
-The result is usually ugly, expensive, and annoying to revise. You burn a pile of tokens on markup, tweak prompts to fix spacing, then re-generate the whole thing because one part looks off.
+---
 
-So I built the renderer myself.
+## How it works
 
-agent-outprint-skills lets the model emit semantic component JSON instead of full HTML. The renderer handles layout, styling, validation, and offline packaging. You get a self-contained HTML page or slide deck that is cheaper to generate, easier to iterate on, and much more consistent.
-
-## Benchmark
-
-Same source, same repo, same `context.md`, two spawned subagents.
-
-Compared against [`nicobailon/visual-explainer`](https://github.com/nicobailon/visual-explainer).
-
-<table>
-<tr>
-<th align="left">Metric</th>
-<th align="left"><a href="https://github.com/nicobailon/visual-explainer">visual-explainer</a></th>
-<th align="left">agent-outprint-skills</th>
-</tr>
-<tr>
-<td>Model output format</td>
-<td>full HTML</td>
-<td>semantic JSON envelope</td>
-</tr>
-<tr>
-<td>Generated artifact tokens</td>
-<td>7,506</td>
-<td>2,410</td>
-</tr>
-<tr>
-<td>Token reduction vs. raw HTML</td>
-<td>baseline</td>
-<td><strong>68% fewer</strong></td>
-</tr>
-</table>
-
-agent-outprint-skills used <strong>5,096 fewer output tokens</strong> in this run.
-
-Benchmark artifacts live in [`benchmark/`](benchmark/).
-Prompt-tuning notes from the diagram-first feedback loops live in [`benchmark/feedback-loops.md`](benchmark/feedback-loops.md).
-
-<!-- components-gallery:start -->
-## Components Gallery
-
-Visual previews for 19 non-text page-mode components.
-
-<table>
-<tr>
-<td width="25%" align="center" valign="top">
-  <sub><code>Image</code></sub>
-  <br />
-  <a href="assets/component-gallery/image.webp">
-    <img src="assets/component-gallery/image.webp" alt="Image component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>Callout</code></sub>
-  <br />
-  <a href="assets/component-gallery/callout.webp">
-    <img src="assets/component-gallery/callout.webp" alt="Callout component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>KPICard</code></sub>
-  <br />
-  <a href="assets/component-gallery/kpi-card.webp">
-    <img src="assets/component-gallery/kpi-card.webp" alt="KPICard component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>CodeBlock</code></sub>
-  <br />
-  <a href="assets/component-gallery/code-block.webp">
-    <img src="assets/component-gallery/code-block.webp" alt="CodeBlock component preview" width="100%" />
-  </a>
-</td>
-</tr>
-<tr>
-<td width="25%" align="center" valign="top">
-  <sub><code>CodeDiff</code></sub>
-  <br />
-  <a href="assets/component-gallery/code-diff.webp">
-    <img src="assets/component-gallery/code-diff.webp" alt="CodeDiff component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>Mermaid</code></sub>
-  <br />
-  <a href="assets/component-gallery/mermaid.webp">
-    <img src="assets/component-gallery/mermaid.webp" alt="Mermaid component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>Sequence</code></sub>
-  <br />
-  <a href="assets/component-gallery/sequence.webp">
-    <img src="assets/component-gallery/sequence.webp" alt="Sequence component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>ArchitectureGrid</code></sub>
-  <br />
-  <a href="assets/component-gallery/architecture-grid.webp">
-    <img src="assets/component-gallery/architecture-grid.webp" alt="ArchitectureGrid component preview" width="100%" />
-  </a>
-</td>
-</tr>
-<tr>
-<td width="25%" align="center" valign="top">
-  <sub><code>FlowChart</code></sub>
-  <br />
-  <a href="assets/component-gallery/flow-chart.webp">
-    <img src="assets/component-gallery/flow-chart.webp" alt="FlowChart component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>Quadrant</code></sub>
-  <br />
-  <a href="assets/component-gallery/quadrant.webp">
-    <img src="assets/component-gallery/quadrant.webp" alt="Quadrant component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>Swimlane</code></sub>
-  <br />
-  <a href="assets/component-gallery/swimlane.webp">
-    <img src="assets/component-gallery/swimlane.webp" alt="Swimlane component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>DataTable</code></sub>
-  <br />
-  <a href="assets/component-gallery/data-table.webp">
-    <img src="assets/component-gallery/data-table.webp" alt="DataTable component preview" width="100%" />
-  </a>
-</td>
-</tr>
-<tr>
-<td width="25%" align="center" valign="top">
-  <sub><code>Chart</code></sub>
-  <br />
-  <a href="assets/component-gallery/chart.webp">
-    <img src="assets/component-gallery/chart.webp" alt="Chart component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>Comparison</code></sub>
-  <br />
-  <a href="assets/component-gallery/comparison.webp">
-    <img src="assets/component-gallery/comparison.webp" alt="Comparison component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>StepList</code></sub>
-  <br />
-  <a href="assets/component-gallery/step-list.webp">
-    <img src="assets/component-gallery/step-list.webp" alt="StepList component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>FileTree</code></sub>
-  <br />
-  <a href="assets/component-gallery/file-tree.webp">
-    <img src="assets/component-gallery/file-tree.webp" alt="FileTree component preview" width="100%" />
-  </a>
-</td>
-</tr>
-<tr>
-<td width="25%" align="center" valign="top">
-  <sub><code>FileCard</code></sub>
-  <br />
-  <a href="assets/component-gallery/file-card.webp">
-    <img src="assets/component-gallery/file-card.webp" alt="FileCard component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>AnnotatedCode</code></sub>
-  <br />
-  <a href="assets/component-gallery/annotated-code.webp">
-    <img src="assets/component-gallery/annotated-code.webp" alt="AnnotatedCode component preview" width="100%" />
-  </a>
-</td>
-<td width="25%" align="center" valign="top">
-  <sub><code>ERDDiagram</code></sub>
-  <br />
-  <a href="assets/component-gallery/erd-diagram.webp">
-    <img src="assets/component-gallery/erd-diagram.webp" alt="ERDDiagram component preview" width="100%" />
-  </a>
-</td>
-<td width="25%"></td>
-</tr>
-</table>
-<!-- components-gallery:end -->
-
-## Why agent-outprint-skills
-
-What I wanted was a better contract between the model and the renderer.
-
-Instead of asking the LLM to emit a complete HTML document, the renderer asks it to emit a JSON envelope against a fixed catalog of 23 default page components plus 2 slide-mode-only components, and ships the renderer itself.
-
-That shift has three practical consequences:
-
-- **Token cost.** A medium page of HTML runs 5,000+ output tokens. The equivalent envelope is typically 200–1,500 tokens of JSON — an 80–90% reduction on the output side, which is the side that dominates latency and spend.
-- **Schema-checked output.** The CLI validates the envelope before rendering. Missing required props, unknown component names, and out-of-range enums fail with a `path: message` error the model can read and retry against. HTML has no equivalent guardrail.
-- **Multi-agent reuse.** The envelope format is declarative JSON — anything that can emit JSON can drive the renderer. The Claude Code plugin is the first surface; Codex, custom agents, RAG pipelines, and hand-written tooling can target the same renderer without any LLM in the loop. The renderer is 100% offline and has no network dependencies at runtime.
-
-That shift to a catalog-based JSON protocol is an intentional tradeoff — slightly less expressive (you can't invent new layouts on the fly), significantly cheaper to run, and easier to validate and revise.
-
-## Install
-
-### Claude Code (recommended)
-
-If you use Claude Code, start here.
-
-If you want the `/hyperscribe`, `/hyperscribe:slides`, `/hyperscribe:diff`, and `/hyperscribe:share` slash commands, install via the plugin marketplace:
-
-```
-/plugin marketplace add Self-made-Orange/agent-outprint-skills
-/plugin install hyperscribe@hyperscribe-marketplace
-```
-
-You can also install the skills with `npx skills` if you want the `SKILL.md` flow instead of slash commands, but the Claude Code plugin path is the recommended setup.
-
-### Any agent — Codex, Cursor, OpenCode, Gemini CLI, … 
-
-```bash
-npx skills add Self-made-Orange/agent-outprint-skills
-```
-
-This installs four skills via the [open agent skills CLI](https://github.com/vercel-labs/skills):
-
-| Skill | Purpose |
-|---|---|
-| `hyperscribe` | General-purpose visual HTML renderer (ships the engine) |
-| `hyperscribe-slides` | Slide deck mode |
-| `hyperscribe-diff` | PR / diff review page |
-| `hyperscribe-share` | Deploy an output to Vercel, return a public URL |
-
-The CLI auto-detects which agents are present (Claude Code, Codex, Cursor, OpenCode, Gemini CLI, Windsurf, Warp, and 40+ more) and writes each `SKILL.md` into that agent's skill path. Pick a subset with `--skill` or target one agent with `-a`:
-
-```bash
-npx skills add Self-made-Orange/agent-outprint-skills --skill hyperscribe --skill hyperscribe-slides
-npx skills add Self-made-Orange/agent-outprint-skills -a claude-code -a codex
-```
-
-The `hyperscribe` skill is the only one that carries the renderer; the other three depend on it being installed.
-
-### Manual use (any language / bespoke pipeline)
-
-The renderer has zero runtime dependencies:
-
-```bash
-git clone https://github.com/Self-made-Orange/agent-outprint-skills.git
-cd agent-outprint-skills
-
-# Pipe an A2UI envelope on stdin, write HTML to stdout or --out
-echo '<envelope.json>' | node plugins/hyperscribe/scripts/render.mjs --out page.html
-```
-
-Any agent or tool that can emit the JSON envelope described in [`plugins/hyperscribe/skills/hyperscribe/SKILL.md`](plugins/hyperscribe/skills/hyperscribe/SKILL.md) can drive this renderer.
-
-## Uninstall
-
-```bash
-# One-shot: removes all four skills from every agent (project + global scope)
-curl -fsSL https://raw.githubusercontent.com/Self-made-Orange/agent-outprint-skills/main/uninstall.sh | bash
-
-# Or use the skills CLI directly:
-npx skills remove --agent '*' hyperscribe hyperscribe-slides hyperscribe-diff hyperscribe-share
-npx skills remove --global --agent '*' hyperscribe hyperscribe-slides hyperscribe-diff hyperscribe-share
-```
-
-If you installed via Claude Code plugin marketplace, remove that separately:
-
-```
-/plugin uninstall hyperscribe@hyperscribe-marketplace
-```
-
-Rendered HTML output at `~/.hyperscribe/out/` is preserved. Delete manually with `rm -rf ~/.hyperscribe` if desired.
-
-## Quick start
-
-Inside Claude Code, after installing the plugin:
-
-```
-> /hyperscribe "draw a simple auth flow: browser, app, identity provider, token exchange"
-```
-
-Claude picks the components (typically `Page` > `Section` > `Mermaid` + `StepList`), emits the JSON envelope, pipes it to `scripts/render.mjs`, and opens the resulting HTML file in your default browser. The output path is printed back so you can re-open or share it later.
-
-A minimal envelope — the actual JSON Claude emits — looks like:
+1. **Agent emits JSON.** Instead of writing HTML, the model picks components from a fixed catalog and fills in props. No styling decisions, no markup.
+2. **Renderer validates + builds.** `render.mjs` checks the envelope against the schema, then assembles a fully inlined HTML document — CSS, JS, fonts, all bundled.
+3. **File lands on disk.** One `.html` file. No server, no build step, no network at open time.
 
 ```json
 {
   "a2ui_version": "0.9",
   "catalog": "hyperscribe/v1",
-  "is_task_complete": true,
   "parts": [
     {
       "component": "hyperscribe/Page",
-      "props": { "title": "Auth flow" },
+      "props": { "title": "Deploy checklist" },
       "children": [
         {
-          "component": "hyperscribe/Mermaid",
+          "component": "hyperscribe/StepList",
           "props": {
-            "kind": "sequence",
-            "source": "sequenceDiagram\n  Browser->>App: GET /login\n  App->>IdP: redirect\n  IdP-->>App: code\n  App->>IdP: exchange code\n  IdP-->>App: access_token"
+            "steps": [
+              { "title": "Run test suite",    "state": "done"  },
+              { "title": "DB migration",       "state": "doing" },
+              { "title": "Deploy to staging", "state": "todo"  }
+            ]
           }
         }
       ]
@@ -323,122 +42,147 @@ A minimal envelope — the actual JSON Claude emits — looks like:
 }
 ```
 
-The renderer writes the HTML file to `~/.hyperscribe/out/` with a slugified filename and a timestamp, prints the absolute path, and exits. Re-opening the file later never re-queries the model — it is a plain HTML document on disk.
+```bash
+node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html
+```
 
-## Commands
+---
 
-| Command | Description |
+## Canvas template
+
+The `canvas` template is a full-viewport agent output dashboard — a persistent page the agent writes to over time rather than regenerating from scratch each run.
+
+```json
+{
+  "template": "canvas",
+  "meta": {
+    "title": "Product Analytics",
+    "agent": "Claude",
+    "topic": "Q1 Report",
+    "statement": {
+      "eyebrow": "Self-made Orange",
+      "text": "One agent. Every output, beautifully rendered.",
+      "cta": { "label": "View all outputs", "href": "#canvas-divisions" }
+    }
+  },
+  "featured": {
+    "component": "hyperscribe/Chart",
+    "props": { "kind": "bar", "data": { ... } }
+  },
+  "history": [
+    {
+      "title": "Key Metrics — April",
+      "date": "2026-04-30 14:20",
+      "description": "MRR and ARR up double digits.",
+      "content": { "component": "hyperscribe/KPICard", ... }
+    }
+  ]
+}
+```
+
+Structure:
+- **Hero carousel** — cycles through `history` items with a featured component in the viewport
+- **Editorial statement** — agent identity + CTA
+- **Divisions** — scrollable card grid of all past outputs
+
+Supports dark/light mode toggle with `localStorage` persistence.
+
+---
+
+## Components
+
+30+ components across page mode and canvas mode.
+
+| Category | Components |
 |---|---|
-| `/hyperscribe` | General-purpose page. Default entry point for diagrams, tables, architectures, explainers. |
-| `/hyperscribe:slides` | Forces a `SlideDeck` root and produces a slide-oriented HTML file from a topic or outline. |
-| `/hyperscribe:diff` | PR / diff review. Combines `ArchitectureGrid` for impacted modules, `CodeDiff`, and `Callout` risks. |
-| `/hyperscribe:share` | Deploys an existing rendered HTML file to Vercel and returns a live URL. |
+| Structure | `Page` `Section` `Heading` `Prose` `FileTree` `FileCard` |
+| Data | `DataTable` `Chart` `KPICard` `Comparison` |
+| Diagrams | `Mermaid` `Sequence` `ArchitectureGrid` `FlowChart` `Quadrant` `Swimlane` `ERDDiagram` |
+| Code | `CodeBlock` `CodeDiff` `AnnotatedCode` |
+| Narrative | `StepList` `Callout` `Image` |
+| Slides | `SlideDeck` `Slide` |
+| Canvas / Site | `SiteHeader` `HeroCarousel` `EditorialStatement` `DivisionCard` `SiteFooter` `PressMentions` `ProjectTile` `MosaicGrid` `CountdownTimer` |
 
-## Component catalog 🎯
+Full prop schemas: [`plugins/hyperscribe/references/catalog.md`](plugins/hyperscribe/references/catalog.md)
 
-23 default components plus 2 slide-mode-only components. Full prop schemas, examples, and validation rules live in [`plugins/hyperscribe/references/catalog.md`](plugins/hyperscribe/references/catalog.md).
-
-| Category | Component | Purpose | Children |
-|---|---|---|---|
-| Structure | [`Page`](plugins/hyperscribe/references/catalog.md) | Root container; exactly one per envelope | required |
-| Structure | [`Section`](plugins/hyperscribe/references/catalog.md) | Titled section with auto TOC anchor | allowed |
-| Structure | [`Heading`](plugins/hyperscribe/references/catalog.md) | In-section h2/h3/h4 | forbidden |
-| Structure | [`Prose`](plugins/hyperscribe/references/catalog.md) | Markdown paragraph block (CommonMark + GFM) | forbidden |
-| Media | [`Image`](plugins/hyperscribe/references/catalog.md) | Inline image; URL passthrough or local → base64 inline | forbidden |
-| Emphasis | [`Callout`](plugins/hyperscribe/references/catalog.md) | Boxed highlight (info / note / warn / success / danger) | forbidden |
-| Emphasis | [`KPICard`](plugins/hyperscribe/references/catalog.md) | Metric card with optional delta | forbidden |
-| Code | [`CodeBlock`](plugins/hyperscribe/references/catalog.md) | Single code snippet with optional line highlights | forbidden |
-| Code | [`CodeDiff`](plugins/hyperscribe/references/catalog.md) | Before/after unified diff hunks | forbidden |
-| Diagrams | [`Mermaid`](plugins/hyperscribe/references/catalog.md) | Mermaid.js diagram (flowchart / sequence / er / state / mindmap / class) | forbidden |
-| Diagrams | [`Sequence`](plugins/hyperscribe/references/catalog.md) | Native SVG sequence diagram (Notion-styled, no CDN) | forbidden |
-| Diagrams | [`ArchitectureGrid`](plugins/hyperscribe/references/catalog.md) | Card-based architecture with SVG connectors | forbidden |
-| Diagrams | [`FlowChart`](plugins/hyperscribe/references/catalog.md) | Native SVG directed graph (box/pill/diamond nodes, TD/LR, ranked layout) | forbidden |
-| Diagrams | [`Quadrant`](plugins/hyperscribe/references/catalog.md) | 2x2 prioritization matrix with plotted points | forbidden |
-| Diagrams | [`Swimlane`](plugins/hyperscribe/references/catalog.md) | Lane-based process diagram across roles on a shared sequence | forbidden |
-| Diagrams | [`ERDDiagram`](plugins/hyperscribe/references/catalog.md) | Entity-relationship diagram for DB/type schemas | forbidden |
-| Data | [`DataTable`](plugins/hyperscribe/references/catalog.md) | Semantic HTML table with columns / rows / caption | forbidden |
-| Data | [`Chart`](plugins/hyperscribe/references/catalog.md) | Chart.js wrapper (line / bar / pie / area / scatter) | forbidden |
-| Data | [`Comparison`](plugins/hyperscribe/references/catalog.md) | N-way comparison (`vs` or `grid` mode) | forbidden |
-| Narrative | [`StepList`](plugins/hyperscribe/references/catalog.md) | Ordered steps / checklist with done/doing/todo/skipped state | forbidden |
-| Structure | [`FileTree`](plugins/hyperscribe/references/catalog.md) | Directory/file structure visualization | forbidden |
-| Structure | [`FileCard`](plugins/hyperscribe/references/catalog.md) | Per-file summary card with role/LOC/export metadata | forbidden |
-| Code | [`AnnotatedCode`](plugins/hyperscribe/references/catalog.md) | Code block with pinned side annotations | forbidden |
-
-### Slide mode only
-
-These are intentionally separated from the default `/hyperscribe` page catalog.
-
-| Category | Component | Purpose | Children |
-|---|---|---|---|
-| Slides | [`SlideDeck`](plugins/hyperscribe/references/catalog.md) | Slide container; aspect 16:9 or 4:3 | required |
-| Slides | [`Slide`](plugins/hyperscribe/references/catalog.md) | Single slide (title / content / two-col / quote / image / section) | forbidden |
-| Structure | [`FileTree`](plugins/hyperscribe/references/catalog.md) | Directory/file structure visualization | forbidden |
-| Structure | [`FileCard`](plugins/hyperscribe/references/catalog.md) | Per-file summary card with responsibility and exports | forbidden |
-| Code | [`AnnotatedCode`](plugins/hyperscribe/references/catalog.md) | Code block with pinned side annotations | forbidden |
-| Diagrams | [`ERDDiagram`](plugins/hyperscribe/references/catalog.md) | Entity relationship diagram for DB/type models | forbidden |
-
-The design system is Notion-inspired — warm neutrals, whisper borders, Inter font fallback chain — and every visual decision is owned by the renderer. Components carry semantic data only; styling props (`color`, `backgroundColor`, `fontSize`, `className`, etc.) are rejected by the schema. If a page wants a "red warning box" the envelope asks for `Callout severity="warn"`, never a hex code.
+---
 
 ## Themes
 
-Nine bundled themes, each shipping both **light and dark modes** in a single CSS file. Pass `--theme <name>` at render time to pick one; use `--mode light|dark` to force initial color mode (omit for `prefers-color-scheme` + localStorage).
+11 bundled themes, each with light and dark modes.
 
-| Name | Character | Best for |
-|---|---|---|
-| `studio` | Airtable — clean enterprise canvas, Haas-style typography, Airtable Blue accent, blue-tinted multi-layer shadow | Product launch pages, design reviews, polished docs |
-| `midnight` | Cal.com — purely grayscale (no brand colors), Cal Sans display + Inter body, 3-layer ring shadow system | Technical writeups, minimalist reports, long-form reading |
-| `void` | Bugatti — architectural black canvas, Unbounded display at massive scale, UPPERCASE mono UI, 3-color palette (black/white/gray) | Launch decks, hero moments, high-drama showcases |
-| `gallery` | Apple — cinematic black↔light-gray section alternation, SF Pro with tight negative tracking, Apple Blue as sole accent | Executive summaries, product showcases, investor-facing decks |
-| `notion` | Notion — warm cream surfaces (`#f6f5f4`), warm near-black `rgba(0,0,0,0.95)`, Notion Blue `#0075de`, whisper-thin borders, signature pastel callouts | Long-form documents, knowledge bases, reading-first pages |
-| `linear` | Linear — dark-mode-native `#08090a` canvas, Inter Variable with `cv01`/`ss03` features, weight-510 signature, Indigo `#5e6ad2` accent | Engineering posts, changelog, precision-feel reports |
-| `vercel` | Vercel — gallery-empty white, Geist + Geist Mono with `liga`, shadow-as-border (`0 0 0 1px rgba(0,0,0,0.08)`), aggressive negative tracking | Developer docs, CLI references, code-forward pages |
-| `stripe` | Stripe — weight-300 luxury headlines, deep navy `#061b31`, blue-tinted multi-layer shadows `rgba(50,50,93,0.25)` | Premium pricing pages, fintech reports, sales decks |
-| `supabase` | Supabase — dark-mode-native, emerald green `#3ecf8e` accent, NO box-shadows (depth via border hierarchy `#242424` → `#2e2e2e` → `#363636`) | Developer-tool launches, dashboards, technical changelog |
+| Theme | Character |
+|---|---|
+| `studio` | Clean enterprise canvas, Airtable Blue accent |
+| `midnight` | Purely grayscale, Cal Sans display |
+| `void` | Architectural black, Unbounded display, high drama |
+| `gallery` | Apple-style cinematic black ↔ light-gray sections |
+| `notion` | Warm cream, whisper borders, reading-first |
+| `linear` | Dark-native, Inter Variable, Indigo accent |
+| `vercel` | Gallery white, Geist + Geist Mono, shadow-as-border |
+| `stripe` | Weight-300 luxury headlines, deep navy |
+| `supabase` | Dark-native, emerald green, no box-shadows |
+| `shadcn-dark` | shadcn/ui dark palette, chart CSS vars |
+| `silent-house` | Editorial editorial, monospace utility layer |
 
-Themes are pure CSS-variable overrides (`plugins/hyperscribe/themes/*.css`). Each defines tokens under `[data-theme="<name>"]` (light) and `[data-theme="<name>"][data-mode="dark"]` (dark). Semantic tones (`--hs-tone-{info|warn|success|danger}-{bg|fg}`) and surface palette (`--hs-color-surface*`) keep components legible across all nine.
+```bash
+node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html --theme shadcn-dark
+```
 
-The `notion` / `linear` / `vercel` / `stripe` / `supabase` themes are sourced strictly from their public DESIGN.md specs (via the `getdesign` npm package). Hex codes, font stacks, OpenType features, and shadow stacks match the source where reasonable; border radii are normalized GitHub-style (4 / 6 / 6 / 6 / 12 + pill) for visual consistency across the bundle.
+---
 
-**v0.4 breaking history:** `notion` and `linear` were briefly *alternate names* for the original default theme. v0.5 reintroduces them as **distinct brand-aligned themes** based on their actual DESIGN.md tokens. If you depended on the v0.3 default styling under those names, switch to `studio` (was `notion`) or `midnight` (was `linear`).
+## Install
 
-Your per-user theme + mode preference is stored at `~/.hyperscribe/preference.md` after first run. A project-local `./.hyperscribe/preference.md` overrides it. Delete either file to re-run first-run setup.
+### Claude Code
 
-## How it works
+```
+/plugin marketplace add Self-made-Orange/agent-outprint-skills
+/plugin install hyperscribe@hyperscribe-marketplace
+```
 
-1. **User runs a command.** In Claude Code, the user types something like `/hyperscribe "architecture for a rate limiter"`.
-2. **Skill prompt loads.** The plugin injects [`SKILL.md`](plugins/hyperscribe/skills/hyperscribe/SKILL.md) and the command template, giving the model the catalog, envelope format, and the rule that props carry semantic data only.
-3. **Claude emits JSON.** The model classifies the intent, picks components, and produces an A2UI envelope — no HTML, no CSS, no styling decisions. Unknown component names, missing required props, and out-of-range enums are caught in step 4, not left to a broken browser render.
-4. **CLI validates + renders.** `plugins/hyperscribe/scripts/render.mjs` walks the envelope against the schema in `plugins/hyperscribe/spec/catalog.json`; on success it builds a single HTML document with inlined CSS and per-component SSR. Exit codes: `0` success, `1` JSON parse error, `2` schema validation failure, `3` IO error, `4` render runtime error.
-5. **Self-contained HTML lands on disk.** Output is written to `~/.hyperscribe/out/<slug>-<timestamp>.html`. No network, no external CSS, no build step — the file opens on a plane.
-6. **Open in browser.** `open` on macOS, `xdg-open` on Linux — the agent prints the absolute path and a one-line summary so the user can re-open or share later.
+### Any agent (Codex, Cursor, Gemini CLI, …)
+
+```bash
+npx skills add Self-made-Orange/agent-outprint-skills
+```
+
+### Manual
+
+```bash
+git clone https://github.com/Self-made-Orange/agent-outprint-skills.git
+cd agent-outprint-skills
+node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html
+```
+
+---
+
+## Slash commands
+
+| Command | Description |
+|---|---|
+| `/hyperscribe` | General page — diagrams, tables, explainers |
+| `/hyperscribe:slides` | Forces `SlideDeck` root |
+| `/hyperscribe:diff` | PR / diff review with `CodeDiff` + `ArchitectureGrid` |
+| `/hyperscribe:share` | Deploy output to Vercel, return public URL |
+
+---
 
 ## Roadmap
 
-- **Rendering polish** — better framing for complex diagrams, denser layouts where cards currently waste space, and more predictable output for long pages.
-- **Catalog growth** — add a few more high-leverage components only where they reduce prompt complexity instead of expanding the surface area for its own sake.
-- **Installation polish** — tighten setup across agents, improve diagnostics, and make it easier to verify that the right commands and skills were installed.
+- Richer canvas interactions (inline editing, pinning, reordering history)
+- More data components (pivot table, timeline, heatmap)
+- Agent SDK streaming — partial renders as the envelope arrives
+
+---
 
 ## Contributing
 
-PRs are welcome.
+Node 20+. Run `npm test` before opening a PR. Keep renderer and catalog in sync when touching component schemas.
 
-Before opening one:
+Issues: [github.com/Self-made-Orange/agent-outprint-skills/issues](https://github.com/Self-made-Orange/agent-outprint-skills/issues)
 
-- use Node 20+
-- run `npm test`
-- keep renderer and catalog changes in sync
-- update docs when the component surface or install flow changes
-
-If you are changing the envelope format or component schemas, start with [`plugins/hyperscribe/references/catalog.md`](plugins/hyperscribe/references/catalog.md) and [`plugins/hyperscribe/spec/catalog.json`](plugins/hyperscribe/spec/catalog.json).
-
-Issues and discussion: [github.com/Self-made-Orange/agent-outprint-skills/issues](https://github.com/Self-made-Orange/agent-outprint-skills/issues).
+---
 
 ## License
 
 MIT — see [LICENSE](LICENSE).
-
-Copyright (c) 2026 agent-outprint-skills contributors.
-
-## Credits
-
-- [A2UI v0.9](https://developers.googleblog.com/) (Google Developers Blog) — the envelope shape (`a2ui_version`, `catalog`, `parts`, `is_task_complete`) is borrowed so rendered documents can follow an existing structured UI contract.
