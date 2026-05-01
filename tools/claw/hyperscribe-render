@@ -22,8 +22,11 @@ HYPERSCRIBE_REPO="${HYPERSCRIBE_REPO:-$HOME/src/agent-outprint-skills}"
 DEFAULT_THEME="${CLAW_HYPERSCRIBE_THEME:-notion}"
 DEFAULT_MODE="${CLAW_HYPERSCRIBE_MODE:-auto}"
 
-# canvas-wrap helper lives next to this script in the repo
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+# canvas-wrap helper lives next to this script in the repo. Resolve symlinks
+# so installs via `ln -s ... ~/.local/bin/hyperscribe-render` still find the
+# helper.
+SCRIPT_PATH="$(readlink -f -- "${BASH_SOURCE[0]}")"
+SCRIPT_DIR="$(dirname -- "$SCRIPT_PATH")"
 CANVAS_WRAP_HELPER="$SCRIPT_DIR/canvas-wrap.py"
 
 has_theme=0
