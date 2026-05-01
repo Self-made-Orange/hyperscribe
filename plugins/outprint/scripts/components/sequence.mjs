@@ -38,9 +38,9 @@ function renderMessage(m, y, pIdx, participantCount) {
     const right = Math.max(...xs) + 84;
     const bodyY = y + 6;
     const bodyH = NOTE_H - 16;
-    return `<g class="hs-seq-note">
-      <rect x="${left}" y="${bodyY}" width="${right - left}" height="${bodyH}" rx="4" class="hs-seq-note-box"/>
-      <text x="${(left + right) / 2}" y="${bodyY + bodyH / 2 + 4}" text-anchor="middle" class="hs-seq-note-text">${escape(m.text)}</text>
+    return `<g class="op-seq-note">
+      <rect x="${left}" y="${bodyY}" width="${right - left}" height="${bodyH}" rx="4" class="op-seq-note-box"/>
+      <text x="${(left + right) / 2}" y="${bodyY + bodyH / 2 + 4}" text-anchor="middle" class="op-seq-note-text">${escape(m.text)}</text>
     </g>`;
   }
   if (kind === "self") {
@@ -48,9 +48,9 @@ function renderMessage(m, y, pIdx, participantCount) {
     const x = xFor(pIdx[m.from]);
     const loopTop = y + 16;
     const loopBottom = y + 46;
-    return `<g class="hs-seq-msg" data-kind="self">
-      <text x="${x + 8}" y="${y + 12}" class="hs-seq-msg-text">${escape(m.text)}</text>
-      <path d="M${x},${loopTop} C${x + 64},${loopTop} ${x + 64},${loopBottom} ${x + 4},${loopBottom}" fill="none" class="hs-seq-arrow" marker-end="url(#hsSeqFilled)"/>
+    return `<g class="op-seq-msg" data-kind="self">
+      <text x="${x + 8}" y="${y + 12}" class="op-seq-msg-text">${escape(m.text)}</text>
+      <path d="M${x},${loopTop} C${x + 64},${loopTop} ${x + 64},${loopBottom} ${x + 4},${loopBottom}" fill="none" class="op-seq-arrow" marker-end="url(#hsSeqFilled)"/>
     </g>`;
   }
   if (pIdx[m.from] === undefined || pIdx[m.to] === undefined) return "";
@@ -60,9 +60,9 @@ function renderMessage(m, y, pIdx, participantCount) {
   const dashed = kind === "async" || kind === "return";
   const marker = kind === "return" ? "url(#hsSeqOpen)" : "url(#hsSeqFilled)";
   const arrowY = y + 30;
-  return `<g class="hs-seq-msg" data-kind="${escape(kind)}">
-    <text x="${cx}" y="${y + 18}" text-anchor="middle" class="hs-seq-msg-text">${escape(m.text)}</text>
-    <line x1="${x1}" y1="${arrowY}" x2="${x2}" y2="${arrowY}" class="hs-seq-arrow${dashed ? " hs-seq-arrow-dashed" : ""}" marker-end="${marker}"/>
+  return `<g class="op-seq-msg" data-kind="${escape(kind)}">
+    <text x="${cx}" y="${y + 18}" text-anchor="middle" class="op-seq-msg-text">${escape(m.text)}</text>
+    <line x1="${x1}" y1="${arrowY}" x2="${x2}" y2="${arrowY}" class="op-seq-arrow${dashed ? " op-seq-arrow-dashed" : ""}" marker-end="${marker}"/>
   </g>`;
 }
 
@@ -78,10 +78,10 @@ export function Sequence(props) {
 
   const defs = `<defs>
     <marker id="hsSeqFilled" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M0,0 L10,5 L0,10 Z" class="hs-seq-head"/>
+      <path d="M0,0 L10,5 L0,10 Z" class="op-seq-head"/>
     </marker>
     <marker id="hsSeqOpen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
-      <path d="M0,0 L10,5 L0,10" fill="none" class="hs-seq-head-open"/>
+      <path d="M0,0 L10,5 L0,10" fill="none" class="op-seq-head-open"/>
     </marker>
   </defs>`;
 
@@ -92,14 +92,14 @@ export function Sequence(props) {
     const w = COL_W - HEADER_PAD * 2;
     const headerTitleY = p.subtitle ? 26 : 32;
     const footerTitleY = bodyBottom + 4 + (p.subtitle ? 20 : 26);
-    cols += `<g class="hs-seq-col">
-      <rect x="${x}" y="8" width="${w}" height="${HEADER_H - HEADER_PAD}" rx="8" class="hs-seq-pbox"/>
-      <text x="${cx}" y="${headerTitleY}" text-anchor="middle" class="hs-seq-ptitle">${escape(p.title)}</text>
-      ${p.subtitle ? `<text x="${cx}" y="42" text-anchor="middle" class="hs-seq-psub">${escape(p.subtitle)}</text>` : ""}
-      <line x1="${cx}" y1="${HEADER_H}" x2="${cx}" y2="${bodyBottom}" class="hs-seq-lifeline"/>
-      <rect x="${x}" y="${bodyBottom + 4}" width="${w}" height="${FOOTER_H - HEADER_PAD}" rx="8" class="hs-seq-pbox"/>
-      <text x="${cx}" y="${footerTitleY}" text-anchor="middle" class="hs-seq-ptitle">${escape(p.title)}</text>
-      ${p.subtitle ? `<text x="${cx}" y="${bodyBottom + 38}" text-anchor="middle" class="hs-seq-psub">${escape(p.subtitle)}</text>` : ""}
+    cols += `<g class="op-seq-col">
+      <rect x="${x}" y="8" width="${w}" height="${HEADER_H - HEADER_PAD}" rx="8" class="op-seq-pbox"/>
+      <text x="${cx}" y="${headerTitleY}" text-anchor="middle" class="op-seq-ptitle">${escape(p.title)}</text>
+      ${p.subtitle ? `<text x="${cx}" y="42" text-anchor="middle" class="op-seq-psub">${escape(p.subtitle)}</text>` : ""}
+      <line x1="${cx}" y1="${HEADER_H}" x2="${cx}" y2="${bodyBottom}" class="op-seq-lifeline"/>
+      <rect x="${x}" y="${bodyBottom + 4}" width="${w}" height="${FOOTER_H - HEADER_PAD}" rx="8" class="op-seq-pbox"/>
+      <text x="${cx}" y="${footerTitleY}" text-anchor="middle" class="op-seq-ptitle">${escape(p.title)}</text>
+      ${p.subtitle ? `<text x="${cx}" y="${bodyBottom + 38}" text-anchor="middle" class="op-seq-psub">${escape(p.subtitle)}</text>` : ""}
     </g>`;
   });
 
@@ -108,8 +108,8 @@ export function Sequence(props) {
     msgs += renderMessage(m, ys[idx], pIdx, participants.length);
   });
 
-  return `<div class="hs-seq-wrap">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${totalW} ${totalH}" class="hs-seq" preserveAspectRatio="xMidYMid meet">
+  return `<div class="op-seq-wrap">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${totalW} ${totalH}" class="op-seq" preserveAspectRatio="xMidYMid meet">
 ${defs}
 ${cols}
 ${msgs}

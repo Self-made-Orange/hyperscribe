@@ -1,68 +1,68 @@
-.hs-mermaid-wrap {
-  margin: var(--hs-space-5) 0;
-  padding: var(--hs-space-5);
-  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
-  border-radius: var(--hs-radius, 0.5rem);
-  background: var(--hs-color-card, var(--hs-color-surface));
-  box-shadow: var(--hs-shadow-card);
+.op-mermaid-wrap {
+  margin: var(--op-space-5) 0;
+  padding: var(--op-space-5);
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius, 0.5rem);
+  background: var(--op-color-card, var(--op-color-surface));
+  box-shadow: var(--op-shadow-card);
   overflow-x: auto;
   text-align: center;
 }
-.hs-mermaid-wrap pre.mermaid {
+.op-mermaid-wrap pre.mermaid {
   margin: 0;
   background: transparent;
-  font-family: var(--hs-font-sans);
+  font-family: var(--op-font-sans);
 }
-.hs-mermaid-wrap .mermaid svg {
+.op-mermaid-wrap .mermaid svg {
   max-width: 100%;
   height: auto;
-  font-family: var(--hs-font-sans) !important;
+  font-family: var(--op-font-sans) !important;
 }
-.hs-mermaid-wrap .mermaid .actor {
-  stroke: var(--hs-color-border, var(--hs-color-surface-alt)) !important;
+.op-mermaid-wrap .mermaid .actor {
+  stroke: var(--op-color-border, var(--op-color-surface-alt)) !important;
   stroke-width: 1 !important;
 }
-.hs-mermaid-wrap .mermaid text,
-.hs-mermaid-wrap .mermaid tspan,
-.hs-mermaid-wrap .mermaid .messageText,
-.hs-mermaid-wrap .mermaid .labelText,
-.hs-mermaid-wrap .mermaid .loopText {
-  fill: var(--hs-color-fg) !important;
+.op-mermaid-wrap .mermaid text,
+.op-mermaid-wrap .mermaid tspan,
+.op-mermaid-wrap .mermaid .messageText,
+.op-mermaid-wrap .mermaid .labelText,
+.op-mermaid-wrap .mermaid .loopText {
+  fill: var(--op-color-fg) !important;
 }
-.hs-mermaid-wrap .mermaid text.actor,
-.hs-mermaid-wrap .mermaid .actor-man text {
+.op-mermaid-wrap .mermaid text.actor,
+.op-mermaid-wrap .mermaid .actor-man text {
   font-weight: 600 !important;
   font-size: 13px !important;
 }
-.hs-mermaid-wrap .mermaid .messageLine0,
-.hs-mermaid-wrap .mermaid .messageLine1 {
-  stroke: var(--hs-color-muted-fg, var(--hs-color-fg-muted)) !important;
+.op-mermaid-wrap .mermaid .messageLine0,
+.op-mermaid-wrap .mermaid .messageLine1 {
+  stroke: var(--op-color-muted-fg, var(--op-color-fg-muted)) !important;
   stroke-width: 1.25 !important;
 }
-.hs-mermaid-wrap .mermaid .messageText {
+.op-mermaid-wrap .mermaid .messageText {
   font-size: 11.5px !important;
   font-weight: 500 !important;
 }
-.hs-mermaid-wrap .mermaid .note {
-  stroke: var(--hs-note-border) !important;
+.op-mermaid-wrap .mermaid .note {
+  stroke: var(--op-note-border) !important;
   stroke-width: 1 !important;
 }
-.hs-mermaid-wrap .mermaid .labelText,
-.hs-mermaid-wrap .mermaid .loopText {
+.op-mermaid-wrap .mermaid .labelText,
+.op-mermaid-wrap .mermaid .loopText {
   font-size: 11px !important;
   font-weight: 500 !important;
 }
-.hs-mermaid-wrap .mermaid .node rect,
-.hs-mermaid-wrap .mermaid .node polygon,
-.hs-mermaid-wrap .mermaid .node circle,
-.hs-mermaid-wrap .mermaid .node ellipse {
-  stroke: var(--hs-color-border, var(--hs-color-surface-alt)) !important;
+.op-mermaid-wrap .mermaid .node rect,
+.op-mermaid-wrap .mermaid .node polygon,
+.op-mermaid-wrap .mermaid .node circle,
+.op-mermaid-wrap .mermaid .node ellipse {
+  stroke: var(--op-color-border, var(--op-color-surface-alt)) !important;
   stroke-width: 1 !important;
 }
-.hs-mermaid-wrap .mermaid .edgePath .path,
-.hs-mermaid-wrap .mermaid .flowchart-link,
-.hs-mermaid-wrap .mermaid marker path {
-  stroke: var(--hs-color-muted-fg, var(--hs-color-fg-muted)) !important;
-  fill: var(--hs-color-muted-fg, var(--hs-color-fg-muted)) !important;
+.op-mermaid-wrap .mermaid .edgePath .path,
+.op-mermaid-wrap .mermaid .flowchart-link,
+.op-mermaid-wrap .mermaid marker path {
+  stroke: var(--op-color-muted-fg, var(--op-color-fg-muted)) !important;
+  fill: var(--op-color-muted-fg, var(--op-color-fg-muted)) !important;
   stroke-width: 1.25 !important;
 }

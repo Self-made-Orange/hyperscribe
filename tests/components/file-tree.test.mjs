@@ -14,9 +14,9 @@ const sample = {
   ]
 };
 
-test("FileTree: root wrapper with hs-file-tree class", () => {
+test("FileTree: root wrapper with op-file-tree class", () => {
   const html = FileTree(sample);
-  assert.match(html, /class="hs-file-tree/);
+  assert.match(html, /class="op-file-tree/);
 });
 
 test("FileTree: renders all file names", () => {
@@ -28,13 +28,13 @@ test("FileTree: renders all file names", () => {
 
 test("FileTree: marks directory vs file with distinct classes", () => {
   const html = FileTree(sample);
-  assert.match(html, /hs-file-tree-dir/);
-  assert.match(html, /hs-file-tree-file/);
+  assert.match(html, /op-file-tree-dir/);
+  assert.match(html, /op-file-tree-file/);
 });
 
 test("FileTree: highlight=primary emits highlight class", () => {
   const html = FileTree(sample);
-  assert.match(html, /hs-file-tree-node-highlight-primary/);
+  assert.match(html, /op-file-tree-node-highlight-primary/);
 });
 
 test("FileTree: caption renders when provided", () => {
@@ -49,10 +49,10 @@ test("FileTree: escapes filenames", () => {
 
 test("FileTree: showIcons=false omits icon markup", () => {
   const html = FileTree({ nodes: [{ name: "a.ts", type: "file" }], showIcons: false });
-  assert.doesNotMatch(html, /hs-file-tree-icon/);
+  assert.doesNotMatch(html, /op-file-tree-icon/);
 });
 
 test("FileTree: showIcons default true emits icon span", () => {
   const html = FileTree({ nodes: [{ name: "a.ts", type: "file" }] });
-  assert.match(html, /hs-file-tree-icon/);
+  assert.match(html, /op-file-tree-icon/);
 });

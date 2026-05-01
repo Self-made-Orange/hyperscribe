@@ -66,17 +66,17 @@ const CANVAS_JS = `
 (function () {
   var slides   = Array.from(document.querySelectorAll('[data-canvas-slide]'));
   var navLinks = Array.from(document.querySelectorAll('[data-canvas-nav]'));
-  var counter  = document.querySelector('.hs-hero-counter');
+  var counter  = document.querySelector('.op-hero-counter');
   var total    = slides.length;
   var current  = 0;
 
   function show(n) {
     current = ((n % total) + total) % total;
     slides.forEach(function (s, i) {
-      s.classList.toggle('hs-hero-slide-active', i === current);
+      s.classList.toggle('op-hero-slide-active', i === current);
     });
     navLinks.forEach(function (a) {
-      a.classList.toggle('hs-canvas-nav-active',
+      a.classList.toggle('op-canvas-nav-active',
         parseInt(a.getAttribute('data-canvas-nav'), 10) === current);
     });
     if (counter) counter.textContent = (current + 1) + ' / ' + total;
@@ -90,19 +90,19 @@ const CANVAS_JS = `
   });
 
   // Frosted-glass nav on scroll
-  var hdr = document.querySelector('.hs-site-header');
+  var hdr = document.querySelector('.op-site-header');
   if (hdr) {
     window.addEventListener('scroll', function () {
-      hdr.classList.toggle('hs-scrolled', window.scrollY > 40);
+      hdr.classList.toggle('op-scrolled', window.scrollY > 40);
     }, { passive: true });
   }
 
   // Theme toggle
-  var toggleBtn = document.getElementById('hs-theme-toggle');
+  var toggleBtn = document.getElementById('op-theme-toggle');
   var html      = document.documentElement;
   function applyTheme(theme) {
     html.setAttribute('data-theme', theme);
-    localStorage.setItem('hs-theme', theme);
+    localStorage.setItem('op-theme', theme);
     if (toggleBtn) {
       toggleBtn.setAttribute('aria-label', theme === 'shadcn-dark' ? 'Switch to light mode' : 'Switch to dark mode');
       toggleBtn.innerHTML = theme === 'shadcn-dark' ? ICON_SUN : ICON_MOON;
@@ -110,7 +110,7 @@ const CANVAS_JS = `
   }
   var ICON_SUN  = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
   var ICON_MOON = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>';
-  var saved = localStorage.getItem('hs-theme') || html.getAttribute('data-theme') || 'shadcn-dark';
+  var saved = localStorage.getItem('op-theme') || html.getAttribute('data-theme') || 'shadcn-dark';
   applyTheme(saved);
   if (toggleBtn) {
     toggleBtn.addEventListener('click', function () {
@@ -205,17 +205,17 @@ export function renderCanvas(doc, REGISTRY) {
   // ── Nav ──────────────────────────────────────────────────────────────
   // Brand always "Self made Orange"; links = slide titles
   const navLinksHtml = slides.length > 1
-    ? `<ul class="hs-site-header-nav">
+    ? `<ul class="op-site-header-nav">
         ${slides.map((s, i) =>
-          `<li><a href="#" data-canvas-nav="${i}"${i === 0 ? ' class="hs-canvas-nav-active"' : ""}>${escapeHtml(s.navLabel)}</a></li>`
+          `<li><a href="#" data-canvas-nav="${i}"${i === 0 ? ' class="op-canvas-nav-active"' : ""}>${escapeHtml(s.navLabel)}</a></li>`
         ).join("")}
       </ul>`
     : "";
 
-  const navHtml = `<header class="hs-site-header">
-  <a class="hs-site-header-brand">Self made Orange</a>
+  const navHtml = `<header class="op-site-header">
+  <a class="op-site-header-brand">Self made Orange</a>
   ${navLinksHtml}
-  <button class="hs-canvas-theme-toggle" id="hs-theme-toggle" aria-label="Toggle theme" type="button"></button>
+  <button class="op-canvas-theme-toggle" id="op-theme-toggle" aria-label="Toggle theme" type="button"></button>
 </header>`;
 
   // ── Slide HTML ───────────────────────────────────────────────────────
@@ -227,16 +227,16 @@ export function renderCanvas(doc, REGISTRY) {
   const slidesHtml = slides.map((s, i) => {
     const subtitleParts = [agentLabel, s.subtitle].filter(Boolean).join(" · ");
     const metaHtml = (subtitleParts || s.title)
-      ? `<div class="hs-hero-slide-meta">
-          ${subtitleParts ? `<span class="hs-hero-slide-subtitle">${subtitleParts}</span>` : ""}
-          ${s.title ? `<span class="hs-hero-slide-title">${escapeHtml(s.title)}</span>` : ""}
-          ${s.description ? `<span class="hs-hero-slide-desc">${escapeHtml(s.description)}</span>` : ""}
+      ? `<div class="op-hero-slide-meta">
+          ${subtitleParts ? `<span class="op-hero-slide-subtitle">${subtitleParts}</span>` : ""}
+          ${s.title ? `<span class="op-hero-slide-title">${escapeHtml(s.title)}</span>` : ""}
+          ${s.description ? `<span class="op-hero-slide-desc">${escapeHtml(s.description)}</span>` : ""}
         </div>`
       : "";
     return `
-<div class="hs-hero-slide${i === 0 ? " hs-hero-slide-active" : ""}" data-canvas-slide="${i}">
-  <div class="hs-canvas-slide-body">
-    <div class="hs-canvas-slide-inner">
+<div class="op-hero-slide${i === 0 ? " op-hero-slide-active" : ""}" data-canvas-slide="${i}">
+  <div class="op-canvas-slide-body">
+    <div class="op-canvas-slide-inner">
       ${s.contentHtml}
     </div>
   </div>
@@ -245,12 +245,12 @@ export function renderCanvas(doc, REGISTRY) {
   }).join("\n");
 
   const stageHtml = `
-<section class="hs-hero-carousel">
-  <div class="hs-hero-stage">
+<section class="op-hero-carousel">
+  <div class="op-hero-stage">
     ${slidesHtml}
-    <div class="hs-hero-overlay">
+    <div class="op-hero-overlay">
       <span></span>
-      <span class="hs-hero-counter">1 / ${total}</span>
+      <span class="op-hero-counter">1 / ${total}</span>
     </div>
   </div>
 </section>`;
@@ -280,9 +280,9 @@ export function renderCanvas(doc, REGISTRY) {
     }).join("\n");
 
     divisionsHtml = `
-<section class="hs-section hs-canvas-divisions" id="canvas-divisions">
-  <h2 class="hs-section-title">${divLabel}</h2>
-  <div class="hs-section-body">
+<section class="op-section op-canvas-divisions" id="canvas-divisions">
+  <h2 class="op-section-title">${divLabel}</h2>
+  <div class="op-section-body">
     ${cards}
   </div>
 </section>`;
@@ -321,10 +321,10 @@ export function renderCanvas(doc, REGISTRY) {
   // Extra CSS: canvas-specific layout overrides (theme-agnostic)
   const extraCss = `
 /* ── Body / page reset for canvas full-bleed ── */
-body { margin: 0; padding: 0 !important; background: var(--hs-color-bg); }
+body { margin: 0; padding: 0 !important; background: var(--op-color-bg); }
 
 /* ── Fixed transparent nav → frosted on scroll ── */
-.hs-site-header {
+.op-site-header {
   position: fixed;
   top: 0; left: 0; right: 0;
   background: transparent;
@@ -333,46 +333,46 @@ body { margin: 0; padding: 0 !important; background: var(--hs-color-bg); }
   -webkit-backdrop-filter: none;
   z-index: 50;
 }
-.hs-site-header.hs-scrolled {
-  background: color-mix(in oklab, var(--hs-color-bg) 85%, transparent);
+.op-site-header.op-scrolled {
+  background: color-mix(in oklab, var(--op-color-bg) 85%, transparent);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-bottom: 1px solid var(--hs-color-border);
+  border-bottom: 1px solid var(--op-color-border);
 }
 
 /* ── Hero stage: force bg-color (not muted) for deep dark look ── */
-.hs-hero-stage {
-  background: var(--hs-color-bg) !important;
+.op-hero-stage {
+  background: var(--op-color-bg) !important;
 }
 /* ── Remove image-vignette gradient — canvas uses solid bg, not images ── */
-.hs-hero-slide::after { display: none; }
+.op-hero-slide::after { display: none; }
 /* Slide-meta bottom-left label */
-.hs-hero-slide-meta {
+.op-hero-slide-meta {
   position: absolute;
   left: clamp(20px, 3vw, 48px);
   bottom: clamp(24px, 4vh, 48px);
   display: flex;
   flex-direction: column;
   gap: 6px;
-  color: var(--hs-color-fg);
+  color: var(--op-color-fg);
   z-index: 2;
 }
-.hs-hero-slide-subtitle {
-  font-family: var(--hs-font-mono);
+.op-hero-slide-subtitle {
+  font-family: var(--op-font-mono);
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--hs-color-muted-fg);
+  color: var(--op-color-muted-fg);
 }
-.hs-hero-slide-title {
+.op-hero-slide-title {
   font-size: clamp(24px, 3vw, 44px);
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.05;
 }
-.hs-hero-slide-desc {
+.op-hero-slide-desc {
   font-size: clamp(12px, 1.2vw, 14px);
-  color: var(--hs-color-muted-fg);
+  color: var(--op-color-muted-fg);
   line-height: 1.5;
   max-width: 560px;
   margin-top: 2px;
@@ -382,21 +382,21 @@ body { margin: 0; padding: 0 !important; background: var(--hs-color-bg); }
   overflow: hidden;
 }
 /* Counter bottom-right */
-.hs-hero-counter {
-  font-family: var(--hs-font-mono);
+.op-hero-counter {
+  font-family: var(--op-font-mono);
   font-size: 12px;
   letter-spacing: 0.1em;
-  color: var(--hs-color-muted-fg);
-  background: color-mix(in oklab, var(--hs-color-bg) 70%, transparent);
+  color: var(--op-color-muted-fg);
+  background: color-mix(in oklab, var(--op-color-bg) 70%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   padding: 5px 12px;
-  border-radius: var(--hs-radius);
-  border: 1px solid var(--hs-color-border);
+  border-radius: var(--op-radius);
+  border: 1px solid var(--op-color-border);
 }
 
 /* ── Slide body: centered content ── */
-.hs-canvas-slide-body {
+.op-canvas-slide-body {
   position: absolute;
   inset: 0;
   display: flex;
@@ -405,50 +405,50 @@ body { margin: 0; padding: 0 !important; background: var(--hs-color-bg); }
   padding: clamp(72px, 10vh, 100px) clamp(20px, 4vw, 80px) clamp(80px, 12vh, 120px);
   overflow-y: auto;
 }
-.hs-canvas-slide-inner {
+.op-canvas-slide-inner {
   width: 100%;
   max-width: 1100px;
-  background: var(--hs-color-card);
-  border: 1px solid var(--hs-color-border);
-  border-radius: var(--hs-radius-lg);
+  background: var(--op-color-card);
+  border: 1px solid var(--op-color-border);
+  border-radius: var(--op-radius-lg);
   padding: clamp(24px, 3vw, 48px);
-  box-shadow: var(--hs-shadow-deep);
+  box-shadow: var(--op-shadow-deep);
 }
 /* Flatten inner wrappers */
-.hs-canvas-slide-inner .hs-page { max-width: none; padding: 0; margin: 0; }
-.hs-canvas-slide-inner .hs-page-main { padding: 0; max-width: none; }
-.hs-canvas-slide-inner .hs-section { padding: 0; border: none; max-width: none; }
-.hs-canvas-slide-inner .hs-section-title {
+.op-canvas-slide-inner .op-page { max-width: none; padding: 0; margin: 0; }
+.op-canvas-slide-inner .op-page-main { padding: 0; max-width: none; }
+.op-canvas-slide-inner .op-section { padding: 0; border: none; max-width: none; }
+.op-canvas-slide-inner .op-section-title {
   font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
-  font-family: var(--hs-font-mono); color: var(--hs-color-muted-fg);
+  font-family: var(--op-font-mono); color: var(--op-color-muted-fg);
   padding: 0; border: none; margin-bottom: 20px;
 }
 
 /* ── Sections below the hero ── */
-.hs-section { border-top: 1px solid var(--hs-color-border); }
-.hs-section-title {
-  font-family: var(--hs-font-mono);
+.op-section { border-top: 1px solid var(--op-color-border); }
+.op-section-title {
+  font-family: var(--op-font-mono);
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--hs-color-muted-fg);
+  color: var(--op-color-muted-fg);
   padding: clamp(40px, 5vh, 64px) clamp(20px, 4vw, 80px) 16px;
 }
-.hs-section-body { padding: 0; }
+.op-section-body { padding: 0; }
 
 /* ── Active nav link — plain text, no underline, no radius ── */
-.hs-site-header-nav a {
+.op-site-header-nav a {
   border-radius: 0 !important;
 }
-.hs-site-header-nav a.hs-canvas-nav-active {
+.op-site-header-nav a.op-canvas-nav-active {
   opacity: 1;
-  color: var(--hs-color-fg);
+  color: var(--op-color-fg);
   background: transparent !important;
   font-weight: 500;
 }
 
 /* ── Theme toggle button ── */
-.hs-canvas-theme-toggle {
+.op-canvas-theme-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -456,21 +456,21 @@ body { margin: 0; padding: 0 !important; background: var(--hs-color-bg); }
   height: 32px;
   padding: 0;
   background: transparent;
-  border: 1px solid var(--hs-color-border);
-  border-radius: var(--hs-radius-sm);
-  color: var(--hs-color-muted-fg);
+  border: 1px solid var(--op-color-border);
+  border-radius: var(--op-radius-sm);
+  color: var(--op-color-muted-fg);
   cursor: pointer;
   flex-shrink: 0;
   transition: background 120ms ease, color 120ms ease, border-color 120ms ease;
 }
-.hs-canvas-theme-toggle:hover {
-  background: var(--hs-color-muted);
-  color: var(--hs-color-fg);
-  border-color: var(--hs-color-muted-fg);
+.op-canvas-theme-toggle:hover {
+  background: var(--op-color-muted);
+  color: var(--op-color-fg);
+  border-color: var(--op-color-muted-fg);
 }
 
 /* ── Mode toggler hide ── */
-.hs-mode-toggler { display: none !important; }
+.op-mode-toggler { display: none !important; }
 `;
 
   const css = [theme, baseCss, siteHeaderCss, heroCss, canvasCss, editorialCss, divisionCss, componentCss, extraCss]

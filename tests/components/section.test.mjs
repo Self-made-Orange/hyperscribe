@@ -9,22 +9,22 @@ test("Section: renders with id anchor", () => {
 
 test("Section: renders title as h2", () => {
   const html = Section({ id: "x", title: "Hello" }, () => "");
-  assert.match(html, /<h2[^>]*class="hs-section-title"[^>]*>Hello<\/h2>/);
+  assert.match(html, /<h2[^>]*class="op-section-title"[^>]*>Hello<\/h2>/);
 });
 
 test("Section: renders lead as markdown paragraph", () => {
   const html = Section({ id: "x", title: "T", lead: "**bold** lead" }, () => "");
-  assert.match(html, /<div class="hs-section-lead"><p><strong>bold<\/strong> lead<\/p><\/div>/);
+  assert.match(html, /<div class="op-section-lead"><p><strong>bold<\/strong> lead<\/p><\/div>/);
 });
 
 test("Section: omits lead container when not provided", () => {
   const html = Section({ id: "x", title: "T" }, () => "");
-  assert.doesNotMatch(html, /hs-section-lead/);
+  assert.doesNotMatch(html, /op-section-lead/);
 });
 
 test("Section: includes children", () => {
   const html = Section({ id: "x", title: "T" }, () => "<div>body</div>");
-  assert.match(html, /<div class="hs-section-body"><div>body<\/div><\/div>/);
+  assert.match(html, /<div class="op-section-body"><div>body<\/div><\/div>/);
 });
 
 test("Section: escapes title", () => {

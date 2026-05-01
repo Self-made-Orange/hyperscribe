@@ -12,7 +12,7 @@ function toneClass(tone) {
     case "success":
     case "warn":
     case "muted":
-      return ` hs-quadrant-point-${tone}`;
+      return ` op-quadrant-point-${tone}`;
     default:
       return "";
   }
@@ -24,30 +24,30 @@ export function Quadrant(props) {
 
   const quadrantCells = quadrants.map((quadrant, index) => {
     const description = quadrant.description
-      ? `<div class="hs-quadrant-description">${escape(quadrant.description)}</div>`
+      ? `<div class="op-quadrant-description">${escape(quadrant.description)}</div>`
       : "";
-    return `<article class="hs-quadrant-cell hs-quadrant-cell-q${index + 1}" data-quadrant-id="${escape(quadrant.id || `q${index + 1}`)}">
-  <div class="hs-quadrant-title">${escape(quadrant.title || `Quadrant ${index + 1}`)}</div>
+    return `<article class="op-quadrant-cell op-quadrant-cell-q${index + 1}" data-quadrant-id="${escape(quadrant.id || `q${index + 1}`)}">
+  <div class="op-quadrant-title">${escape(quadrant.title || `Quadrant ${index + 1}`)}</div>
   ${description}
 </article>`;
   }).join("");
 
   const pointMarkers = points.map((point) => {
-    const tag = point.tag ? `<span class="hs-quadrant-point-tag">${escape(point.tag)}</span>` : "";
+    const tag = point.tag ? `<span class="op-quadrant-point-tag">${escape(point.tag)}</span>` : "";
     const x = clampPercent(point.x);
     const y = clampPercent(point.y);
-    return `<div class="hs-quadrant-point${toneClass(point.tone)}" style="--hs-quadrant-x:${x}%; --hs-quadrant-y:${y}%;">
-  <span class="hs-quadrant-point-dot"></span>
-  <span class="hs-quadrant-point-label">${escape(point.label)}${tag}</span>
+    return `<div class="op-quadrant-point${toneClass(point.tone)}" style="--op-quadrant-x:${x}%; --op-quadrant-y:${y}%;">
+  <span class="op-quadrant-point-dot"></span>
+  <span class="op-quadrant-point-label">${escape(point.label)}${tag}</span>
 </div>`;
   }).join("");
 
-  return `<figure class="hs-quadrant">
-  <div class="hs-quadrant-plot">
-    <div class="hs-quadrant-axis hs-quadrant-axis-y">${escape(props.yLabel || "Y")}</div>
-    <div class="hs-quadrant-axis hs-quadrant-axis-x">${escape(props.xLabel || "X")}</div>
-    <div class="hs-quadrant-grid">${quadrantCells}</div>
-    <div class="hs-quadrant-points">${pointMarkers}</div>
+  return `<figure class="op-quadrant">
+  <div class="op-quadrant-plot">
+    <div class="op-quadrant-axis op-quadrant-axis-y">${escape(props.yLabel || "Y")}</div>
+    <div class="op-quadrant-axis op-quadrant-axis-x">${escape(props.xLabel || "X")}</div>
+    <div class="op-quadrant-grid">${quadrantCells}</div>
+    <div class="op-quadrant-points">${pointMarkers}</div>
   </div>
 </figure>`;
 }

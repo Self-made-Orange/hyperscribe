@@ -30,19 +30,19 @@ function diffLines(before, after) {
 
 function renderLine(line) {
   const marker = line.kind === "add" ? "+" : line.kind === "remove" ? "-" : " ";
-  const cls = `hs-diff-line hs-diff-${line.kind}`;
-  return `<span class="${cls}"><span class="hs-diff-marker">${marker}</span>${escape(line.text)}</span>`;
+  const cls = `op-diff-line op-diff-${line.kind}`;
+  return `<span class="${cls}"><span class="op-diff-marker">${marker}</span>${escape(line.text)}</span>`;
 }
 
 function renderHunk(hunk) {
   const header = typeof hunk.atLine === "number"
-    ? `<div class="hs-diff-hunk-header">@@ line ${hunk.atLine}</div>`
+    ? `<div class="op-diff-hunk-header">@@ line ${hunk.atLine}</div>`
     : "";
   const lines = diffLines(hunk.before, hunk.after).map(renderLine).join("");
-  return `<div class="hs-diff-hunk">${header}<pre class="hs-diff-pre"><code>${lines}</code></pre></div>`;
+  return `<div class="op-diff-hunk">${header}<pre class="op-diff-pre"><code>${lines}</code></pre></div>`;
 }
 
 export function CodeDiff(props) {
   const hunks = (props.hunks || []).map(renderHunk).join("");
-  return `<div class="hs-diff hs-diff-lang-${escape(props.lang)}"><div class="hs-diff-filename">${escape(props.filename)}</div>${hunks}</div>`;
+  return `<div class="op-diff op-diff-lang-${escape(props.lang)}"><div class="op-diff-filename">${escape(props.filename)}</div>${hunks}</div>`;
 }

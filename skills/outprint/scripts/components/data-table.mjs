@@ -1,7 +1,7 @@
 import { escape } from "../lib/html.mjs";
 
 function cellClass(col) {
-  return col.align ? `hs-td-${col.align}` : "";
+  return col.align ? `op-td-${col.align}` : "";
 }
 
 function renderCell(row, col) {
@@ -25,5 +25,5 @@ export function DataTable(props) {
   const tfoot = props.footer
     ? `<tfoot><tr>${props.columns.map(c => renderCell(props.footer, c)).join("")}</tr></tfoot>`
     : "";
-  return `<div class="hs-table-wrap"><table class="hs-table hs-table-${density}">${caption}${thead}${tbody}${tfoot}</table></div>`;
+  return `<div class="op-table-wrap"><table class="op-table op-table-${density}">${caption}${thead}${tbody}${tfoot}</table></div>`;
 }

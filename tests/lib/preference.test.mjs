@@ -50,7 +50,7 @@ test("formatPreference: produces canonical YAML + body", () => {
 });
 
 test("resolvePreferencePath: project-local wins over global", () => {
-  const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
+  const tmp = mkdtempSync(join(tmpdir(), "op-pref-"));
   try {
     const local = join(tmp, ".outprint");
     mkdirSync(local, { recursive: true });
@@ -64,7 +64,7 @@ test("resolvePreferencePath: project-local wins over global", () => {
 });
 
 test("resolvePreferencePath: legacy ./.hyperscribe/ is auto-migrated to ./.outprint/", () => {
-  const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
+  const tmp = mkdtempSync(join(tmpdir(), "op-pref-"));
   try {
     const legacy = join(tmp, ".hyperscribe");
     mkdirSync(legacy, { recursive: true });
@@ -81,7 +81,7 @@ test("resolvePreferencePath: legacy ./.hyperscribe/ is auto-migrated to ./.outpr
 });
 
 test("resolvePreferencePath: legacy ~/.hyperscribe/ is auto-migrated to ~/.outprint/", () => {
-  const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
+  const tmp = mkdtempSync(join(tmpdir(), "op-pref-"));
   try {
     // No project-local of either kind — only home-legacy exists.
     const homeLegacy = join(tmp, "_home_legacy_preference.md");
@@ -94,7 +94,7 @@ test("resolvePreferencePath: legacy ~/.hyperscribe/ is auto-migrated to ~/.outpr
 });
 
 test("resolvePreferencePath: falls back to global when no project-local", () => {
-  const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
+  const tmp = mkdtempSync(join(tmpdir(), "op-pref-"));
   try {
     const globalFile = join(tmp, "_global_preference.md");
     writeFileSync(globalFile, "---\ntheme: vercel\nrenderer: auto\n---");
@@ -104,7 +104,7 @@ test("resolvePreferencePath: falls back to global when no project-local", () => 
 });
 
 test("resolvePreferencePath: returns null when neither exists", () => {
-  const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
+  const tmp = mkdtempSync(join(tmpdir(), "op-pref-"));
   try {
     const found = resolvePreferencePath({ cwd: tmp, homeFile: join(tmp, "nope.md") });
     assert.equal(found, null);
@@ -112,7 +112,7 @@ test("resolvePreferencePath: returns null when neither exists", () => {
 });
 
 test("readPreference: returns parsed values or null", () => {
-  const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
+  const tmp = mkdtempSync(join(tmpdir(), "op-pref-"));
   try {
     const p = join(tmp, "pref.md");
     writeFileSync(p, "---\ntheme: stripe\nrenderer: canvas\n---\n");
@@ -122,7 +122,7 @@ test("readPreference: returns parsed values or null", () => {
 });
 
 test("writePreference: creates parent dir and writes frontmatter", () => {
-  const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
+  const tmp = mkdtempSync(join(tmpdir(), "op-pref-"));
   try {
     const target = join(tmp, "nested", "preference.md");
     writePreference(target, { theme: "linear", renderer: "page" });
@@ -134,14 +134,14 @@ test("writePreference: creates parent dir and writes frontmatter", () => {
 });
 
 test("writePreference: throws on invalid theme", () => {
-  const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
+  const tmp = mkdtempSync(join(tmpdir(), "op-pref-"));
   try {
     assert.throws(() => writePreference(join(tmp, "p.md"), { theme: "studio", renderer: "auto" }), /theme/i);
   } finally { rmSync(tmp, { recursive: true, force: true }); }
 });
 
 test("writePreference: throws on invalid renderer", () => {
-  const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
+  const tmp = mkdtempSync(join(tmpdir(), "op-pref-"));
   try {
     assert.throws(() => writePreference(join(tmp, "p.md"), { theme: "notion", renderer: "rainy" }), /renderer/i);
   } finally { rmSync(tmp, { recursive: true, force: true }); }

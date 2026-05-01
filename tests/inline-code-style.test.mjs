@@ -32,7 +32,7 @@ test("Base CSS: styles inline code beyond prose blocks", () => {
   );
 
   for (const css of [pluginCss, rootCss]) {
-    assert.match(css, /\.hs-section-lead code/);
-    assert.match(css, /\.hs-callout-body code/);
+    assert.match(css, /\.op-section-lead code/);
+    assert.match(css, /\.op-callout-body code/);
   }
 });

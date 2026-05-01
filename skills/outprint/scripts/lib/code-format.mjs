@@ -152,5 +152,5 @@ function renderPlain(text, lang) {
 }
 
 function wrap(kind, value) {
-  return `<span class="hs-code-token hs-code-token-${kind}">${escape(value)}</span>`;
+  return `<span class="op-code-token op-code-token-${kind}">${escape(value)}</span>`;
 }

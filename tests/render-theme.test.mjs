@@ -25,7 +25,7 @@ for (const name of ["notion", "linear", "vercel", "stripe", "supabase"]) {
 
 test("render: mode toggler always injected", async () => {
   const html = await render(envelope);
-  assert.match(html, /id="hs-mode-toggler"/);
+  assert.match(html, /id="op-mode-toggler"/);
 });
 
 test("render: unknown theme throws", async () => {
@@ -50,7 +50,7 @@ test("render: mode=auto omits data-mode attribute", async () => {
   const html = await render(envelope, { theme: "notion", mode: "auto" });
   assert.doesNotMatch(html, /data-mode="auto"/);
   // toggler script still controls data-mode at runtime
-  assert.match(html, /id="hs-mode-toggler"/);
+  assert.match(html, /id="op-mode-toggler"/);
 });
 
 test("render: no mode option omits data-mode attribute", async () => {

@@ -11,16 +11,16 @@ export function ProjectTile(props) {
   if (rowSpan) styles.push(`grid-row: span ${rowSpan}`);
   const styleAttr = styles.length ? ` style="${styles.join("; ")}"` : "";
   const cats = Array.isArray(props.categories) && props.categories.length
-    ? `<ul class="hs-project-tile-cats">${props.categories.map(c => `<li>${escape(c)}</li>`).join("")}</ul>`
+    ? `<ul class="op-project-tile-cats">${props.categories.map(c => `<li>${escape(c)}</li>`).join("")}</ul>`
     : "";
   const meta = [props.client, props.year].filter(Boolean).map(escape).join(" · ");
-  const metaHtml = meta ? `<div class="hs-project-tile-meta">${meta}</div>` : "";
+  const metaHtml = meta ? `<div class="op-project-tile-meta">${meta}</div>` : "";
   const image = props.image
-    ? `<div class="hs-project-tile-media"><img src="${escape(props.image)}" alt="${escape(props.title || "")}" loading="lazy"></div>`
-    : `<div class="hs-project-tile-media hs-project-tile-media-empty"></div>`;
-  const inner = `${image}<div class="hs-project-tile-body">${cats}<h3 class="hs-project-tile-title">${escape(props.title || "")}</h3>${metaHtml}</div>`;
+    ? `<div class="op-project-tile-media"><img src="${escape(props.image)}" alt="${escape(props.title || "")}" loading="lazy"></div>`
+    : `<div class="op-project-tile-media op-project-tile-media-empty"></div>`;
+  const inner = `${image}<div class="op-project-tile-body">${cats}<h3 class="op-project-tile-title">${escape(props.title || "")}</h3>${metaHtml}</div>`;
   if (props.href) {
-    return `<a class="hs-project-tile hs-project-tile-aspect-${aspect}" href="${escape(props.href)}"${styleAttr}>${inner}</a>`;
+    return `<a class="op-project-tile op-project-tile-aspect-${aspect}" href="${escape(props.href)}"${styleAttr}>${inner}</a>`;
   }
-  return `<article class="hs-project-tile hs-project-tile-aspect-${aspect}"${styleAttr}>${inner}</article>`;
+  return `<article class="op-project-tile op-project-tile-aspect-${aspect}"${styleAttr}>${inner}</article>`;
 }

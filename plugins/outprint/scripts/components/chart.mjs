@@ -35,7 +35,7 @@ export function Chart(props) {
   const isPoint = isLine || isScatter;
 
   // CSS variable names for each series
-  const CHART_VARS = ["--hs-chart-1","--hs-chart-2","--hs-chart-3","--hs-chart-4","--hs-chart-5"];
+  const CHART_VARS = ["--op-chart-1","--op-chart-2","--op-chart-3","--op-chart-4","--op-chart-5"];
 
   const datasets = data.series.map((s, i) => {
     const varName = CHART_VARS[i % CHART_VARS.length];
@@ -116,7 +116,7 @@ export function Chart(props) {
 
   const canvasId = "hsChart_" + Math.random().toString(36).slice(2, 10);
   const cap = (props.xLabel || props.yLabel)
-    ? `<figcaption class="hs-chart-cap">${escape(props.xLabel || "")}${props.yLabel ? " × " + escape(props.yLabel) : ""}${props.unit ? " (" + escape(props.unit) + ")" : ""}</figcaption>`
+    ? `<figcaption class="op-chart-cap">${escape(props.xLabel || "")}${props.yLabel ? " × " + escape(props.yLabel) : ""}${props.unit ? " (" + escape(props.unit) + ")" : ""}</figcaption>`
     : "";
 
   const initScript = `
@@ -162,7 +162,7 @@ export function Chart(props) {
     // legend dot colors
     if (cfg.options && cfg.options.plugins && cfg.options.plugins.legend) {
       cfg.options.plugins.legend.labels = cfg.options.plugins.legend.labels || {};
-      cfg.options.plugins.legend.labels.color = getCssVar('--hs-color-muted-fg') || 'hsl(240 5% 64.9%)';
+      cfg.options.plugins.legend.labels.color = getCssVar('--op-color-muted-fg') || 'hsl(240 5% 64.9%)';
     }
   }
 
@@ -196,5 +196,5 @@ export function Chart(props) {
 })();
 `.trim();
 
-  return `<figure class="hs-chart-wrap"><canvas class="hs-chart" data-kind="${escape(kind)}" id="${canvasId}"></canvas>${cap}<script>${LOADER}</script><script>${initScript}</script></figure>`;
+  return `<figure class="op-chart-wrap"><canvas class="op-chart" data-kind="${escape(kind)}" id="${canvasId}"></canvas>${cap}<script>${LOADER}</script><script>${initScript}</script></figure>`;
 }

@@ -7,17 +7,17 @@ if (!window.__hsHeroCarouselLoaded) {
   if (document.readyState !== 'loading') setup();
 
   function setup() {
-    document.querySelectorAll('.hs-hero-carousel').forEach(function(el) {
+    document.querySelectorAll('.op-hero-carousel').forEach(function(el) {
       if (el.__hsInit) return;
       el.__hsInit = true;
-      var slides = Array.from(el.querySelectorAll('.hs-hero-slide'));
+      var slides = Array.from(el.querySelectorAll('.op-hero-slide'));
       if (slides.length === 0) return;
-      var counter = el.querySelector('.hs-hero-counter');
+      var counter = el.querySelector('.op-hero-counter');
       var interval = parseInt(el.dataset.interval || '5500', 10);
       var i = 0;
       function show(n) {
         i = ((n % slides.length) + slides.length) % slides.length;
-        slides.forEach(function(s, idx) { s.classList.toggle('hs-hero-slide-active', idx === i); });
+        slides.forEach(function(s, idx) { s.classList.toggle('op-hero-slide-active', idx === i); });
         if (counter) counter.textContent = (i + 1) + ' / ' + slides.length;
       }
       show(0);
@@ -36,13 +36,13 @@ export function HeroCarousel(props) {
   const slidesHtml = slides.map((s, i) => {
     const img = s.image ? `<img src="${escape(s.image)}" alt="${escape(s.title || "")}" loading="${i === 0 ? "eager" : "lazy"}">` : "";
     const overlay = s.title || s.subtitle
-      ? `<div class="hs-hero-slide-meta">${s.subtitle ? `<span class="hs-hero-slide-subtitle">${escape(s.subtitle)}</span>` : ""}${s.title ? `<span class="hs-hero-slide-title">${escape(s.title)}</span>` : ""}</div>`
+      ? `<div class="op-hero-slide-meta">${s.subtitle ? `<span class="op-hero-slide-subtitle">${escape(s.subtitle)}</span>` : ""}${s.title ? `<span class="op-hero-slide-title">${escape(s.title)}</span>` : ""}</div>`
       : "";
-    return `<div class="hs-hero-slide${i === 0 ? " hs-hero-slide-active" : ""}">${img}${overlay}</div>`;
+    return `<div class="op-hero-slide${i === 0 ? " op-hero-slide-active" : ""}">${img}${overlay}</div>`;
   }).join("");
   const playReel = props.playReel && props.playReel.label
-    ? `<a class="hs-hero-play-reel" href="${escape(props.playReel.url || "#")}"><span class="hs-hero-play-reel-icon" aria-hidden="true">▶</span><span>${escape(props.playReel.label)}</span></a>`
+    ? `<a class="op-hero-play-reel" href="${escape(props.playReel.url || "#")}"><span class="op-hero-play-reel-icon" aria-hidden="true">▶</span><span>${escape(props.playReel.label)}</span></a>`
     : "";
-  const lead = props.lead ? `<div class="hs-hero-lead"><p>${escape(props.lead)}</p></div>` : "";
-  return `<section class="hs-hero-carousel" data-interval="${interval}"><div class="hs-hero-stage">${slidesHtml}<div class="hs-hero-overlay">${playReel}<span class="hs-hero-counter">1 / ${slides.length}</span></div></div>${lead}<script>${CAROUSEL_JS}</script></section>`;
+  const lead = props.lead ? `<div class="op-hero-lead"><p>${escape(props.lead)}</p></div>` : "";
+  return `<section class="op-hero-carousel" data-interval="${interval}"><div class="op-hero-stage">${slidesHtml}<div class="op-hero-overlay">${playReel}<span class="op-hero-counter">1 / ${slides.length}</span></div></div>${lead}<script>${CAROUSEL_JS}</script></section>`;
 }

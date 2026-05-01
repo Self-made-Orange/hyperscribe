@@ -9,12 +9,12 @@ const cols = [
 
 test("DataTable: renders table wrapper with density class", () => {
   const html = DataTable({ columns: cols, rows: [], density: "compact" });
-  assert.match(html, /<table class="hs-table hs-table-compact"/);
+  assert.match(html, /<table class="op-table op-table-compact"/);
 });
 
 test("DataTable: defaults to standard density", () => {
   const html = DataTable({ columns: cols, rows: [] });
-  assert.match(html, /hs-table-standard/);
+  assert.match(html, /op-table-standard/);
 });
 
 test("DataTable: renders thead from columns", () => {
@@ -24,12 +24,12 @@ test("DataTable: renders thead from columns", () => {
 
 test("DataTable: align class on th", () => {
   const html = DataTable({ columns: cols, rows: [] });
-  assert.match(html, /<th class="hs-td-right">Age<\/th>/);
+  assert.match(html, /<th class="op-td-right">Age<\/th>/);
 });
 
 test("DataTable: renders rows", () => {
   const html = DataTable({ columns: cols, rows: [{ name: "A", age: 1 }] });
-  assert.match(html, /<tr><td[^>]*>A<\/td><td class="hs-td-right">1<\/td><\/tr>/);
+  assert.match(html, /<tr><td[^>]*>A<\/td><td class="op-td-right">1<\/td><\/tr>/);
 });
 
 test("DataTable: escapes string cell values", () => {
@@ -49,10 +49,10 @@ test("DataTable: omits caption when absent", () => {
 
 test("DataTable: renders footer row", () => {
   const html = DataTable({ columns: cols, rows: [], footer: { name: "Total", age: 42 } });
-  assert.match(html, /<tfoot><tr><td[^>]*>Total<\/td><td class="hs-td-right">42<\/td><\/tr><\/tfoot>/);
+  assert.match(html, /<tfoot><tr><td[^>]*>Total<\/td><td class="op-td-right">42<\/td><\/tr><\/tfoot>/);
 });
 
 test("DataTable: empty cell rendered as empty string", () => {
   const html = DataTable({ columns: cols, rows: [{ name: "A" }] });
-  assert.match(html, /<td[^>]*>A<\/td><td class="hs-td-right"><\/td>/);
+  assert.match(html, /<td[^>]*>A<\/td><td class="op-td-right"><\/td>/);
 });

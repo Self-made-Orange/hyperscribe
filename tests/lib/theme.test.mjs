@@ -21,14 +21,14 @@ test("listThemes: legacy themes (studio/midnight/void/gallery) are gone", () => 
 test("loadTheme: returns CSS string for default theme", () => {
   const css = loadTheme("notion");
   assert.match(css, /\[data-theme="notion"\]/);
-  assert.match(css, /--hs-color-fg/);
+  assert.match(css, /--op-color-fg/);
 });
 
 test("loadTheme: notion theme exposes tone + surface variables", () => {
   const css = loadTheme("notion");
-  assert.match(css, /--hs-color-surface:/);
-  assert.match(css, /--hs-tone-success-bg:/);
-  assert.match(css, /--hs-tone-danger-fg:/);
+  assert.match(css, /--op-color-surface:/);
+  assert.match(css, /--op-tone-success-bg:/);
+  assert.match(css, /--op-tone-danger-fg:/);
 });
 
 for (const name of BUNDLED) {
@@ -49,11 +49,11 @@ test("loadTheme: removed legacy theme name throws", () => {
 
 test("modeTogglerHtml: emits a single toggle button + init script", () => {
   const html = modeTogglerHtml();
-  assert.match(html, /<button[^>]+class="hs-mode-toggler"/);
-  assert.match(html, /id="hs-mode-toggler"/);
+  assert.match(html, /<button[^>]+class="op-mode-toggler"/);
+  assert.match(html, /id="op-mode-toggler"/);
   assert.match(html, /aria-label="Toggle light\/dark mode"/);
-  assert.match(html, /hs-mode-icon-sun/);
-  assert.match(html, /hs-mode-icon-moon/);
+  assert.match(html, /op-mode-icon-sun/);
+  assert.match(html, /op-mode-icon-moon/);
   assert.match(html, /hyperscribe\.mode/);
 });
 

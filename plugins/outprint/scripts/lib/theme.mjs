@@ -27,9 +27,9 @@ export function loadTheme(name) {
  * Initial mode order: saved localStorage → prefers-color-scheme → "light".
  */
 export function modeTogglerHtml() {
-  return `<button type="button" class="hs-mode-toggler" id="hs-mode-toggler" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
-  <svg class="hs-mode-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-  <svg class="hs-mode-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+  return `<button type="button" class="op-mode-toggler" id="op-mode-toggler" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
+  <svg class="op-mode-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+  <svg class="op-mode-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
 </button>
 <script>(function(){
   var KEY='hyperscribe.mode';
@@ -45,7 +45,7 @@ export function modeTogglerHtml() {
     try{localStorage.setItem(KEY, m);}catch(e){}
   }
   apply(mode);
-  var btn=document.getElementById('hs-mode-toggler');
+  var btn=document.getElementById('op-mode-toggler');
   if(btn){btn.addEventListener('click',function(){
     var next = document.documentElement.getAttribute('data-mode') === 'dark' ? 'light' : 'dark';
     apply(next);

@@ -27,7 +27,7 @@ export function Image(props) {
   const w = props.width != null ? attr("width", Number(props.width)) : "";
   const h = props.height != null ? attr("height", Number(props.height)) : "";
   const caption = props.caption
-    ? `<figcaption class="hs-image-caption">${escape(props.caption)}</figcaption>`
+    ? `<figcaption class="op-image-caption">${escape(props.caption)}</figcaption>`
     : "";
-  return `<figure class="hs-image"><img${attr("src", src)}${attr("alt", altVal)}${w}${h} loading="lazy"/>${caption}</figure>`;
+  return `<figure class="op-image"><img${attr("src", src)}${attr("alt", altVal)}${w}${h} loading="lazy"/>${caption}</figure>`;
 }

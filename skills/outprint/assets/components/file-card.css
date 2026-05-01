@@ -1,40 +1,40 @@
-.hs-file-card {
+.op-file-card {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  background: var(--hs-color-muted, var(--hs-color-surface-alt));
-  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
-  border-radius: var(--hs-radius, 0.5rem);
-  padding: var(--hs-space-3) var(--hs-space-4);
-  box-shadow: var(--hs-shadow-card);
-  font-family: var(--hs-font-sans);
-  color: var(--hs-color-fg);
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius, 0.5rem);
+  padding: var(--op-space-3) var(--op-space-4);
+  box-shadow: var(--op-shadow-card);
+  font-family: var(--op-font-sans);
+  color: var(--op-color-fg);
   position: relative;
 }
 
-.hs-file-card-header { display: flex; flex-direction: column; gap: 2px; }
+.op-file-card-header { display: flex; flex-direction: column; gap: 2px; }
 
-.hs-file-card-name {
+.op-file-card-name {
   margin: 0;
   font-size: 14px;
   font-weight: 600;
-  font-family: var(--hs-font-mono);
+  font-family: var(--op-font-mono);
 }
 
-.hs-file-card-path {
-  font-family: var(--hs-font-mono);
+.op-file-card-path {
+  font-family: var(--op-font-mono);
   font-size: 11px;
-  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
 }
 
-.hs-file-card-resp {
+.op-file-card-resp {
   margin: 0;
   font-size: 13px;
   line-height: 1.5;
-  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
 }
 
-.hs-file-card-exports {
+.op-file-card-exports {
   display: flex;
   flex-wrap: wrap;
   gap: 0.3rem;
@@ -43,59 +43,59 @@
   padding: 0;
 }
 
-.hs-file-card-export {
-  font-family: var(--hs-font-mono);
+.op-file-card-export {
+  font-family: var(--op-font-mono);
   font-size: 11px;
   padding: 2px 8px;
-  border-radius: var(--hs-radius-sm, calc(0.5rem - 2px));
-  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
-  background: var(--hs-color-muted, var(--hs-color-surface-alt));
-  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
+  border-radius: var(--op-radius-sm, calc(0.5rem - 2px));
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
 }
 
-.hs-file-card-export-function { background: var(--hs-tone-info-bg);    color: var(--hs-tone-info-fg);    border-color: transparent; }
-.hs-file-card-export-class    { background: var(--hs-tone-success-bg); color: var(--hs-tone-success-fg); border-color: transparent; }
-.hs-file-card-export-type     { background: var(--hs-color-muted, var(--hs-color-surface-alt)); color: var(--hs-color-fg); }
-.hs-file-card-export-const    { background: var(--hs-color-muted, var(--hs-color-surface-alt)); color: var(--hs-color-muted-fg, var(--hs-color-fg-muted)); }
+.op-file-card-export-function { background: var(--op-tone-info-bg);    color: var(--op-tone-info-fg);    border-color: transparent; }
+.op-file-card-export-class    { background: var(--op-tone-success-bg); color: var(--op-tone-success-fg); border-color: transparent; }
+.op-file-card-export-type     { background: var(--op-color-muted, var(--op-color-surface-alt)); color: var(--op-color-fg); }
+.op-file-card-export-const    { background: var(--op-color-muted, var(--op-color-surface-alt)); color: var(--op-color-muted-fg, var(--op-color-fg-muted)); }
 
-.hs-file-card-footer {
+.op-file-card-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
   font-size: 11px;
-  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
   padding-top: 0.4rem;
-  border-top: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-top: 1px solid var(--op-color-border, var(--op-color-surface-alt));
 }
 
-.hs-file-card-state-chip {
+.op-file-card-state-chip {
   text-transform: uppercase;
   letter-spacing: 0.04em;
   font-weight: 600;
   font-size: 10px;
   padding: 2px 8px;
-  border-radius: var(--hs-radius-sm, calc(0.5rem - 2px));
-  background: var(--hs-color-muted, var(--hs-color-surface-alt));
-  color: var(--hs-color-muted-fg, var(--hs-color-fg-muted));
-  border: 1px solid var(--hs-color-border, var(--hs-color-surface-alt));
+  border-radius: var(--op-radius-sm, calc(0.5rem - 2px));
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
 }
 
-.hs-file-card-state-modified { border-left: 3px solid var(--hs-tone-warn-fg); }
-.hs-file-card-state-modified .hs-file-card-state-chip {
-  background: var(--hs-tone-warn-bg);
-  color: var(--hs-tone-warn-fg);
+.op-file-card-state-modified { border-left: 3px solid var(--op-tone-warn-fg); }
+.op-file-card-state-modified .op-file-card-state-chip {
+  background: var(--op-tone-warn-bg);
+  color: var(--op-tone-warn-fg);
   border-color: transparent;
 }
-.hs-file-card-state-added { border-left: 3px solid var(--hs-tone-success-fg); }
-.hs-file-card-state-added .hs-file-card-state-chip {
-  background: var(--hs-tone-success-bg);
-  color: var(--hs-tone-success-fg);
+.op-file-card-state-added { border-left: 3px solid var(--op-tone-success-fg); }
+.op-file-card-state-added .op-file-card-state-chip {
+  background: var(--op-tone-success-bg);
+  color: var(--op-tone-success-fg);
   border-color: transparent;
 }
-.hs-file-card-state-removed { border-left: 3px solid var(--hs-tone-danger-fg); opacity: 0.7; }
-.hs-file-card-state-removed .hs-file-card-state-chip {
-  background: var(--hs-tone-danger-bg);
-  color: var(--hs-tone-danger-fg);
+.op-file-card-state-removed { border-left: 3px solid var(--op-tone-danger-fg); opacity: 0.7; }
+.op-file-card-state-removed .op-file-card-state-chip {
+  background: var(--op-tone-danger-bg);
+  color: var(--op-tone-danger-fg);
   border-color: transparent;
 }

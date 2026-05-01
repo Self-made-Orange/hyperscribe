@@ -4,7 +4,7 @@ import { FileCard } from "../../plugins/outprint/scripts/components/file-card.mj
 
 test("FileCard: base wrapper + name", () => {
   const html = FileCard({ name: "index.ts", responsibility: "entry point" });
-  assert.match(html, /<article class="hs-file-card/);
+  assert.match(html, /<article class="op-file-card/);
   assert.match(html, />index\.ts</);
 });
 
@@ -15,12 +15,12 @@ test("FileCard: responsibility renders", () => {
 
 test("FileCard: state=modified adds state class", () => {
   const html = FileCard({ name: "a.ts", responsibility: "x", state: "modified" });
-  assert.match(html, /hs-file-card-state-modified/);
+  assert.match(html, /op-file-card-state-modified/);
 });
 
 test("FileCard: default state=stable", () => {
   const html = FileCard({ name: "a.ts", responsibility: "x" });
-  assert.match(html, /hs-file-card-state-stable/);
+  assert.match(html, /op-file-card-state-stable/);
 });
 
 test("FileCard: path renders when provided", () => {
@@ -42,8 +42,8 @@ test("FileCard: exports render as chips", () => {
       { name: "Props", kind: "type" }
     ]
   });
-  assert.match(html, /hs-file-card-export hs-file-card-export-function/);
-  assert.match(html, /hs-file-card-export hs-file-card-export-type/);
+  assert.match(html, /op-file-card-export op-file-card-export-function/);
+  assert.match(html, /op-file-card-export op-file-card-export-type/);
   assert.match(html, />render</);
   assert.match(html, />Props</);
 });

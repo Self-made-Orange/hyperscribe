@@ -14,9 +14,9 @@ const sample = {
 
 test("AnnotatedCode: root wrapper + pair layout", () => {
   const html = AnnotatedCode(sample);
-  assert.match(html, /<div class="hs-annotated-code/);
-  assert.match(html, /hs-annotated-code-code/);
-  assert.match(html, /hs-annotated-code-notes/);
+  assert.match(html, /<div class="op-annotated-code/);
+  assert.match(html, /op-annotated-code-code/);
+  assert.match(html, /op-annotated-code-notes/);
 });
 
 test("AnnotatedCode: filename shown when provided", () => {
@@ -28,15 +28,15 @@ test("AnnotatedCode: pins in code line correspond to annotations", () => {
   const html = AnnotatedCode(sample);
   // pin markers must appear twice: once in the code body near line 1 and line 3,
   // once in the notes column
-  assert.equal((html.match(/hs-annotated-code-pin[^"]*">1</g) || []).length, 2);
-  assert.equal((html.match(/hs-annotated-code-pin[^"]*">2</g) || []).length, 2);
+  assert.equal((html.match(/op-annotated-code-pin[^"]*">1</g) || []).length, 2);
+  assert.equal((html.match(/op-annotated-code-pin[^"]*">2</g) || []).length, 2);
 });
 
 test("AnnotatedCode: inline pin renders before source code for left gutter placement", () => {
   const html = AnnotatedCode(sample);
   assert.match(
     html,
-    /hs-annotated-code-src"><span class="hs-annotated-code-pin-rail"><span class="hs-annotated-code-pin[^"]*">1<\/span><\/span><pre>/
+    /op-annotated-code-src"><span class="op-annotated-code-pin-rail"><span class="op-annotated-code-pin[^"]*">1<\/span><\/span><pre>/
   );
 });
 
@@ -48,8 +48,8 @@ test("AnnotatedCode: annotation title and body render", () => {
 
 test("AnnotatedCode: pinStyle=lettered uses A,B letters", () => {
   const html = AnnotatedCode({ ...sample, pinStyle: "lettered" });
-  assert.match(html, /hs-annotated-code-pin">A</);
-  assert.match(html, /hs-annotated-code-pin">B</);
+  assert.match(html, /op-annotated-code-pin">A</);
+  assert.match(html, /op-annotated-code-pin">B</);
 });
 
 test("AnnotatedCode: escapes code html", () => {
@@ -73,8 +73,8 @@ test("AnnotatedCode: annotation for line beyond code length is skipped in-line b
 
 test("AnnotatedCode: renders language badge in metadata header", () => {
   const html = AnnotatedCode(sample);
-  assert.match(html, /hs-annotated-code-meta/);
-  assert.match(html, /hs-annotated-code-badge/);
+  assert.match(html, /op-annotated-code-meta/);
+  assert.match(html, /op-annotated-code-badge/);
   assert.match(html, />js</);
 });
 
@@ -84,8 +84,8 @@ test("AnnotatedCode: applies lightweight token styling spans", () => {
     code: "const total = 42; // note\nconst label = \"done\";",
     annotations: []
   });
-  assert.match(html, /hs-code-token-keyword/);
-  assert.match(html, /hs-code-token-number/);
-  assert.match(html, /hs-code-token-comment/);
-  assert.match(html, /hs-code-token-string/);
+  assert.match(html, /op-code-token-keyword/);
+  assert.match(html, /op-code-token-number/);
+  assert.match(html, /op-code-token-comment/);
+  assert.match(html, /op-code-token-string/);
 });

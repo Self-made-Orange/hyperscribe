@@ -7,13 +7,13 @@ import { Image } from "../../plugins/outprint/scripts/components/image.mjs";
 
 test("Image: renders https:// URL as passthrough <img>", () => {
   const html = Image({ src: "https://example.com/x.png", alt: "ex" });
-  assert.match(html, /<figure class="hs-image"/);
+  assert.match(html, /<figure class="op-image"/);
   assert.match(html, /<img[^>]+src="https:\/\/example\.com\/x\.png"/);
   assert.match(html, /alt="ex"/);
 });
 
 test("Image: inlines local file as base64 data URL", () => {
-  const dir = mkdtempSync(join(tmpdir(), "hs-img-"));
+  const dir = mkdtempSync(join(tmpdir(), "op-img-"));
   const p = join(dir, "one.png");
   writeFileSync(p, Buffer.from([137,80,78,71,13,10,26,10])); // PNG magic
   try {
@@ -26,7 +26,7 @@ test("Image: inlines local file as base64 data URL", () => {
 
 test("Image: renders caption when present", () => {
   const html = Image({ src: "https://a.png", alt: "a", caption: "fig 1" });
-  assert.match(html, /<figcaption class="hs-image-caption">fig 1<\/figcaption>/);
+  assert.match(html, /<figcaption class="op-image-caption">fig 1<\/figcaption>/);
 });
 
 test("Image: width/height attributes emitted when given", () => {

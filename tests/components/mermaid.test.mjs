@@ -5,7 +5,7 @@ import { Mermaid } from "../../plugins/outprint/scripts/components/mermaid.mjs";
 
 test("Mermaid: wraps source in pre.mermaid with zoom/pan container", () => {
   const html = Mermaid({ kind: "flowchart", source: "A --> B" });
-  assert.match(html, /<div class="hs-mermaid-wrap"/);
+  assert.match(html, /<div class="op-mermaid-wrap"/);
   assert.match(html, /<pre class="mermaid">/);
   assert.match(html, /A --&gt; B/);
 });
@@ -38,6 +38,6 @@ test("Mermaid: kind attribute on outer wrap", () => {
 
 test("Mermaid CSS: uses theme variables for edges and actor borders", () => {
   const css = readFileSync(new URL("../../plugins/outprint/assets/components/mermaid.css", import.meta.url), "utf8");
-  assert.match(css, /var\(--hs-color-fg-muted\)/);
-  assert.match(css, /var\(--hs-color-fg\)/);
+  assert.match(css, /var\(--op-color-fg-muted\)/);
+  assert.match(css, /var\(--op-color-fg\)/);
 });

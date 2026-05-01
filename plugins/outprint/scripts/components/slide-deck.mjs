@@ -7,21 +7,21 @@ if (!window.__hsDeckLoaded) {
   if (document.readyState !== 'loading') setup();
 
   function setup() {
-    document.querySelectorAll('.hs-deck').forEach(deck => {
+    document.querySelectorAll('.op-deck').forEach(deck => {
       if (deck.__hsInit) return;
       deck.__hsInit = true;
-      const slides = Array.from(deck.querySelectorAll('.hs-slide'));
-      const counter = deck.querySelector('.hs-deck-counter');
-      const slidesEl = deck.querySelector('.hs-deck-slides');
-      const mode = deck.classList.contains('hs-deck-mode-scroll-jack') ? 'scroll-jack'
-                : deck.classList.contains('hs-deck-mode-scroll-snap') ? 'scroll-snap'
+      const slides = Array.from(deck.querySelectorAll('.op-slide'));
+      const counter = deck.querySelector('.op-deck-counter');
+      const slidesEl = deck.querySelector('.op-deck-slides');
+      const mode = deck.classList.contains('op-deck-mode-scroll-jack') ? 'scroll-jack'
+                : deck.classList.contains('op-deck-mode-scroll-snap') ? 'scroll-snap'
                 : 'deck';
       let i = 0;
       function show(n) {
         const next = Math.max(0, Math.min(slides.length - 1, n));
-        if (next === i && slides[i] && slides[i].classList.contains('hs-slide-active')) return;
+        if (next === i && slides[i] && slides[i].classList.contains('op-slide-active')) return;
         i = next;
-        slides.forEach((s, idx) => s.classList.toggle('hs-slide-active', idx === i));
+        slides.forEach((s, idx) => s.classList.toggle('op-slide-active', idx === i));
         if (counter) counter.textContent = (i + 1) + ' / ' + slides.length;
       }
       function jump(n) {
@@ -67,7 +67,7 @@ if (!window.__hsDeckLoaded) {
         slides.forEach(s => io.observe(s));
         show(0);
       } else if (mode === 'scroll-jack') {
-        deck.style.setProperty('--hs-deck-jack-units', String(slides.length));
+        deck.style.setProperty('--op-deck-jack-units', String(slides.length));
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const LERP = 0.04;
         let target = 0;
@@ -89,9 +89,9 @@ if (!window.__hsDeckLoaded) {
             const dist = cur - j;
             const absDist = Math.abs(dist);
             const sub = Math.max(0, Math.min(1, dist + 0.5));
-            s.style.setProperty('--hs-slide-progress', dist.toFixed(3));
-            s.style.setProperty('--hs-slide-distance', absDist.toFixed(3));
-            s.style.setProperty('--hs-slide-sub-progress', sub.toFixed(3));
+            s.style.setProperty('--op-slide-progress', dist.toFixed(3));
+            s.style.setProperty('--op-slide-distance', absDist.toFixed(3));
+            s.style.setProperty('--op-slide-sub-progress', sub.toFixed(3));
           });
         }
         function tick() {
@@ -130,16 +130,16 @@ if (!window.__hsDeckLoaded) {
 export function SlideDeck(props, renderChildren) {
   const aspect = props.aspect.replace(":", "-");
   const mode = props.mode && props.mode !== "deck" ? props.mode : null;
-  const modeClass = mode ? ` hs-deck-mode-${mode}` : "";
+  const modeClass = mode ? ` op-deck-mode-${mode}` : "";
   const transitionClass = props.transition && props.transition !== "none"
-    ? ` hs-deck-transition-${props.transition}`
+    ? ` op-deck-transition-${props.transition}`
     : "";
   const footer = props.footer
-    ? `<footer class="hs-deck-footer">${escape(props.footer)}</footer>`
+    ? `<footer class="op-deck-footer">${escape(props.footer)}</footer>`
     : "";
   const children = renderChildren();
-  const nav = `<nav class="hs-deck-nav"><button type="button" data-deck-action="first">⏮</button><button type="button" data-deck-action="prev">◀</button><span class="hs-deck-counter">1 / ?</span><button type="button" data-deck-action="next">▶</button><button type="button" data-deck-action="last">⏭</button></nav>`;
+  const nav = `<nav class="op-deck-nav"><button type="button" data-deck-action="first">⏮</button><button type="button" data-deck-action="prev">◀</button><span class="op-deck-counter">1 / ?</span><button type="button" data-deck-action="next">▶</button><button type="button" data-deck-action="last">⏭</button></nav>`;
   const slidesInner = mode ? `${children}${nav}` : children;
   const trailing = mode ? footer : `${nav}${footer}`;
-  return `<section class="hs-deck hs-deck-aspect-${aspect}${modeClass}${transitionClass}"><div class="hs-deck-slides">${slidesInner}</div>${trailing}<script>${DECK_JS}</script></section>`;
+  return `<section class="op-deck op-deck-aspect-${aspect}${modeClass}${transitionClass}"><div class="op-deck-slides">${slidesInner}</div>${trailing}<script>${DECK_JS}</script></section>`;
 }

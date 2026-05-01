@@ -37,7 +37,7 @@ test("render: Quadrant outputs labeled quadrants and plotted points", async () =
     }
   }));
 
-  assert.match(html, /class="hs-quadrant"/);
+  assert.match(html, /class="op-quadrant"/);
   assert.match(html, /Quick wins/);
   assert.match(html, /Docs refresh/);
   assert.match(html, /&lt;Risky&gt;/);
@@ -66,7 +66,7 @@ test("render: Swimlane outputs lanes, steps, and edge labels", async () => {
     }
   }));
 
-  assert.match(html, /class="hs-swimlane"/);
+  assert.match(html, /class="op-swimlane"/);
   assert.match(html, /User/);
   assert.match(html, /Generate HTML/);
   assert.match(html, /artifact/);
@@ -75,5 +75,5 @@ test("render: Swimlane outputs lanes, steps, and edge labels", async () => {
 
 test("Quadrant CSS: uses theme variables for divider lines", () => {
   const css = readFileSync(new URL("../../plugins/outprint/assets/components/quadrant.css", import.meta.url), "utf8");
-  assert.match(css, /var\(--hs-color-fg-muted\)/);
+  assert.match(css, /var\(--op-color-fg-muted\)/);
 });
