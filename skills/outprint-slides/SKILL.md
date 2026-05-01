@@ -73,16 +73,16 @@ Aim for 5–12 slides. If the topic is huge, suggest splitting into multiple dec
 ```json
 {
   "a2ui_version": "0.9",
-  "catalog": "hyperscribe/v1",
+  "catalog": "outprint/v1",
   "is_task_complete": true,
   "parts": [
     {
-      "component": "hyperscribe/SlideDeck",
+      "component": "outprint/SlideDeck",
       "props": { "aspect": "16:9", "transition": "fade", "footer": "My topic · 2026" },
       "children": [
-        { "component": "hyperscribe/Slide", "props": { "layout": "title", "title": "...", "subtitle": "..." }},
-        { "component": "hyperscribe/Slide", "props": { "layout": "content", "title": "...", "bullets": ["...", "..."] }},
-        { "component": "hyperscribe/Slide", "props": { "layout": "title", "title": "Thanks", "subtitle": "Q&A" }}
+        { "component": "outprint/Slide", "props": { "layout": "title", "title": "...", "subtitle": "..." }},
+        { "component": "outprint/Slide", "props": { "layout": "content", "title": "...", "bullets": ["...", "..."] }},
+        { "component": "outprint/Slide", "props": { "layout": "title", "title": "Thanks", "subtitle": "Q&A" }}
       ]
     }
   ]

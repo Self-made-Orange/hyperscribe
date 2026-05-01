@@ -50,11 +50,11 @@ $ARGUMENTS
    ```json
    {
      "a2ui_version": "0.9",
-     "catalog": "hyperscribe/v1",
+     "catalog": "outprint/v1",
      "is_task_complete": true,
      "parts": [
        {
-         "component": "hyperscribe/Page",
+         "component": "outprint/Page",
          "props": { "title": "...", "subtitle": "..." },
          "children": [ /* sections, components */ ]
        }

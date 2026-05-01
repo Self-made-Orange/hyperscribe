@@ -10,7 +10,7 @@
  *     "agent": "Claude",       // shown bottom-left e.g. "CLAUDE"
  *     "topic": "Revenue"       // shown bottom-left e.g. "REVENUE"
  *   },
- *   "featured": { "component": "hyperscribe/Chart", "props": {...} },
+ *   "featured": { "component": "outprint/Chart", "props": {...} },
  *   "history": [
  *     { "title": "...", "date": "...", "content": { "component": "...", "props": {...} } }
  *   ]
@@ -29,6 +29,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderTree } from "./lib/tree.mjs";
+import { normalizeEnvelope } from "./lib/schema.mjs";
 import { EditorialStatement } from "./components/editorial-statement.mjs";
 import { DivisionCard } from "./components/division-card.mjs";
 
@@ -48,14 +49,14 @@ function loadCss(relPath) {
 
 function typeLabel(componentName = "") {
   return componentName
-    .replace("hyperscribe/", "")
+    .replace("outprint/", "")
     .replace(/([a-z])([A-Z])/g, "$1 $2")
     .toUpperCase();
 }
 
 function componentFileBase(componentName) {
   return componentName
-    .replace(/^hyperscribe\//, "")
+    .replace(/^outprint\//, "")
     .replace(/([a-z\d])([A-Z])/g, "$1-$2")
     .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2")
     .toLowerCase();
@@ -123,7 +124,49 @@ const CANVAS_JS = `
 }());
 `.trim();
 
+/**
+ * Normalise any valid input into a canvas doc shape.
+ *
+ * Handles:
+ *   { template: "canvas", ... }  → pass-through
+ *   { parts: [...] }             → pass-through (page mode, routed elsewhere)
+ *   { component, props, ... }    → bare component → wrap as featured slide
+ */
+function normalizeDoc(doc) {
+  if (doc.template || doc.parts || doc.featured || doc.history) return doc;
+  if (typeof doc.component === "string") {
+    return { template: "canvas", meta: {}, featured: doc, history: [] };
+  }
+  return doc;
+}
+
+/**
+ * Render a history item's content field.
+ * content can be:
+ *   - a single component node  { component, props, children? }
+ *   - an array of component nodes
+ */
+function renderContent(content, registry, ctx) {
+  if (Array.isArray(content)) {
+    return content.map(node => renderTree(node, registry, ctx)).join("\n");
+  }
+  return renderTree(content, registry, ctx);
+}
+
+/**
+ * Build a human-readable type label for a content value.
+ * Handles both single node and array.
+ */
+function contentTypeLabel(content) {
+  if (!content) return "";
+  if (Array.isArray(content)) return content.map(n => typeLabel(n.component)).join(", ");
+  return typeLabel(content.component);
+}
+
 export function renderCanvas(doc, REGISTRY) {
+  // Translate legacy `hyperscribe/X` component prefixes first, then run the
+  // canvas-specific normalization (bare component -> featured slide).
+  doc = normalizeDoc(normalizeEnvelope(doc));
   const meta    = doc.meta    || {};
   const feat    = doc.featured;
   const history = Array.isArray(doc.history) ? doc.history : [];
@@ -137,21 +180,26 @@ export function renderCanvas(doc, REGISTRY) {
 
   if (feat) {
     slides.push({
-      title:       meta.title       || "Untitled",
-      subtitle:    typeLabel(feat.component),
-      description: meta.description || "",
-      date:        meta.date        || "",
+      title:       meta.title                              || "Untitled",
+      navLabel:    meta.navLabel    || meta.title          || "Untitled",
+      subtitle:    meta.subtitle    || typeLabel(feat.component),
+      description: meta.description                        || "",
+      date:        meta.date                               || "",
       contentHtml: renderTree(feat, REGISTRY, ctx),
     });
   }
 
   history.forEach(item => {
+    const autoSubtitle = contentTypeLabel(item.content);
+    const autoEyebrow  = [item.date, autoSubtitle].filter(Boolean).join("  ·  ");
     slides.push({
-      title:       item.title       || "Untitled",
-      subtitle:    item.content ? typeLabel(item.content.component) : "",
-      description: item.description || "",
-      date:        item.date        || "",
-      contentHtml: item.content ? renderTree(item.content, REGISTRY, ctx) : "",
+      title:       item.title                                    || "Untitled",
+      navLabel:    item.navLabel    || item.title                || "Untitled",
+      subtitle:    item.subtitle    || autoSubtitle,
+      description: item.description                              || "",
+      date:        item.date                                     || "",
+      eyebrow:     item.eyebrow     || autoEyebrow,
+      contentHtml: item.content ? renderContent(item.content, REGISTRY, ctx) : "",
     });
   });
 
@@ -162,7 +210,7 @@ export function renderCanvas(doc, REGISTRY) {
   const navLinksHtml = slides.length > 1
     ? `<ul class="op-site-header-nav">
         ${slides.map((s, i) =>
-          `<li><a href="#" data-canvas-nav="${i}"${i === 0 ? ' class="op-canvas-nav-active"' : ""}>${escapeHtml(s.title)}</a></li>`
+          `<li><a href="#" data-canvas-nav="${i}"${i === 0 ? ' class="op-canvas-nav-active"' : ""}>${escapeHtml(s.navLabel)}</a></li>`
         ).join("")}
       </ul>`
     : "";
@@ -226,11 +274,10 @@ export function renderCanvas(doc, REGISTRY) {
   if (history.length > 0) {
     const divLabel = escapeHtml(meta.divisionsLabel || "Previous Outputs");
     const cards = history.map(item => {
-      const compType = item.content ? typeLabel(item.content.component) : "";
-      const eyebrowParts = [item.date, compType].filter(Boolean).join("  ·  ");
+      const autoEyebrow = [item.date, contentTypeLabel(item.content)].filter(Boolean).join("  ·  ");
       return DivisionCard({
-        eyebrow: eyebrowParts,
-        title: item.title || "Untitled",
+        eyebrow:     item.eyebrow     || autoEyebrow,
+        title:       item.title       || "Untitled",
         description: item.description || "",
       });
     }).join("\n");
@@ -261,7 +308,11 @@ export function renderCanvas(doc, REGISTRY) {
     if (Array.isArray(node.children)) node.children.forEach(collectDeep);
   }
   if (feat) collectDeep(feat);
-  history.forEach(h => { if (h.content) collectDeep(h.content); });
+  history.forEach(h => {
+    if (!h.content) return;
+    if (Array.isArray(h.content)) h.content.forEach(collectDeep);
+    else collectDeep(h.content);
+  });
 
   let componentCss = "";
   for (const comp of usedComponents) {

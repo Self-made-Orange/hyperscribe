@@ -10,7 +10,7 @@
  *     "agent": "Claude",       // shown bottom-left e.g. "CLAUDE"
  *     "topic": "Revenue"       // shown bottom-left e.g. "REVENUE"
  *   },
- *   "featured": { "component": "hyperscribe/Chart", "props": {...} },
+ *   "featured": { "component": "outprint/Chart", "props": {...} },
  *   "history": [
  *     { "title": "...", "date": "...", "content": { "component": "...", "props": {...} } }
  *   ]
@@ -29,6 +29,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { renderTree } from "./lib/tree.mjs";
+import { normalizeEnvelope } from "./lib/schema.mjs";
 import { EditorialStatement } from "./components/editorial-statement.mjs";
 import { DivisionCard } from "./components/division-card.mjs";
 
@@ -48,14 +49,14 @@ function loadCss(relPath) {
 
 function typeLabel(componentName = "") {
   return componentName
-    .replace("hyperscribe/", "")
+    .replace("outprint/", "")
     .replace(/([a-z])([A-Z])/g, "$1 $2")
     .toUpperCase();
 }
 
 function componentFileBase(componentName) {
   return componentName
-    .replace(/^hyperscribe\//, "")
+    .replace(/^outprint\//, "")
     .replace(/([a-z\d])([A-Z])/g, "$1-$2")
     .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2")
     .toLowerCase();
@@ -163,7 +164,9 @@ function contentTypeLabel(content) {
 }
 
 export function renderCanvas(doc, REGISTRY) {
-  doc = normalizeDoc(doc);
+  // Translate legacy `hyperscribe/X` component prefixes first, then run the
+  // canvas-specific normalization (bare component -> featured slide).
+  doc = normalizeDoc(normalizeEnvelope(doc));
   const meta    = doc.meta    || {};
   const feat    = doc.featured;
   const history = Array.isArray(doc.history) ? doc.history : [];

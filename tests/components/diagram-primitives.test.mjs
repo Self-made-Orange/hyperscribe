@@ -6,11 +6,11 @@ import { render } from "../../plugins/outprint/scripts/render.mjs";
 function envelope(child) {
   return {
     a2ui_version: "0.9",
-    catalog: "hyperscribe/v1",
+    catalog: "outprint/v1",
     is_task_complete: true,
     parts: [
       {
-        component: "hyperscribe/Page",
+        component: "outprint/Page",
         props: { title: "Diagram Gallery" },
         children: [child]
       }
@@ -20,7 +20,7 @@ function envelope(child) {
 
 test("render: Quadrant outputs labeled quadrants and plotted points", async () => {
   const html = await render(envelope({
-    component: "hyperscribe/Quadrant",
+    component: "outprint/Quadrant",
     props: {
       xLabel: "Effort",
       yLabel: "Impact",
@@ -47,7 +47,7 @@ test("render: Quadrant outputs labeled quadrants and plotted points", async () =
 
 test("render: Swimlane outputs lanes, steps, and edge labels", async () => {
   const html = await render(envelope({
-    component: "hyperscribe/Swimlane",
+    component: "outprint/Swimlane",
     props: {
       lanes: [
         { id: "user", title: "User", subtitle: "Prompt source" },

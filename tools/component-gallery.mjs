@@ -11,11 +11,11 @@ export const GALLERY_SOURCE_IMAGE = resolve(ROOT, GALLERY_ASSET_DIR, "source", "
 function page(title, children, subtitle) {
   return {
     a2ui_version: "0.9",
-    catalog: "hyperscribe/v1",
+    catalog: "outprint/v1",
     is_task_complete: true,
     parts: [
       {
-        component: "hyperscribe/Page",
+        component: "outprint/Page",
         props: subtitle ? { title, subtitle } : { title },
         children
       }
@@ -25,7 +25,7 @@ function page(title, children, subtitle) {
 
 function componentSlug(component) {
   return component
-    .replace(/^hyperscribe\//, "")
+    .replace(/^outprint\//, "")
     .replace(/([a-z\d])([A-Z])/g, "$1-$2")
     .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2")
     .toLowerCase();
@@ -36,7 +36,7 @@ function galleryEntry(component, previewTitle, buildDoc, options = {}) {
   return {
     component,
     slug,
-    label: component.replace(/^hyperscribe\//, ""),
+    label: component.replace(/^outprint\//, ""),
     previewTitle,
     imagePath: `${GALLERY_ASSET_DIR}/${slug}.webp`,
     captureScale: options.captureScale ?? 1.2,
@@ -47,11 +47,11 @@ function galleryEntry(component, previewTitle, buildDoc, options = {}) {
 }
 
 export const GALLERY_COMPONENTS = [
-  galleryEntry("hyperscribe/Page", "Page", () => page(
+  galleryEntry("outprint/Page", "Page", () => page(
     "Page",
     [
       {
-        component: "hyperscribe/Section",
+        component: "outprint/Section",
         props: {
           id: "overview",
           title: "Single-file visual explainer",
@@ -59,7 +59,7 @@ export const GALLERY_COMPONENTS = [
         },
         children: [
           {
-            component: "hyperscribe/Prose",
+            component: "outprint/Prose",
             props: {
               markdown: "Use the page container when you want a complete document with a stable reading rhythm."
             }
@@ -69,9 +69,9 @@ export const GALLERY_COMPONENTS = [
     ],
     "The outer frame that holds a full Hyperscribe document."
   ), { captureScale: 1, captureWidth: "980px", showHeader: true }),
-  galleryEntry("hyperscribe/Section", "Section", () => page("Section", [
+  galleryEntry("outprint/Section", "Section", () => page("Section", [
     {
-      component: "hyperscribe/Section",
+      component: "outprint/Section",
       props: {
         id: "section",
         title: "Titled block with lead copy",
@@ -79,7 +79,7 @@ export const GALLERY_COMPONENTS = [
       },
       children: [
         {
-          component: "hyperscribe/Prose",
+          component: "outprint/Prose",
           props: {
             markdown: "Good for long pages that need clear chunks instead of one undifferentiated wall."
           }
@@ -87,22 +87,22 @@ export const GALLERY_COMPONENTS = [
       ]
     }
   ]), { captureScale: 1.2, captureWidth: "900px" }),
-  galleryEntry("hyperscribe/Heading", "Heading", () => page("Heading", [
-    { component: "hyperscribe/Heading", props: { level: 2, text: "H2 for big subsections" } },
-    { component: "hyperscribe/Heading", props: { level: 3, text: "H3 for local grouping" } },
-    { component: "hyperscribe/Heading", props: { level: 4, text: "H4 for small callouts" } }
+  galleryEntry("outprint/Heading", "Heading", () => page("Heading", [
+    { component: "outprint/Heading", props: { level: 2, text: "H2 for big subsections" } },
+    { component: "outprint/Heading", props: { level: 3, text: "H3 for local grouping" } },
+    { component: "outprint/Heading", props: { level: 4, text: "H4 for small callouts" } }
   ]), { captureScale: 1.45, captureWidth: "900px" }),
-  galleryEntry("hyperscribe/Prose", "Prose", () => page("Prose", [
+  galleryEntry("outprint/Prose", "Prose", () => page("Prose", [
     {
-      component: "hyperscribe/Prose",
+      component: "outprint/Prose",
       props: {
         markdown: "Markdown paragraphs, lists, and inline formatting live here.\n\n- crisp bullets\n- **strong emphasis**\n- `inline code`"
       }
     }
   ]), { captureScale: 1.35, captureWidth: "820px" }),
-  galleryEntry("hyperscribe/Image", "Image", () => page("Image", [
+  galleryEntry("outprint/Image", "Image", () => page("Image", [
     {
-      component: "hyperscribe/Image",
+      component: "outprint/Image",
       props: {
         src: GALLERY_SOURCE_IMAGE,
         alt: "A sample layered dashboard illustration",
@@ -112,9 +112,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.08, captureWidth: "960px" }),
-  galleryEntry("hyperscribe/Callout", "Callout", () => page("Callout", [
+  galleryEntry("outprint/Callout", "Callout", () => page("Callout", [
     {
-      component: "hyperscribe/Callout",
+      component: "outprint/Callout",
       props: {
         severity: "warn",
         title: "Keep the contract semantic",
@@ -122,9 +122,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.42, captureWidth: "860px" }),
-  galleryEntry("hyperscribe/KPICard", "KPICard", () => page("KPICard", [
+  galleryEntry("outprint/KPICard", "KPICard", () => page("KPICard", [
     {
-      component: "hyperscribe/KPICard",
+      component: "outprint/KPICard",
       props: {
         label: "Render time",
         value: "142 ms",
@@ -133,9 +133,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.85, captureWidth: "520px" }),
-  galleryEntry("hyperscribe/CodeBlock", "CodeBlock", () => page("CodeBlock", [
+  galleryEntry("outprint/CodeBlock", "CodeBlock", () => page("CodeBlock", [
     {
-      component: "hyperscribe/CodeBlock",
+      component: "outprint/CodeBlock",
       props: {
         lang: "js",
         filename: "render.js",
@@ -149,9 +149,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.4, captureWidth: "900px" }),
-  galleryEntry("hyperscribe/CodeDiff", "CodeDiff", () => page("CodeDiff", [
+  galleryEntry("outprint/CodeDiff", "CodeDiff", () => page("CodeDiff", [
     {
-      component: "hyperscribe/CodeDiff",
+      component: "outprint/CodeDiff",
       props: {
         filename: "page.mjs",
         lang: "diff",
@@ -170,9 +170,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.38, captureWidth: "980px" }),
-  galleryEntry("hyperscribe/Mermaid", "Mermaid", () => page("Mermaid", [
+  galleryEntry("outprint/Mermaid", "Mermaid", () => page("Mermaid", [
     {
-      component: "hyperscribe/Mermaid",
+      component: "outprint/Mermaid",
       props: {
         kind: "flowchart",
         direction: "LR",
@@ -185,9 +185,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.22, captureWidth: "1040px" }),
-  galleryEntry("hyperscribe/Sequence", "Sequence", () => page("Sequence", [
+  galleryEntry("outprint/Sequence", "Sequence", () => page("Sequence", [
     {
-      component: "hyperscribe/Sequence",
+      component: "outprint/Sequence",
       props: {
         participants: [
           { id: "user", title: "User" },
@@ -203,9 +203,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.12, captureWidth: "980px" }),
-  galleryEntry("hyperscribe/ArchitectureGrid", "ArchitectureGrid", () => page("ArchitectureGrid", [
+  galleryEntry("outprint/ArchitectureGrid", "ArchitectureGrid", () => page("ArchitectureGrid", [
     {
-      component: "hyperscribe/ArchitectureGrid",
+      component: "outprint/ArchitectureGrid",
       props: {
         layout: "grid",
         nodes: [
@@ -220,9 +220,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.16, captureWidth: "1060px" }),
-  galleryEntry("hyperscribe/FlowChart", "FlowChart", () => page("FlowChart", [
+  galleryEntry("outprint/FlowChart", "FlowChart", () => page("FlowChart", [
     {
-      component: "hyperscribe/FlowChart",
+      component: "outprint/FlowChart",
       props: {
         layout: "LR",
         nodes: [
@@ -240,9 +240,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.2, captureWidth: "1040px" }),
-  galleryEntry("hyperscribe/Quadrant", "Quadrant", () => page("Quadrant", [
+  galleryEntry("outprint/Quadrant", "Quadrant", () => page("Quadrant", [
     {
-      component: "hyperscribe/Quadrant",
+      component: "outprint/Quadrant",
       props: {
         xLabel: "Effort",
         yLabel: "Impact",
@@ -259,9 +259,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.12, captureWidth: "980px" }),
-  galleryEntry("hyperscribe/Swimlane", "Swimlane", () => page("Swimlane", [
+  galleryEntry("outprint/Swimlane", "Swimlane", () => page("Swimlane", [
     {
-      component: "hyperscribe/Swimlane",
+      component: "outprint/Swimlane",
       props: {
         lanes: [
           { id: "user", title: "User", subtitle: "Request" },
@@ -280,9 +280,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.15, captureWidth: "1080px" }),
-  galleryEntry("hyperscribe/DataTable", "DataTable", () => page("DataTable", [
+  galleryEntry("outprint/DataTable", "DataTable", () => page("DataTable", [
     {
-      component: "hyperscribe/DataTable",
+      component: "outprint/DataTable",
       props: {
         columns: [
           { key: "component", label: "Component" },
@@ -299,9 +299,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.26, captureWidth: "1020px" }),
-  galleryEntry("hyperscribe/Chart", "Chart", () => page("Chart", [
+  galleryEntry("outprint/Chart", "Chart", () => page("Chart", [
     {
-      component: "hyperscribe/Chart",
+      component: "outprint/Chart",
       props: {
         kind: "bar",
         xLabel: "Week",
@@ -317,9 +317,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.22, captureWidth: "1020px" }),
-  galleryEntry("hyperscribe/Comparison", "Comparison", () => page("Comparison", [
+  galleryEntry("outprint/Comparison", "Comparison", () => page("Comparison", [
     {
-      component: "hyperscribe/Comparison",
+      component: "outprint/Comparison",
       props: {
         mode: "vs",
         items: [
@@ -338,9 +338,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.25, captureWidth: "1020px" }),
-  galleryEntry("hyperscribe/StepList", "StepList", () => page("StepList", [
+  galleryEntry("outprint/StepList", "StepList", () => page("StepList", [
     {
-      component: "hyperscribe/StepList",
+      component: "outprint/StepList",
       props: {
         steps: [
           { title: "Write prompt", body: "Describe the artifact you want.", state: "done" },
@@ -350,9 +350,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.42, captureWidth: "840px" }),
-  galleryEntry("hyperscribe/FileTree", "FileTree", () => page("FileTree", [
+  galleryEntry("outprint/FileTree", "FileTree", () => page("FileTree", [
     {
-      component: "hyperscribe/FileTree",
+      component: "outprint/FileTree",
       props: {
         caption: "Typical renderer layout",
         nodes: [
@@ -376,9 +376,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.35, captureWidth: "920px" }),
-  galleryEntry("hyperscribe/FileCard", "FileCard", () => page("FileCard", [
+  galleryEntry("outprint/FileCard", "FileCard", () => page("FileCard", [
     {
-      component: "hyperscribe/FileCard",
+      component: "outprint/FileCard",
       props: {
         name: "render.mjs",
         path: "plugins/outprint/scripts/render.mjs",
@@ -392,9 +392,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.55, captureWidth: "860px" }),
-  galleryEntry("hyperscribe/AnnotatedCode", "AnnotatedCode", () => page("AnnotatedCode", [
+  galleryEntry("outprint/AnnotatedCode", "AnnotatedCode", () => page("AnnotatedCode", [
     {
-      component: "hyperscribe/AnnotatedCode",
+      component: "outprint/AnnotatedCode",
       props: {
         lang: "js",
         filename: "capture.js",
@@ -410,9 +410,9 @@ export const GALLERY_COMPONENTS = [
       }
     }
   ]), { captureScale: 1.22, captureWidth: "1040px" }),
-  galleryEntry("hyperscribe/ERDDiagram", "ERDDiagram", () => page("ERDDiagram", [
+  galleryEntry("outprint/ERDDiagram", "ERDDiagram", () => page("ERDDiagram", [
     {
-      component: "hyperscribe/ERDDiagram",
+      component: "outprint/ERDDiagram",
       props: {
         entities: [
           {
@@ -443,10 +443,10 @@ export const GALLERY_COMPONENTS = [
 ];
 
 const README_HIDDEN_COMPONENTS = new Set([
-  "hyperscribe/Page",
-  "hyperscribe/Section",
-  "hyperscribe/Heading",
-  "hyperscribe/Prose"
+  "outprint/Page",
+  "outprint/Section",
+  "outprint/Heading",
+  "outprint/Prose"
 ]);
 
 export const README_GALLERY_COMPONENTS = GALLERY_COMPONENTS.filter(

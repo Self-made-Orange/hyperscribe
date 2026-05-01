@@ -69,7 +69,7 @@ for (const [name, schema] of Object.entries(catalog.components)) {
   (byCategory[cat] ||= []).push([name, schema]);
 }
 
-const SLIDE_COMPONENTS = new Set(["hyperscribe/SlideDeck", "hyperscribe/Slide"]);
+const SLIDE_COMPONENTS = new Set(["outprint/SlideDeck", "outprint/Slide"]);
 const totalComponents = Object.keys(catalog.components).length;
 const defaultComponents = Object.keys(catalog.components).filter(name => !SLIDE_COMPONENTS.has(name)).length;
 

@@ -3,7 +3,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { validate } from "./lib/schema.mjs";
+import { validate, normalizeEnvelope } from "./lib/schema.mjs";
 import { renderTree } from "./lib/tree.mjs";
 import { loadTheme, modeTogglerHtml } from "./lib/theme.mjs";
 import { renderCanvas } from "./canvas.mjs";
@@ -51,41 +51,41 @@ const COMPONENTS_CSS_DIR = resolve(PLUGIN_ROOT, "assets", "components");
 const INTERACTIVE_JS_PATH = resolve(PLUGIN_ROOT, "assets", "interactive.js");
 
 const REGISTRY = {
-  "hyperscribe/Page": Page,
-  "hyperscribe/Section": Section,
-  "hyperscribe/Heading": Heading,
-  "hyperscribe/Prose": Prose,
-  "hyperscribe/Image": Image,
-  "hyperscribe/Callout": Callout,
-  "hyperscribe/CodeBlock": CodeBlock,
-  "hyperscribe/DataTable": DataTable,
-  "hyperscribe/Mermaid": Mermaid,
-  "hyperscribe/Sequence": Sequence,
-  "hyperscribe/ArchitectureGrid": ArchitectureGrid,
-  "hyperscribe/FlowChart": FlowChart,
-  "hyperscribe/Quadrant": Quadrant,
-  "hyperscribe/Swimlane": Swimlane,
-  "hyperscribe/StepList": StepList,
-  "hyperscribe/Comparison": Comparison,
-  "hyperscribe/Chart": Chart,
-  "hyperscribe/CodeDiff": CodeDiff,
-  "hyperscribe/KPICard": KPICard,
-  "hyperscribe/SlideDeck": SlideDeck,
-  "hyperscribe/Slide": Slide,
-  "hyperscribe/FileTree": FileTree,
-  "hyperscribe/FileCard": FileCard,
-  "hyperscribe/AnnotatedCode": AnnotatedCode,
-  "hyperscribe/ERDDiagram": ERDDiagram,
-  "hyperscribe/ProjectTile": ProjectTile,
-  "hyperscribe/MosaicGrid": MosaicGrid,
-  "hyperscribe/CountdownTimer": CountdownTimer,
-  "hyperscribe/SiteHeader": SiteHeader,
-  "hyperscribe/HeroCarousel": HeroCarousel,
-  "hyperscribe/EditorialStatement": EditorialStatement,
-  "hyperscribe/DivisionCard": DivisionCard,
-  "hyperscribe/WorkTypeRow": WorkTypeRow,
-  "hyperscribe/SiteFooter": SiteFooter,
-  "hyperscribe/PressMentions": PressMentions
+  "outprint/Page": Page,
+  "outprint/Section": Section,
+  "outprint/Heading": Heading,
+  "outprint/Prose": Prose,
+  "outprint/Image": Image,
+  "outprint/Callout": Callout,
+  "outprint/CodeBlock": CodeBlock,
+  "outprint/DataTable": DataTable,
+  "outprint/Mermaid": Mermaid,
+  "outprint/Sequence": Sequence,
+  "outprint/ArchitectureGrid": ArchitectureGrid,
+  "outprint/FlowChart": FlowChart,
+  "outprint/Quadrant": Quadrant,
+  "outprint/Swimlane": Swimlane,
+  "outprint/StepList": StepList,
+  "outprint/Comparison": Comparison,
+  "outprint/Chart": Chart,
+  "outprint/CodeDiff": CodeDiff,
+  "outprint/KPICard": KPICard,
+  "outprint/SlideDeck": SlideDeck,
+  "outprint/Slide": Slide,
+  "outprint/FileTree": FileTree,
+  "outprint/FileCard": FileCard,
+  "outprint/AnnotatedCode": AnnotatedCode,
+  "outprint/ERDDiagram": ERDDiagram,
+  "outprint/ProjectTile": ProjectTile,
+  "outprint/MosaicGrid": MosaicGrid,
+  "outprint/CountdownTimer": CountdownTimer,
+  "outprint/SiteHeader": SiteHeader,
+  "outprint/HeroCarousel": HeroCarousel,
+  "outprint/EditorialStatement": EditorialStatement,
+  "outprint/DivisionCard": DivisionCard,
+  "outprint/WorkTypeRow": WorkTypeRow,
+  "outprint/SiteFooter": SiteFooter,
+  "outprint/PressMentions": PressMentions
 };
 
 /**
@@ -109,6 +109,9 @@ export function resolveRenderer(doc, options = {}) {
 }
 
 export async function render(doc, options = {}) {
+  // Normalize legacy `hyperscribe/X` component prefixes + `hyperscribe/v1`
+  // catalog version to current `outprint/*` form before validation.
+  doc = normalizeEnvelope(doc);
   if (!Array.isArray(doc.parts) || doc.parts.length === 0) {
     const err = new Error("render() requires doc.parts[]. For canvas docs use renderCanvas().");
     err.code = "SCHEMA";
@@ -148,7 +151,7 @@ export async function render(doc, options = {}) {
 
 function componentFileBase(componentName) {
   return componentName
-    .replace(/^hyperscribe\//, "")
+    .replace(/^outprint\//, "")
     .replace(/([a-z\d])([A-Z])/g, "$1-$2")
     .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2")
     .toLowerCase();

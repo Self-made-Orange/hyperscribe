@@ -213,18 +213,18 @@ Canonical shape — always this exact structure:
 ```json
 {
   "a2ui_version": "0.9",
-  "catalog": "hyperscribe/v1",
+  "catalog": "outprint/v1",
   "is_task_complete": true,
   "parts": [
     {
-      "component": "hyperscribe/Page",
+      "component": "outprint/Page",
       "props": { "title": "Auth Flow", "toc": true },
       "children": [
         {
-          "component": "hyperscribe/Section",
+          "component": "outprint/Section",
           "props": { "id": "overview", "title": "Overview" },
           "children": [
-            { "component": "hyperscribe/Prose", "props": { "markdown": "..." } }
+            { "component": "outprint/Prose", "props": { "markdown": "..." } }
           ]
         }
       ]
@@ -235,7 +235,7 @@ Canonical shape — always this exact structure:
 
 Rules:
 
-- `a2ui_version`, `catalog`, `parts` are required. `catalog` is always `"hyperscribe/v1"`.
+- `a2ui_version`, `catalog`, `parts` are required. `catalog` is always `"outprint/v1"`.
 - Exactly one element in `parts`. Its `component` is `hyperscribe/Page` (default) or `hyperscribe/SlideDeck` (slide mode only). Multiple pages per envelope are not supported.
 - Container components use `children: []`. Leaf components omit `children`.
 - Any unknown component name or missing required prop fails validation with exit 2.
@@ -261,7 +261,7 @@ Use `"template": "canvas"` when the output is an **ongoing agent report**: a ful
     "divisionsLabel": "Previous Outputs"
   },
   "featured": {
-    "component": "hyperscribe/Chart",
+    "component": "outprint/Chart",
     "props": { "kind": "bar", "data": { "labels": [...], "series": [...] } }
   },
   "history": [
@@ -270,10 +270,10 @@ Use `"template": "canvas"` when the output is an **ongoing agent report**: a ful
       "date": "2026-04-30 14:20",
       "description": "MRR and ARR up double digits. Churn down 0.6pp.",
       "content": {
-        "component": "hyperscribe/Section",
+        "component": "outprint/Section",
         "props": { "title": "KPI Dashboard", "id": "kpi" },
         "children": [
-          { "component": "hyperscribe/KPICard", "props": { "label": "MRR", "value": "$94K", "delta": { "value": "+18%", "direction": "up" } } }
+          { "component": "outprint/KPICard", "props": { "label": "MRR", "value": "$94K", "delta": { "value": "+18%", "direction": "up" } } }
         ]
       }
     }
@@ -424,19 +424,19 @@ A minimal envelope that renders a page with a callout:
 ```json
 {
   "a2ui_version": "0.9",
-  "catalog": "hyperscribe/v1",
+  "catalog": "outprint/v1",
   "is_task_complete": true,
   "parts": [
     {
-      "component": "hyperscribe/Page",
+      "component": "outprint/Page",
       "props": { "title": "Deploy checklist", "toc": false },
       "children": [
         {
-          "component": "hyperscribe/Section",
+          "component": "outprint/Section",
           "props": { "id": "pre", "title": "Before merging" },
           "children": [
             {
-              "component": "hyperscribe/StepList",
+              "component": "outprint/StepList",
               "props": {
                 "numbered": true,
                 "steps": [
@@ -447,7 +447,7 @@ A minimal envelope that renders a page with a callout:
               }
             },
             {
-              "component": "hyperscribe/Callout",
+              "component": "outprint/Callout",
               "props": {
                 "severity": "warn",
                 "title": "Do not merge to main directly",

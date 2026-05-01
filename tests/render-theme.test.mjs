@@ -4,9 +4,9 @@ import { render, resolveRenderer } from "../plugins/outprint/scripts/render.mjs"
 
 const envelope = {
   a2ui_version: "0.9",
-  catalog: "hyperscribe/v1",
+  catalog: "outprint/v1",
   is_task_complete: true,
-  parts: [{ component: "hyperscribe/Page", props: { title: "t" }, children: [] }]
+  parts: [{ component: "outprint/Page", props: { title: "t" }, children: [] }]
 };
 
 test("render: default theme is notion", async () => {
@@ -60,6 +60,43 @@ test("render: no mode option omits data-mode attribute", async () => {
 
 test("render: invalid mode value throws", async () => {
   await assert.rejects(() => render(envelope, { theme: "notion", mode: "twilight" }), /mode/i);
+});
+
+/* === Backwards-compat alias: legacy `hyperscribe/X` envelopes still render === */
+
+test("render: legacy hyperscribe/Page envelope renders unchanged", async () => {
+  const legacy = {
+    a2ui_version: "0.9",
+    catalog: "hyperscribe/v1",
+    is_task_complete: true,
+    parts: [{ component: "hyperscribe/Page", props: { title: "legacy" }, children: [] }]
+  };
+  const html = await render(legacy);
+  // Input is not mutated
+  assert.equal(legacy.parts[0].component, "hyperscribe/Page");
+  assert.equal(legacy.catalog, "hyperscribe/v1");
+  // Output renders normally
+  assert.match(html, /data-theme="notion"/);
+  assert.match(html, /<title>legacy<\/title>/);
+});
+
+test("render: legacy nested hyperscribe/* children are normalized too", async () => {
+  const legacy = {
+    a2ui_version: "0.9",
+    catalog: "hyperscribe/v1",
+    is_task_complete: true,
+    parts: [{
+      component: "hyperscribe/Page",
+      props: { title: "nested legacy" },
+      children: [
+        { component: "hyperscribe/Section", props: { id: "s", title: "S" }, children: [
+          { component: "hyperscribe/Prose", props: { markdown: "legacy prose body" } }
+        ]}
+      ]
+    }]
+  };
+  const html = await render(legacy);
+  assert.match(html, /legacy prose body/);
 });
 
 /* === resolveRenderer routing === */

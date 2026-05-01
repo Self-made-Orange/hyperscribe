@@ -1,10 +1,10 @@
 {
   "a2ui_version": "0.9",
-  "catalog": "hyperscribe/v1",
+  "catalog": "outprint/v1",
   "is_task_complete": true,
   "parts": [
     {
-      "component": "hyperscribe/Page",
+      "component": "outprint/Page",
       "props": {
         "title": "Hyperscribe Codebase Map",
         "subtitle": "How a semantic envelope becomes one self-contained HTML page",
@@ -12,7 +12,7 @@
       },
       "children": [
         {
-          "component": "hyperscribe/Section",
+          "component": "outprint/Section",
           "props": {
             "id": "overview",
             "title": "Overview",
@@ -20,13 +20,13 @@
           },
           "children": [
             {
-              "component": "hyperscribe/Prose",
+              "component": "outprint/Prose",
               "props": {
                 "markdown": "Hyperscribe is a **catalog-driven renderer**. The important split is simple:\n\n- `plugins/outprint/spec/catalog.json` defines the contract.\n- `plugins/outprint/scripts/render.mjs` validates and renders.\n- `plugins/outprint/scripts/components/*.mjs` turns semantic nodes into HTML.\n- `plugins/outprint/assets/*` and `plugins/outprint/themes/*` supply the shared look and behavior."
               }
             },
             {
-              "component": "hyperscribe/Callout",
+              "component": "outprint/Callout",
               "props": {
                 "severity": "info",
                 "title": "Key idea",
@@ -36,7 +36,7 @@
           ]
         },
         {
-          "component": "hyperscribe/Section",
+          "component": "outprint/Section",
           "props": {
             "id": "render-pipeline",
             "title": "Render Pipeline",
@@ -44,7 +44,7 @@
           },
           "children": [
             {
-              "component": "hyperscribe/Mermaid",
+              "component": "outprint/Mermaid",
               "props": {
                 "kind": "flowchart",
                 "direction": "TD",
@@ -54,7 +54,7 @@
           ]
         },
         {
-          "component": "hyperscribe/Section",
+          "component": "outprint/Section",
           "props": {
             "id": "core-modules",
             "title": "Core Modules",
@@ -62,7 +62,7 @@
           },
           "children": [
             {
-              "component": "hyperscribe/ArchitectureGrid",
+              "component": "outprint/ArchitectureGrid",
               "props": {
                 "layout": "layers",
                 "groups": [
@@ -186,7 +186,7 @@
           ]
         },
         {
-          "component": "hyperscribe/Section",
+          "component": "outprint/Section",
           "props": {
             "id": "repo-shape",
             "title": "Repository Shape",
@@ -194,7 +194,7 @@
           },
           "children": [
             {
-              "component": "hyperscribe/Comparison",
+              "component": "outprint/Comparison",
               "props": {
                 "mode": "grid",
                 "items": [
@@ -228,7 +228,7 @@
               }
             },
             {
-              "component": "hyperscribe/FileTree",
+              "component": "outprint/FileTree",
               "props": {
                 "showIcons": true,
                 "caption": "A compact map of the paths that matter most.",

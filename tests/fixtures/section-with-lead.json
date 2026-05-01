@@ -1,13 +1,13 @@
 {
   "a2ui_version": "0.9",
-  "catalog": "hyperscribe/v1",
+  "catalog": "outprint/v1",
   "parts": [
     {
-      "component": "hyperscribe/Page",
+      "component": "outprint/Page",
       "props": { "title": "X" },
       "children": [
         {
-          "component": "hyperscribe/Section",
+          "component": "outprint/Section",
           "props": { "id": "a", "title": "Section A", "lead": "This section has a **lead** paragraph with a [link](https://example.com)." }
         }
       ]

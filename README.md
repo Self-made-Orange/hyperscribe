@@ -30,12 +30,12 @@ cd agent-outprint-skills
 cat > /tmp/hello.json <<'EOF'
 {
   "a2ui_version": "0.9",
-  "catalog": "hyperscribe/v1",
+  "catalog": "outprint/v1",
   "parts": [{
-    "component": "hyperscribe/Page",
+    "component": "outprint/Page",
     "props": { "title": "Deploy checklist" },
     "children": [{
-      "component": "hyperscribe/StepList",
+      "component": "outprint/StepList",
       "props": { "steps": [
         { "title": "Run test suite",   "state": "done"  },
         { "title": "DB migration",     "state": "doing" },
@@ -65,9 +65,9 @@ A traditional one-shot document. Every component sits inside a `Page` (or `Slide
 ```json
 {
   "a2ui_version": "0.9",
-  "catalog": "hyperscribe/v1",
+  "catalog": "outprint/v1",
   "parts": [{
-    "component": "hyperscribe/Page",
+    "component": "outprint/Page",
     "props": { "title": "Q1 metrics" },
     "children": [ /* Section, Chart, DataTable, KPICard, ... */ ]
   }]
@@ -90,9 +90,9 @@ A full-viewport dashboard the agent appends to over time. Hero carousel cycles t
       "cta": { "label": "View all outputs", "href": "#canvas-divisions" }
     }
   },
-  "featured": { "component": "hyperscribe/Chart",    "props": { "kind": "bar" } },
+  "featured": { "component": "outprint/Chart",    "props": { "kind": "bar" } },
   "history":  [{ "title": "April KPIs", "date": "2026-04-30",
-                 "content": { "component": "hyperscribe/KPICard", "props": {} } }]
+                 "content": { "component": "outprint/KPICard", "props": {} } }]
 }
 ```
 

@@ -9,7 +9,7 @@ Every Hyperscribe document uses this envelope:
 ```json
 {
   "a2ui_version": "0.9",
-  "catalog": "hyperscribe/v1",
+  "catalog": "outprint/v1",
   "is_task_complete": true,
   "parts": [ /* exactly one hyperscribe/Page */ ]
 }

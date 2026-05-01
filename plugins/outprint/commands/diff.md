@@ -43,36 +43,36 @@ $ARGUMENTS
 ```json
 {
   "a2ui_version": "0.9",
-  "catalog": "hyperscribe/v1",
+  "catalog": "outprint/v1",
   "is_task_complete": true,
   "parts": [
     {
-      "component": "hyperscribe/Page",
+      "component": "outprint/Page",
       "props": { "title": "Diff: <short summary>", "subtitle": "<N files, +X -Y lines>", "toc": true },
       "children": [
         {
-          "component": "hyperscribe/Section",
+          "component": "outprint/Section",
           "props": { "id": "summary", "title": "Summary", "lead": "**What changed** and **why it matters**." },
           "children": [
-            { "component": "hyperscribe/Prose", "props": { "markdown": "One paragraph summary." } },
-            { "component": "hyperscribe/ArchitectureGrid", "props": {
+            { "component": "outprint/Prose", "props": { "markdown": "One paragraph summary." } },
+            { "component": "outprint/ArchitectureGrid", "props": {
               "layout": "grid",
               "nodes": [ { "id": "auth", "title": "Auth module", "tag": "modified" }, "..." ]
             }}
           ]
         },
         {
-          "component": "hyperscribe/Section",
+          "component": "outprint/Section",
           "props": { "id": "risks", "title": "Risks" },
           "children": [
-            { "component": "hyperscribe/Callout", "props": { "severity": "warn", "title": "Migration required", "body": "..." }}
+            { "component": "outprint/Callout", "props": { "severity": "warn", "title": "Migration required", "body": "..." }}
           ]
         },
         {
-          "component": "hyperscribe/Section",
+          "component": "outprint/Section",
           "props": { "id": "changes", "title": "Changes" },
           "children": [
-            { "component": "hyperscribe/CodeDiff", "props": {
+            { "component": "outprint/CodeDiff", "props": {
               "filename": "src/auth.ts",
               "lang": "ts",
               "hunks": [

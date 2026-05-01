@@ -1,7 +1,62 @@
 /**
- * Validate a Hyperscribe envelope document against catalog.json.
+ * Validate an Outprint envelope document against catalog.json.
  * Returns array of error objects: [{ path, message }]. Empty array = valid.
+ *
+ * Use `normalizeEnvelope(doc)` first to convert legacy `hyperscribe/X`
+ * component prefixes and `hyperscribe/v1` catalog version to the current
+ * `outprint/*` form. The renderer does this automatically; only call it
+ * explicitly if you're using validate() standalone with legacy envelopes.
  */
+
+const LEGACY_COMPONENT_PREFIX  = "hyperscribe/";
+const CURRENT_COMPONENT_PREFIX = "outprint/";
+const LEGACY_CATALOG_VERSION   = "hyperscribe/v1";
+const CURRENT_CATALOG_VERSION  = "outprint/v1";
+
+/**
+ * Translate legacy `hyperscribe/X` envelopes to the current `outprint/X`
+ * form without mutating the input. Walks `parts[]` (page mode) and
+ * `featured` / `history[].content` (canvas mode).
+ */
+export function normalizeEnvelope(doc) {
+  if (!doc || typeof doc !== "object") return doc;
+  const out = { ...doc };
+  if (out.catalog === LEGACY_CATALOG_VERSION) {
+    out.catalog = CURRENT_CATALOG_VERSION;
+  }
+  if (Array.isArray(out.parts)) {
+    out.parts = out.parts.map(normalizeNode);
+  }
+  if (out.featured !== undefined) {
+    out.featured = normalizeNode(out.featured);
+  }
+  if (Array.isArray(out.history)) {
+    out.history = out.history.map(item =>
+      item && typeof item === "object" && item.content !== undefined
+        ? { ...item, content: normalizeContent(item.content) }
+        : item
+    );
+  }
+  return out;
+}
+
+function normalizeContent(content) {
+  // history[].content can be a single node or an array of nodes
+  if (Array.isArray(content)) return content.map(normalizeNode);
+  return normalizeNode(content);
+}
+
+function normalizeNode(node) {
+  if (!node || typeof node !== "object" || Array.isArray(node)) return node;
+  const out = { ...node };
+  if (typeof out.component === "string" && out.component.startsWith(LEGACY_COMPONENT_PREFIX)) {
+    out.component = CURRENT_COMPONENT_PREFIX + out.component.slice(LEGACY_COMPONENT_PREFIX.length);
+  }
+  if (Array.isArray(out.children)) {
+    out.children = out.children.map(normalizeNode);
+  }
+  return out;
+}
 
 export function validate(doc, catalog) {
   const errors = [];

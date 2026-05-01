@@ -1,12 +1,12 @@
 {
   "a2ui_version": "0.9",
-  "catalog": "hyperscribe/v1",
+  "catalog": "outprint/v1",
   "parts": [
     {
-      "component": "hyperscribe/Page",
+      "component": "outprint/Page",
       "props": { "title": "Hello" },
       "children": [
-        { "component": "hyperscribe/Prose", "props": { "markdown": "minimal body" } }
+        { "component": "outprint/Prose", "props": { "markdown": "minimal body" } }
       ]
     }
   ]
