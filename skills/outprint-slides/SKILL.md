@@ -1,5 +1,5 @@
 ---
-name: hyperscribe-slides
+name: outprint-slides
 description: Generate a self-contained HTML slide deck (SlideDeck + Slides with keyboard nav) from a topic or outline. Use whenever the user asks for "slides", "a deck", "a presentation", a "walkthrough", or a 5+ step recap. Requires the `hyperscribe` skill to be installed (provides the renderer engine).
 license: MIT
 metadata:
@@ -7,7 +7,7 @@ metadata:
   requires: "hyperscribe"
 ---
 
-> **Step 0 — Preference:** Before running any renderer command, perform the theme-preference resolution block from the base `hyperscribe` skill (`~/.claude/skills/hyperscribe/SKILL.md`, section "Step 0"). It sets `$THEME` and `$RENDERER`. If absent, this wrapper falls back to `notion` + `auto`.
+> **Step 0 — Preference:** Before running any renderer command, perform the theme-preference resolution block from the base `hyperscribe` skill (`~/.claude/skills/outprint/SKILL.md`, section "Step 0"). It sets `$THEME` and `$RENDERER`. If absent, this wrapper falls back to `notion` + `auto`.
 
 # Hyperscribe — Slides mode
 
@@ -94,17 +94,17 @@ Aim for 5–12 slides. If the topic is huge, suggest splitting into multiple dec
 Same workflow as the base `hyperscribe` skill — resolve the renderer, pipe JSON, write output, open.
 
 ```bash
-# Locate the hyperscribe renderer (installed via `npx skills add Atipico1/hyperscribe` or plugin marketplace).
+# Locate the hyperscribe renderer (installed via `npx skills add Self-made-Orange/agent-outprint-skills` or plugin marketplace).
 HS=$(for p in \
-  ./.claude/skills/hyperscribe ~/.claude/skills/hyperscribe \
-  ./.codex/skills/hyperscribe ~/.codex/skills/hyperscribe \
-  ./.cursor/skills/hyperscribe ~/.cursor/skills/hyperscribe \
-  ./.opencode/skills/hyperscribe ~/.opencode/skills/hyperscribe \
-  ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe
-do [ -x "$p/scripts/hyperscribe" ] && { echo "$p/scripts/hyperscribe"; break; }; done)
+  ./.claude/skills/outprint ~/.claude/skills/outprint \
+  ./.codex/skills/outprint ~/.codex/skills/outprint \
+  ./.cursor/skills/outprint ~/.cursor/skills/outprint \
+  ./.opencode/skills/outprint ~/.opencode/skills/outprint \
+  ~/.claude/plugins/cache/outprint-marketplace/*/plugins/outprint
+do [ -x "$p/scripts/outprint" ] && { echo "$p/scripts/outprint"; break; }; done)
 
 if [ -z "$HS" ]; then
-  echo "hyperscribe renderer not found. Install with: npx skills add Atipico1/hyperscribe" >&2
+  echo "hyperscribe renderer not found. Install with: npx skills add Self-made-Orange/agent-outprint-skills" >&2
   exit 1
 fi
 

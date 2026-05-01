@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { DataTable } from "../../plugins/hyperscribe/scripts/components/data-table.mjs";
+import { DataTable } from "../../plugins/outprint/scripts/components/data-table.mjs";
 
 const cols = [
   { key: "name", label: "Name" },

@@ -1,12 +1,12 @@
 ---
-name: hyperscribe
+name: outprint
 description: Generate a visual HTML page from natural language. Picks the right components from the catalog (diagrams, tables, cards, process views, comparisons, etc.) and renders a self-contained HTML file opened in the browser.
 argument-hint: <natural language description>
 ---
 
-## Step 0 — theme preference (run first, every invocation)
+## Step 0 — theme + renderer preference (run first, every invocation)
 
-**When `PREF` is empty below, you MUST prompt the user for theme + mode via `AskUserQuestion` BEFORE writing the preference file — theme options: `studio` (Airtable — clean enterprise canvas, Airtable Blue accent), `midnight` (Cal.com — grayscale monochrome, Cal Sans display), `void` (Bugatti — architectural black canvas, 288px display scale, 3-color palette), `gallery` (Apple — cinematic binary surfaces, SF Pro, Apple Blue); mode options: `light` / `dark` / `auto`. Use the answer to set `THEME` and `MODE`. If the user skips or the tool is unavailable, fall back silently to `studio` + `light`.**
+**When `PREF` is empty below, you MUST prompt the user for theme + renderer via `AskUserQuestion` BEFORE writing the preference file — theme options: `notion` (warm cream + Notion Blue), `linear` (dark-native + indigo), `vercel` (gallery white + Geist), `stripe` (weight-300 luxury + deep navy), `supabase` (dark-native + emerald); renderer options: `auto` / `canvas` / `page`. Use the answer to set `THEME` and `RENDERER`. If the user skips or the tool is unavailable, fall back silently to `notion` + `auto`. Color mode is not a setting — every output inlines both light and dark; the toggle button + `prefers-color-scheme` switch them at view time.**
 
 ```bash
 PREF=""
@@ -16,16 +16,16 @@ done
 
 if [ -z "$PREF" ]; then
   # See the instruction above — populate from AskUserQuestion or fall back.
-  THEME=studio; MODE=light
+  THEME=notion; RENDERER=auto
   mkdir -p ~/.hyperscribe; PREF=~/.hyperscribe/preference.md
-  printf -- '---\ntheme: %s\nmode: %s\ncreated_at: %s\n---\n' \
-    "$THEME" "$MODE" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$PREF"
+  printf -- '---\ntheme: %s\nrenderer: %s\ncreated_at: %s\n---\n' \
+    "$THEME" "$RENDERER" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$PREF"
 fi
 
-THEME=$(awk -F': *' '/^theme:/{print $2; exit}' "$PREF")
-MODE=$(awk -F': *'  '/^mode:/{print $2; exit}'  "$PREF")
-[ -z "$THEME" ] && THEME=studio
-[ -z "$MODE" ]  && MODE=light
+THEME=$(awk    -F': *' '/^theme:/{print $2; exit}'    "$PREF")
+RENDERER=$(awk -F': *' '/^renderer:/{print $2; exit}' "$PREF")
+[ -z "$THEME" ]    && THEME=notion
+[ -z "$RENDERER" ] && RENDERER=auto
 ```
 
 You are invoking Hyperscribe's general-purpose renderer. The user asked for:
@@ -43,7 +43,7 @@ $ARGUMENTS
    - Essay-style explanation → Page with Sections, Headings, Prose, and embedded components
    - Repo / project explainer → start diagram-first with `ArchitectureGrid`, `FlowChart`, `Sequence`, or `Mermaid`, then use `FileTree`, `FileCard`, or `AnnotatedCode` as evidence
 
-2. **Read the catalog.** If you are uncertain about any component's schema or props, read `plugins/hyperscribe/references/catalog.md` BEFORE building the JSON.
+2. **Read the catalog.** If you are uncertain about any component's schema or props, read `plugins/outprint/references/catalog.md` BEFORE building the JSON.
 
 3. **Build the A2UI envelope.**
 
@@ -63,7 +63,7 @@ $ARGUMENTS
    ```
 
    **Rules:**
-   - `parts[0]` must be `hyperscribe/Page`. Use `hyperscribe/SlideDeck` only if user explicitly asked for slides (then use `/hyperscribe:slides` instead).
+   - `parts[0]` must be `hyperscribe/Page`. Use `hyperscribe/SlideDeck` only if user explicitly asked for slides (then use `/outprint:slides` instead).
    - `props` contains ONLY semantic data. NEVER specify colors, fonts, sizes, or layout classes.
    - Use `children` for container nesting (Page/Section).
    - Section `id` must be kebab-case (`[a-z0-9][a-z0-9-]*`).
@@ -83,13 +83,13 @@ $ARGUMENTS
    [ "$MODE" = "light" ] && MODE_FLAG="--mode light"
    [ "$MODE" = "dark" ]  && MODE_FLAG="--mode dark"
 
-   cat <<'EOF' | ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe/scripts/hyperscribe --theme "$THEME" $MODE_FLAG --out "$OUT"
+   cat <<'EOF' | ~/.claude/plugins/cache/outprint-marketplace/*/plugins/outprint/scripts/outprint --theme "$THEME" $MODE_FLAG --out "$OUT"
    <the JSON you built>
    EOF
    echo "$OUT"
    ```
 
-   If the plugin is installed at a different path, use the actual path to `plugins/hyperscribe/scripts/hyperscribe` in the plugin cache. The `node plugins/hyperscribe/scripts/render.mjs` direct invocation also works.
+   If the plugin is installed at a different path, use the actual path to `plugins/outprint/scripts/outprint` in the plugin cache. The `node plugins/outprint/scripts/render.mjs` direct invocation also works.
 
 5. **Open in browser.**
 
@@ -126,5 +126,5 @@ If the CLI exits with status 2 (schema validation failure), stderr contains line
 | "Recap / progression of X" | StepList or sectioned prose recap |
 | "Metrics summary" | KPICards + Chart + DataTable |
 | "Explain X" | Page + Sections + Prose + Callouts |
-| "Review this diff" | use `/hyperscribe:diff` |
-| "Make slides about X" | use `/hyperscribe:slides` |
+| "Review this diff" | use `/outprint:diff` |
+| "Make slides about X" | use `/outprint:slides` |

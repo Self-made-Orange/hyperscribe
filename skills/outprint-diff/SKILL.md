@@ -1,5 +1,5 @@
 ---
-name: hyperscribe-diff
+name: outprint-diff
 description: Generate a visual diff review page (ArchitectureGrid for impacted modules + CodeDiff for hunks + Callouts for risks) from a git range, PR URL, or pasted diff. Use whenever the user asks for a PR review, diff summary, change impact analysis, or pastes `git diff` output. Requires the `hyperscribe` skill (renderer engine).
 license: MIT
 metadata:
@@ -7,7 +7,7 @@ metadata:
   requires: "hyperscribe"
 ---
 
-> **Step 0 — Preference:** Before running any renderer command, perform the theme-preference resolution block from the base `hyperscribe` skill (`~/.claude/skills/hyperscribe/SKILL.md`, section "Step 0"). It sets `$THEME` and `$RENDERER`. If absent, this wrapper falls back to `notion` + `auto`.
+> **Step 0 — Preference:** Before running any renderer command, perform the theme-preference resolution block from the base `hyperscribe` skill (`~/.claude/skills/outprint/SKILL.md`, section "Step 0"). It sets `$THEME` and `$RENDERER`. If absent, this wrapper falls back to `notion` + `auto`.
 
 # Hyperscribe — Diff review mode
 
@@ -102,15 +102,15 @@ Same as the base `hyperscribe` skill — resolve renderer, pipe JSON, write HTML
 
 ```bash
 HS=$(for p in \
-  ./.claude/skills/hyperscribe ~/.claude/skills/hyperscribe \
-  ./.codex/skills/hyperscribe ~/.codex/skills/hyperscribe \
-  ./.cursor/skills/hyperscribe ~/.cursor/skills/hyperscribe \
-  ./.opencode/skills/hyperscribe ~/.opencode/skills/hyperscribe \
-  ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe
-do [ -x "$p/scripts/hyperscribe" ] && { echo "$p/scripts/hyperscribe"; break; }; done)
+  ./.claude/skills/outprint ~/.claude/skills/outprint \
+  ./.codex/skills/outprint ~/.codex/skills/outprint \
+  ./.cursor/skills/outprint ~/.cursor/skills/outprint \
+  ./.opencode/skills/outprint ~/.opencode/skills/outprint \
+  ~/.claude/plugins/cache/outprint-marketplace/*/plugins/outprint
+do [ -x "$p/scripts/outprint" ] && { echo "$p/scripts/outprint"; break; }; done)
 
 if [ -z "$HS" ]; then
-  echo "hyperscribe renderer not found. Install with: npx skills add Atipico1/hyperscribe" >&2
+  echo "hyperscribe renderer not found. Install with: npx skills add Self-made-Orange/agent-outprint-skills" >&2
   exit 1
 fi
 

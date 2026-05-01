@@ -3,10 +3,10 @@ import assert from "node:assert/strict";
 import { readFileSync, writeFileSync, existsSync, readdirSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve, join, basename } from "node:path";
-import { render, resolveRenderer } from "../plugins/hyperscribe/scripts/render.mjs";
-import { renderCanvas } from "../plugins/hyperscribe/scripts/canvas.mjs";
-import { Page } from "../plugins/hyperscribe/scripts/components/page.mjs";
-import { Prose } from "../plugins/hyperscribe/scripts/components/prose.mjs";
+import { render, resolveRenderer } from "../plugins/outprint/scripts/render.mjs";
+import { renderCanvas } from "../plugins/outprint/scripts/canvas.mjs";
+import { Page } from "../plugins/outprint/scripts/components/page.mjs";
+import { Prose } from "../plugins/outprint/scripts/components/prose.mjs";
 
 const MINIMAL_REGISTRY = {
   "hyperscribe/Page":  Page,

@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { render } from "../../plugins/hyperscribe/scripts/render.mjs";
+import { render } from "../../plugins/outprint/scripts/render.mjs";
 
 function envelope(child) {
   return {
@@ -74,6 +74,6 @@ test("render: Swimlane outputs lanes, steps, and edge labels", async () => {
 });
 
 test("Quadrant CSS: uses theme variables for divider lines", () => {
-  const css = readFileSync(new URL("../../plugins/hyperscribe/assets/components/quadrant.css", import.meta.url), "utf8");
+  const css = readFileSync(new URL("../../plugins/outprint/assets/components/quadrant.css", import.meta.url), "utf8");
   assert.match(css, /var\(--hs-color-fg-muted\)/);
 });

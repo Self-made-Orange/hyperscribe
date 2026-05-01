@@ -1,6 +1,6 @@
 # Hyperscribe Component Catalog — hyperscribe/v1
 
-**This file is auto-generated from `plugins/hyperscribe/spec/catalog.json`. Do not edit by hand. Run `node tools/build-catalog-md.mjs` to regenerate.**
+**This file is auto-generated from `plugins/outprint/spec/catalog.json`. Do not edit by hand. Run `node tools/build-catalog-md.mjs` to regenerate.**
 
 ## Envelope
 
@@ -19,11 +19,11 @@ Required envelope fields: `a2ui_version`, `catalog`, `parts`.
 
 Root component must be `hyperscribe/Page`.
 
-## Components (23 default + 2 slide-mode-only)
+## Components (33 default + 2 slide-mode-only)
 
-The default `/hyperscribe` page mode uses the components below.
+The default `/outprint` page mode uses the components below.
 
-`hyperscribe/SlideDeck` and `hyperscribe/Slide` are **slide-mode-only** components owned by `/hyperscribe:slides`.
+`hyperscribe/SlideDeck` and `hyperscribe/Slide` are **slide-mode-only** components owned by `/outprint:slides`.
 
 ## Structure
 
@@ -38,6 +38,7 @@ Root container. Exactly one Page per envelope.
 | `title` | `string` | **required** |  |
 | `subtitle` | `string` | optional |  |
 | `toc` | `boolean` | optional | default: `false` |
+| `chromeless` | `boolean` | optional | default: `false` |
 
 ### `hyperscribe/Section`
 
@@ -327,9 +328,145 @@ Ordered steps / checklist.
 | `steps` | `array<{ title: string, body: string, state: "done" | "doing" | "todo" | "skipped"? }>` | **required** |  |
 | `numbered` | `boolean` | optional | default: `true` |
 
+## Other
+
+### `hyperscribe/ProjectTile`
+
+Portfolio project tile — image + categories + title + optional client/year. Hover lift + image zoom on link variant. Use inside MosaicGrid for varied tile sizing, or in normal flow with intrinsic aspect.
+
+- **Children:** forbidden
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `title` | `string` | **required** |  |
+| `image` | `string` | optional |  |
+| `categories` | `array<string>` | optional |  |
+| `client` | `string` | optional |  |
+| `year` | `string` | optional |  |
+| `href` | `string` | optional |  |
+| `aspect` | `"square" | "landscape" | "portrait" | "wide"` | optional | default: `"landscape"` |
+| `span` | `number` | optional |  |
+| `rowSpan` | `number` | optional |  |
+
+### `hyperscribe/MosaicGrid`
+
+Audi F1-inspired tile grid — CSS grid wrapper with auto-flow dense. Children (typically ProjectTile) declare span/rowSpan to create varied mosaic sizing. Collapses to 8-col @ 960px and 4-col @ 640px.
+
+- **Children:** required
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `columns` | `number` | optional | default: `12` |
+| `gap` | `string` | optional | default: `"1rem"` |
+| `rowHeight` | `string` | optional | default: `"minmax(200px, auto)"` |
+| `dense` | `boolean` | optional | default: `true` |
+
+### `hyperscribe/CountdownTimer`
+
+Live-updating countdown to a target datetime. Renders 4 cells (days/hours/minutes/seconds) with pulsing status label. Switches to 'LIVE' state at target.
+
+- **Children:** forbidden
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `target` | `string` | **required** |  |
+| `label` | `string` | optional |  |
+| `liveLabel` | `string` | optional |  |
+
+### `hyperscribe/SiteHeader`
+
+Sticky site-mode header — brand wordmark + nav links + CTA pill. Use as first child of a chromeless Page.
+
+- **Children:** forbidden
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `brand` | `string` | **required** |  |
+| `brandHref` | `string` | optional |  |
+| `links` | `array<{ label: string, href: string }>` | optional |  |
+| `cta` | `{ label: string, href: string? }` | optional |  |
+
+### `hyperscribe/HeroCarousel`
+
+Full-viewport-height rotating image carousel. Slides crossfade automatically; counter '1/N' and Play Reel pill overlay at bottom. Pauses on hover.
+
+- **Children:** forbidden
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `slides` | `array<{ image: string, title: string?, subtitle: string? }>` | **required** |  |
+| `interval` | `number` | optional | default: `5500` |
+| `playReel` | `{ label: string, url: string? }` | optional |  |
+| `lead` | `string` | optional |  |
+
+### `hyperscribe/EditorialStatement`
+
+Massive centered editorial text block — for brand statements like 'Three unique companies under one roof'. ~70vh tall.
+
+- **Children:** forbidden
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `text` | `string` | **required** |  |
+| `eyebrow` | `string` | optional |  |
+| `cta` | `{ label: string, href: string? }` | optional |  |
+
+### `hyperscribe/DivisionCard`
+
+Vertical division card — image (4:5 portrait) + title + description + linked project list + CTA. Place 3 in a Section to recreate a Studios/Productions/Touring layout.
+
+- **Children:** forbidden
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `title` | `string` | **required** |  |
+| `eyebrow` | `string` | optional |  |
+| `description` | `string` | optional |  |
+| `image` | `string` | optional |  |
+| `projects` | `array<{ label: string, href: string? }>` | optional |  |
+| `cta` | `{ label: string, href: string? }` | optional |  |
+
+### `hyperscribe/WorkTypeRow`
+
+Horizontal alternating row — image one side, body the other. Stacks on mobile. Use multiple in sequence with alternating align values.
+
+- **Children:** forbidden
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `title` | `string` | **required** |  |
+| `description` | `string` | optional |  |
+| `image` | `string` | optional |  |
+| `meta` | `array<string>` | optional |  |
+| `align` | `"left" | "right"` | optional | default: `"left"` |
+| `cta` | `{ label: string, href: string? }` | optional |  |
+
+### `hyperscribe/PressMentions`
+
+Press/media credit row — eyebrow label + list of publication names with optional notes. Use between Divisions and Work sections.
+
+- **Children:** forbidden
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `eyebrow` | `string` | optional |  |
+| `mentions` | `array<{ name: string, note: string? }>` | **required** |  |
+
+### `hyperscribe/SiteFooter`
+
+Multi-column site footer with link groups + meta + credit lines. Place as last child of a chromeless Page.
+
+- **Children:** forbidden
+
+| Prop | Type | Required | Notes |
+|---|---|---|---|
+| `columns` | `array<{ title: string, links: array<{ label: string, href: string? }>? }>` | **required** |  |
+| `meta` | `string` | optional |  |
+| `credit` | `string` | optional |  |
+
 ## Slide Mode Only
 
-These components are intentionally separated from the default page-mode inventory. Use them through `/hyperscribe:slides`, not through the default `/hyperscribe` flow.
+These components are intentionally separated from the default page-mode inventory. Use them through `/outprint:slides`, not through the default `/outprint` flow.
 
 ### `hyperscribe/SlideDeck`
 
@@ -342,6 +479,7 @@ Slide container.
 | `aspect` | `"16:9" | "4:3"` | **required** |  |
 | `transition` | `"none" | "fade" | "slide"` | optional |  |
 | `footer` | `string` | optional |  |
+| `mode` | `"deck" | "scroll-snap" | "scroll-jack"` | optional |  |
 
 ### `hyperscribe/Slide`
 

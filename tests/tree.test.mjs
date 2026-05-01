@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { renderTree } from "../plugins/hyperscribe/scripts/lib/tree.mjs";
+import { renderTree } from "../plugins/outprint/scripts/lib/tree.mjs";
 
 const fakeRegistry = {
   "hyperscribe/Page": (props, renderChildren) => `<page title="${props.title}">${renderChildren()}</page>`,

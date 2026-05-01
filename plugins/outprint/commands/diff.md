@@ -4,9 +4,9 @@ description: Generate a visual diff review page from a git diff, PR URL, or past
 argument-hint: [git range | PR URL | (paste in followup)]
 ---
 
-## Step 0 — theme preference (run first, every invocation)
+## Step 0 — theme + renderer preference (run first, every invocation)
 
-**When `PREF` is empty below, you MUST prompt the user for theme + mode via `AskUserQuestion` BEFORE writing the preference file — theme options: `studio` (Airtable — clean enterprise canvas, Airtable Blue accent), `midnight` (Cal.com — grayscale monochrome, Cal Sans display), `void` (Bugatti — architectural black canvas, 288px display scale, 3-color palette), `gallery` (Apple — cinematic binary surfaces, SF Pro, Apple Blue); mode options: `light` / `dark` / `auto`. Use the answer to set `THEME` and `MODE`. If the user skips or the tool is unavailable, fall back silently to `studio` + `light`.**
+**When `PREF` is empty below, you MUST prompt the user for theme + renderer via `AskUserQuestion` BEFORE writing the preference file — theme options: `notion` (warm cream + Notion Blue), `linear` (dark-native + indigo), `vercel` (gallery white + Geist), `stripe` (weight-300 luxury + deep navy), `supabase` (dark-native + emerald); renderer options: `auto` / `canvas` / `page`. Use the answer to set `THEME` and `RENDERER`. If the user skips or the tool is unavailable, fall back silently to `notion` + `auto`. Color mode is not a setting — every output inlines both light and dark; the toggle button + `prefers-color-scheme` switch them at view time.**
 
 ```bash
 PREF=""
@@ -16,16 +16,16 @@ done
 
 if [ -z "$PREF" ]; then
   # See the instruction above — populate from AskUserQuestion or fall back.
-  THEME=studio; MODE=light
+  THEME=notion; RENDERER=auto
   mkdir -p ~/.hyperscribe; PREF=~/.hyperscribe/preference.md
-  printf -- '---\ntheme: %s\nmode: %s\ncreated_at: %s\n---\n' \
-    "$THEME" "$MODE" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$PREF"
+  printf -- '---\ntheme: %s\nrenderer: %s\ncreated_at: %s\n---\n' \
+    "$THEME" "$RENDERER" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$PREF"
 fi
 
-THEME=$(awk -F': *' '/^theme:/{print $2; exit}' "$PREF")
-MODE=$(awk -F': *'  '/^mode:/{print $2; exit}'  "$PREF")
-[ -z "$THEME" ] && THEME=studio
-[ -z "$MODE" ]  && MODE=light
+THEME=$(awk    -F': *' '/^theme:/{print $2; exit}'    "$PREF")
+RENDERER=$(awk -F': *' '/^renderer:/{print $2; exit}' "$PREF")
+[ -z "$THEME" ]    && THEME=notion
+[ -z "$RENDERER" ] && RENDERER=auto
 ```
 
 You are invoking Hyperscribe's diff review. The user's input:
@@ -118,7 +118,7 @@ MODE_FLAG=""
 [ "$MODE" = "light" ] && MODE_FLAG="--mode light"
 [ "$MODE" = "dark" ]  && MODE_FLAG="--mode dark"
 
-cat <<'EOF' | ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe/scripts/hyperscribe --theme "$THEME" $MODE_FLAG --out "$OUT"
+cat <<'EOF' | ~/.claude/plugins/cache/outprint-marketplace/*/plugins/outprint/scripts/outprint --theme "$THEME" $MODE_FLAG --out "$OUT"
 <the JSON you built>
 EOF
 open "$OUT"

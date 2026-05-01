@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { Prose } from "../../plugins/hyperscribe/scripts/components/prose.mjs";
+import { Prose } from "../../plugins/outprint/scripts/components/prose.mjs";
 
 test("Prose: wraps markdown in hs-prose container", () => {
   const html = Prose({ markdown: "hello" });

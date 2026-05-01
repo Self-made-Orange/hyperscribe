@@ -3,12 +3,12 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const rootSkill = readFileSync(
-  new URL("../skills/hyperscribe/SKILL.md", import.meta.url),
+  new URL("../skills/outprint/SKILL.md", import.meta.url),
   "utf8"
 );
 
 const pluginSkill = readFileSync(
-  new URL("../plugins/hyperscribe/skills/hyperscribe/SKILL.md", import.meta.url),
+  new URL("../plugins/outprint/skills/outprint/SKILL.md", import.meta.url),
   "utf8"
 );
 

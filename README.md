@@ -46,7 +46,7 @@ cat > /tmp/hello.json <<'EOF'
 }
 EOF
 
-node plugins/hyperscribe/scripts/render.mjs --in /tmp/hello.json --out /tmp/hello.html
+node plugins/outprint/scripts/render.mjs --in /tmp/hello.json --out /tmp/hello.html
 open /tmp/hello.html      # macOS — use xdg-open on Linux
 ```
 
@@ -107,8 +107,8 @@ A full-viewport dashboard the agent appends to over time. Hero carousel cycles t
 The renderer is decided automatically (`auto`) but you can force either side:
 
 ```bash
-node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html --renderer page
-node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html --renderer canvas
+node plugins/outprint/scripts/render.mjs --in envelope.json --out out.html --renderer page
+node plugins/outprint/scripts/render.mjs --in envelope.json --out out.html --renderer canvas
 ```
 
 ---
@@ -129,7 +129,7 @@ node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html --
 
 Components carry **semantic data only** — styling props (`color`, `backgroundColor`, `fontSize`, `className`, …) are rejected by the schema. If you want a red warning box, ask for `Callout severity="warn"`, never a hex code.
 
-Full prop schemas: [`plugins/hyperscribe/references/catalog.md`](plugins/hyperscribe/references/catalog.md).
+Full prop schemas: [`plugins/outprint/references/catalog.md`](plugins/outprint/references/catalog.md).
 
 ---
 
@@ -148,10 +148,10 @@ Full prop schemas: [`plugins/hyperscribe/references/catalog.md`](plugins/hypersc
 Default: `notion`. Override per call:
 
 ```bash
-node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html --theme stripe
+node plugins/outprint/scripts/render.mjs --in envelope.json --out out.html --theme stripe
 ```
 
-Themes live as pure CSS-variable overrides under [`plugins/hyperscribe/themes/`](plugins/hyperscribe/themes/). Each defines tokens under `[data-theme="<name>"]` (light) and `[data-theme="<name>"][data-mode="dark"]` (dark).
+Themes live as pure CSS-variable overrides under [`plugins/outprint/themes/`](plugins/outprint/themes/). Each defines tokens under `[data-theme="<name>"]` (light) and `[data-theme="<name>"][data-mode="dark"]` (dark).
 
 ---
 
@@ -196,7 +196,7 @@ Run `--help` for the full list.
 
 ```
 /plugin marketplace add Self-made-Orange/agent-outprint-skills
-/plugin install hyperscribe@hyperscribe-marketplace
+/plugin install outprint@outprint-marketplace
 ```
 
 ### Any agent (Codex, Cursor, Gemini CLI, …)
@@ -210,7 +210,7 @@ npx skills add Self-made-Orange/agent-outprint-skills
 ```bash
 git clone https://github.com/Self-made-Orange/agent-outprint-skills.git
 cd agent-outprint-skills
-node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html
+node plugins/outprint/scripts/render.mjs --in envelope.json --out out.html
 ```
 
 ---
@@ -219,10 +219,10 @@ node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html
 
 | Command | Description |
 |---|---|
-| `/hyperscribe` | General page — diagrams, tables, explainers |
-| `/hyperscribe:slides` | Forces `SlideDeck` root |
-| `/hyperscribe:diff` | PR / diff review with `CodeDiff` + `ArchitectureGrid` |
-| `/hyperscribe:share` | Deploy output to Vercel, return public URL |
+| `/outprint` | General page — diagrams, tables, explainers |
+| `/outprint:slides` | Forces `SlideDeck` root |
+| `/outprint:diff` | PR / diff review with `CodeDiff` + `ArchitectureGrid` |
+| `/outprint:share` | Deploy output to Vercel, return public URL |
 
 ---
 
@@ -230,7 +230,7 @@ node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html
 
 ```
 .
-├── plugins/hyperscribe/        # Renderer + components + themes
+├── plugins/outprint/        # Renderer + components + themes
 │   ├── scripts/
 │   │   ├── render.mjs            # CLI entry — page-mode renderer
 │   │   ├── canvas.mjs            # canvas-mode renderer
@@ -240,12 +240,12 @@ node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html
 │   ├── themes/                   # 5 brand themes
 │   ├── spec/catalog.json         # component catalog (source of truth)
 │   ├── references/catalog.md    # human-readable prop docs
-│   └── skills/hyperscribe/       # Claude Code skill bundle
+│   └── skills/outprint/       # Claude Code skill bundle
 ├── skills/                     # Mirror for non-plugin agent runtimes
-│   ├── hyperscribe/              # base skill (page + canvas)
-│   ├── hyperscribe-slides/       # slide-deck variant
-│   ├── hyperscribe-diff/         # PR review variant
-│   └── hyperscribe-share/        # Vercel deploy variant
+│   ├── outprint/                 # base skill (page + canvas)
+│   ├── outprint-slides/          # slide-deck variant
+│   ├── outprint-diff/            # PR review variant
+│   └── outprint-share/           # Vercel deploy variant
 ├── tools/claw/                 # Optional Slack/agent wrapper (see tools/claw/README.md)
 ├── tests/                      # Unit + golden-snapshot tests
 └── benchmark/                  # Token-cost comparison vs hand-written HTML
@@ -255,7 +255,7 @@ node plugins/hyperscribe/scripts/render.mjs --in envelope.json --out out.html
 
 ## Optional tooling — `tools/claw/`
 
-`tools/claw/hyperscribe-render` is a bash wrapper for agent runtimes that need:
+`tools/claw/outprint-render` is a bash wrapper for agent runtimes that need:
 
 - **Forced theme/mode defaults** when the LLM drops them
 - **Envelope diversity check** — rejects flat prose-only outputs (skip with `--allow-prose-only`)

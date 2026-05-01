@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 const catalog = JSON.parse(
-  readFileSync(new URL("../plugins/hyperscribe/spec/catalog.json", import.meta.url), "utf8")
+  readFileSync(new URL("../plugins/outprint/spec/catalog.json", import.meta.url), "utf8")
 );
 
 test("catalog cleanup: removed components are absent from the default catalog", () => {
@@ -19,7 +19,7 @@ test("catalog cleanup: removed components are absent from the default catalog", 
 
 test("render registry cleanup: removed components and dashboard nested-child special case are gone", () => {
   const renderSource = readFileSync(
-    new URL("../plugins/hyperscribe/scripts/render.mjs", import.meta.url),
+    new URL("../plugins/outprint/scripts/render.mjs", import.meta.url),
     "utf8"
   );
 
@@ -32,17 +32,17 @@ test("render registry cleanup: removed components and dashboard nested-child spe
 
 test("main hyperscribe skill: slide components are documented as slide-mode-only", () => {
   const skill = readFileSync(
-    new URL("../plugins/hyperscribe/skills/hyperscribe/SKILL.md", import.meta.url),
+    new URL("../plugins/outprint/skills/outprint/SKILL.md", import.meta.url),
     "utf8"
   );
 
   assert.match(skill, /slide-mode-only/i);
-  assert.match(skill, /\/hyperscribe:slides/);
+  assert.match(skill, /\/outprint:slides/);
 });
 
 test("reference catalog: separates default components from slide-only components", () => {
   const reference = readFileSync(
-    new URL("../plugins/hyperscribe/references/catalog.md", import.meta.url),
+    new URL("../plugins/outprint/references/catalog.md", import.meta.url),
     "utf8"
   );
 

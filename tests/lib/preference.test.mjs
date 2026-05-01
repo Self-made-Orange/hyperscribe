@@ -10,7 +10,7 @@ import {
   resolvePreferencePath,
   readPreference,
   writePreference
-} from "../../plugins/hyperscribe/scripts/lib/preference.mjs";
+} from "../../plugins/outprint/scripts/lib/preference.mjs";
 
 test("defaults: notion + auto", () => {
   assert.deepEqual(defaults(), { theme: "notion", renderer: "auto" });

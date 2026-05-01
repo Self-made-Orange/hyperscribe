@@ -1,5 +1,5 @@
 ---
-name: hyperscribe-share
+name: outprint-share
 description: Deploy a previously rendered Hyperscribe HTML file to Vercel and return a live shareable URL. Use whenever the user asks to "share", "publish", "deploy", or "send" a Hyperscribe output. Requires the `vercel` CLI (`npm i -g vercel`, then `vercel login`) and the `hyperscribe` skill for the share script.
 license: MIT
 metadata:
@@ -39,15 +39,15 @@ Do **not** use for: generating new pages (use `hyperscribe` or `hyperscribe-slid
 ```bash
 # Locate the share script (installed alongside the hyperscribe skill).
 SHARE=$(for p in \
-  ./.claude/skills/hyperscribe ~/.claude/skills/hyperscribe \
-  ./.codex/skills/hyperscribe ~/.codex/skills/hyperscribe \
-  ./.cursor/skills/hyperscribe ~/.cursor/skills/hyperscribe \
-  ./.opencode/skills/hyperscribe ~/.opencode/skills/hyperscribe \
-  ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe
+  ./.claude/skills/outprint ~/.claude/skills/outprint \
+  ./.codex/skills/outprint ~/.codex/skills/outprint \
+  ./.cursor/skills/outprint ~/.cursor/skills/outprint \
+  ./.opencode/skills/outprint ~/.opencode/skills/outprint \
+  ~/.claude/plugins/cache/outprint-marketplace/*/plugins/outprint
 do [ -f "$p/scripts/share.sh" ] && { echo "$p/scripts/share.sh"; break; }; done)
 
 if [ -z "$SHARE" ]; then
-  echo "hyperscribe share script not found. Install with: npx skills add Atipico1/hyperscribe" >&2
+  echo "hyperscribe share script not found. Install with: npx skills add Self-made-Orange/agent-outprint-skills" >&2
   exit 1
 fi
 

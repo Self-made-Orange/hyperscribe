@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Generate plugins/hyperscribe/references/catalog.md from plugins/hyperscribe/spec/catalog.json.
+ * Generate plugins/outprint/references/catalog.md from plugins/outprint/spec/catalog.json.
  * The markdown is the authoritative reference Claude loads when building JSON.
  */
 
@@ -10,8 +10,8 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = resolve(__dirname, "..");
-const CATALOG_PATH = resolve(REPO_ROOT, "plugins", "hyperscribe", "spec", "catalog.json");
-const OUT_PATH = resolve(REPO_ROOT, "plugins", "hyperscribe", "references", "catalog.md");
+const CATALOG_PATH = resolve(REPO_ROOT, "plugins", "outprint", "spec", "catalog.json");
+const OUT_PATH = resolve(REPO_ROOT, "plugins", "outprint", "references", "catalog.md");
 
 const catalog = JSON.parse(readFileSync(CATALOG_PATH, "utf8"));
 
@@ -75,7 +75,7 @@ const defaultComponents = Object.keys(catalog.components).filter(name => !SLIDE_
 
 let md = `# Hyperscribe Component Catalog — ${catalog.version}
 
-**This file is auto-generated from \`plugins/hyperscribe/spec/catalog.json\`. Do not edit by hand. Run \`node tools/build-catalog-md.mjs\` to regenerate.**
+**This file is auto-generated from \`plugins/outprint/spec/catalog.json\`. Do not edit by hand. Run \`node tools/build-catalog-md.mjs\` to regenerate.**
 
 ## Envelope
 
@@ -96,9 +96,9 @@ Root component must be \`${catalog.envelope.root_component}\`.
 
 ## Components (${defaultComponents} default + ${totalComponents - defaultComponents} slide-mode-only)
 
-The default \`/hyperscribe\` page mode uses the components below.
+The default \`/outprint\` page mode uses the components below.
 
-\`hyperscribe/SlideDeck\` and \`hyperscribe/Slide\` are **slide-mode-only** components owned by \`/hyperscribe:slides\`.
+\`hyperscribe/SlideDeck\` and \`hyperscribe/Slide\` are **slide-mode-only** components owned by \`/outprint:slides\`.
 
 `;
 
@@ -111,7 +111,7 @@ for (const cat of CATEGORY_ORDER) {
 }
 
 if (byCategory.Slides) {
-  md += `## Slide Mode Only\n\nThese components are intentionally separated from the default page-mode inventory. Use them through \`/hyperscribe:slides\`, not through the default \`/hyperscribe\` flow.\n\n`;
+  md += `## Slide Mode Only\n\nThese components are intentionally separated from the default page-mode inventory. Use them through \`/outprint:slides\`, not through the default \`/outprint\` flow.\n\n`;
   for (const [name, schema] of byCategory.Slides) {
     md += renderComponent(name, schema) + "\n";
   }

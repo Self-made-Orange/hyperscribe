@@ -381,7 +381,7 @@ export const GALLERY_COMPONENTS = [
       component: "hyperscribe/FileCard",
       props: {
         name: "render.mjs",
-        path: "plugins/hyperscribe/scripts/render.mjs",
+        path: "plugins/outprint/scripts/render.mjs",
         responsibility: "Validates envelopes, loads the theme, and emits a self-contained HTML document.",
         loc: 248,
         state: "modified",

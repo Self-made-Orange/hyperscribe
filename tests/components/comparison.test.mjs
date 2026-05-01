@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { Comparison } from "../../plugins/hyperscribe/scripts/components/comparison.mjs";
+import { Comparison } from "../../plugins/outprint/scripts/components/comparison.mjs";
 
 test("Comparison: wraps with mode class", () => {
   assert.match(Comparison({ items: [], mode: "vs" }), /<div class="hs-compare hs-compare-vs"/);

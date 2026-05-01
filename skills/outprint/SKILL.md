@@ -1,5 +1,5 @@
 ---
-name: agent-outprint-skills
+name: outprint
 description: Generate self-contained HTML pages and slide decks (diagrams, comparison tables, architecture overviews, diff reviews, visual recaps) by emitting semantic component JSON. Use whenever a visual artifact communicates better than terminal prose — proactively trigger on 4+ row tables, ASCII flowcharts, multi-stage pipelines, or explicit "make a diagram / slides / recap" requests.
 license: MIT
 metadata:
@@ -21,8 +21,8 @@ Use Hyperscribe when any of these hold:
 - You are about to render a **markdown table with 4+ rows OR 3+ columns** in a chat reply — render a `DataTable` instead.
 - You are about to render **ASCII art of a system, flow, or state machine** — use `Mermaid` or `ArchitectureGrid` instead.
 - The user asks for a "slide deck", "presentation", "recap", or "summary with sections".
-- Reviewing a PR / diff and a before-after view plus impacted-module map would help — use `/hyperscribe:diff`.
-- The user wants to share a result with others — render then call `/hyperscribe:share`.
+- Reviewing a PR / diff and a before-after view plus impacted-module map would help — use `/outprint:diff`.
+- The user wants to share a result with others — render then call `/outprint:share`.
 
 Do **not** use Hyperscribe when:
 
@@ -107,13 +107,13 @@ When invoking the renderer in later steps, always pass `--theme "$THEME"` and `-
 4. **Call the CLI.** Pipe the JSON into the wrapper via Bash:
    ```bash
    HS=$(for p in \
-     ./.claude/skills/hyperscribe ~/.claude/skills/hyperscribe \
-     ./.codex/skills/hyperscribe ~/.codex/skills/hyperscribe \
-     ./.cursor/skills/hyperscribe ~/.cursor/skills/hyperscribe \
-     ./.opencode/skills/hyperscribe ~/.opencode/skills/hyperscribe \
-     ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe \
-     ./plugins/hyperscribe
-   do [ -x "$p/scripts/hyperscribe" ] && { echo "$p/scripts/hyperscribe"; break; }; done)
+     ./.claude/skills/outprint ~/.claude/skills/outprint \
+     ./.codex/skills/outprint ~/.codex/skills/outprint \
+     ./.cursor/skills/outprint ~/.cursor/skills/outprint \
+     ./.opencode/skills/outprint ~/.opencode/skills/outprint \
+     ~/.claude/plugins/cache/outprint-marketplace/*/plugins/outprint \
+     ./plugins/outprint
+   do [ -x "$p/scripts/outprint" ] && { echo "$p/scripts/outprint"; break; }; done)
 
    mkdir -p ~/.hyperscribe/out
    echo '<json>' | "$HS" --theme "$THEME" --renderer "$RENDERER" --out ~/.hyperscribe/out/<slug>.html
@@ -318,7 +318,7 @@ No `--theme` or `--mode` flags needed — the canvas template always uses `shadc
 
 23 default components across 7 categories. See `references/catalog.md` for full prop schemas and examples.
 
-`hyperscribe/SlideDeck` and `hyperscribe/Slide` are **slide-mode-only** components owned by `/hyperscribe:slides`. They are intentionally excluded from the default page-mode inventory below.
+`hyperscribe/SlideDeck` and `hyperscribe/Slide` are **slide-mode-only** components owned by `/outprint:slides`. They are intentionally excluded from the default page-mode inventory below.
 
 | Category | Component | Purpose |
 |---|---|---|
@@ -348,7 +348,7 @@ No `--theme` or `--mode` flags needed — the canvas template always uses `shadc
 
 ## Slide mode only
 
-Use these only through `/hyperscribe:slides`:
+Use these only through `/outprint:slides`:
 
 | Category | Component | Purpose |
 |---|---|---|
@@ -370,10 +370,10 @@ If you find yourself reaching for a styling prop, the correct answer is usually 
 
 | Command | Use when |
 |---|---|
-| `/hyperscribe` | General-purpose page. Default choice for diagrams, docs, tables, architectures, and metric summaries. |
-| `/hyperscribe:slides` | Slide deck mode. Forces `SlideDeck` root; extracts slides from a topic or outline. |
-| `/hyperscribe:diff` | Diff / PR review. Combines `ArchitectureGrid` (impacted modules) + `CodeDiff` + `Callout` (risks). |
-| `/hyperscribe:share` | Deploys an existing HTML output to Vercel and returns a live URL. Input: path to a previously rendered file. |
+| `/outprint` | General-purpose page. Default choice for diagrams, docs, tables, architectures, and metric summaries. |
+| `/outprint:slides` | Slide deck mode. Forces `SlideDeck` root; extracts slides from a topic or outline. |
+| `/outprint:diff` | Diff / PR review. Combines `ArchitectureGrid` (impacted modules) + `CodeDiff` + `Callout` (risks). |
+| `/outprint:share` | Deploys an existing HTML output to Vercel and returns a live URL. Input: path to a previously rendered file. |
 
 ## Auto-trigger logic
 
@@ -381,8 +381,8 @@ Apply these rules proactively — do not wait for the user to say the word "Hype
 
 1. **Table auto-trigger.** If you are about to emit a markdown/ASCII table in a chat reply with `rows >= 4` OR `columns >= 3`, switch to `hyperscribe/DataTable` inside a minimal `Page` envelope.
 2. **Diagram auto-trigger.** If you are about to draw ASCII boxes-and-arrows of a system, pipeline, or state machine, emit `hyperscribe/Sequence` (for actor-message diagrams), `hyperscribe/Mermaid` (flowchart / state / er / mindmap / class), or `hyperscribe/ArchitectureGrid` (for module/service topology). Prefer `Sequence` over `Mermaid` with `kind:sequence` — it is native SVG with consistent Notion styling and no CDN.
-3. **Slide auto-trigger.** If the user says "slides", "deck", "presentation", "walk me through", or asks for a 5+ step recap, route through `/hyperscribe:slides`.
-4. **Diff auto-trigger.** If the user pastes `git diff` output or a PR URL and asks for review, route through `/hyperscribe:diff`.
+3. **Slide auto-trigger.** If the user says "slides", "deck", "presentation", "walk me through", or asks for a 5+ step recap, route through `/outprint:slides`.
+4. **Diff auto-trigger.** If the user pastes `git diff` output or a PR URL and asks for review, route through `/outprint:diff`.
 5. **Escape hatch.** If the user explicitly asks to keep it in terminal ("just tell me", "don't open a browser"), skip Hyperscribe and reply in plain text.
 
 Modeled after `nicobailon/visual-explainer`'s proactive-rendering behavior, but emitting semantic JSON instead of raw HTML.
@@ -465,7 +465,7 @@ A minimal envelope that renders a page with a callout:
 Pipe it to the CLI:
 
 ```bash
-echo '<json-above>' | ~/.claude/plugins/hyperscribe/plugins/hyperscribe/scripts/hyperscribe \
+echo '<json-above>' | ~/.claude/plugins/outprint/plugins/outprint/scripts/outprint \
   --out ~/.hyperscribe/out/deploy-checklist.html && \
   open ~/.hyperscribe/out/deploy-checklist.html
 ```

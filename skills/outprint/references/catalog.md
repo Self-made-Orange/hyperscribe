@@ -1,6 +1,6 @@
 # Hyperscribe Component Catalog — hyperscribe/v1
 
-**This file is auto-generated from `plugins/hyperscribe/spec/catalog.json`. Do not edit by hand. Run `node tools/build-catalog-md.mjs` to regenerate.**
+**This file is auto-generated from `plugins/outprint/spec/catalog.json`. Do not edit by hand. Run `node tools/build-catalog-md.mjs` to regenerate.**
 
 ## Envelope
 
@@ -21,9 +21,9 @@ Root component must be `hyperscribe/Page`.
 
 ## Components (23 default + 2 slide-mode-only)
 
-The default `/hyperscribe` page mode uses the components below.
+The default `/outprint` page mode uses the components below.
 
-`hyperscribe/SlideDeck` and `hyperscribe/Slide` are **slide-mode-only** components owned by `/hyperscribe:slides`.
+`hyperscribe/SlideDeck` and `hyperscribe/Slide` are **slide-mode-only** components owned by `/outprint:slides`.
 
 ## Structure
 
@@ -329,7 +329,7 @@ Ordered steps / checklist.
 
 ## Slide Mode Only
 
-These components are intentionally separated from the default page-mode inventory. Use them through `/hyperscribe:slides`, not through the default `/hyperscribe` flow.
+These components are intentionally separated from the default page-mode inventory. Use them through `/outprint:slides`, not through the default `/outprint` flow.
 
 ### `hyperscribe/SlideDeck`
 

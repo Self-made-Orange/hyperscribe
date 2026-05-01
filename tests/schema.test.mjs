@@ -3,11 +3,11 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
-import { validate } from "../plugins/hyperscribe/scripts/lib/schema.mjs";
+import { validate } from "../plugins/outprint/scripts/lib/schema.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const catalog = JSON.parse(
-  readFileSync(resolve(__dirname, "../plugins/hyperscribe/spec/catalog.json"), "utf8")
+  readFileSync(resolve(__dirname, "../plugins/outprint/spec/catalog.json"), "utf8")
 );
 
 test("validate: accepts minimal valid envelope", () => {

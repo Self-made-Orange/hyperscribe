@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { loadTheme, listThemes, modeTogglerHtml } from "../../plugins/hyperscribe/scripts/lib/theme.mjs";
+import { loadTheme, listThemes, modeTogglerHtml } from "../../plugins/outprint/scripts/lib/theme.mjs";
 
 const BUNDLED = ["notion", "linear", "vercel", "stripe", "supabase"];
 

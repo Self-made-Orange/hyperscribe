@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { render, resolveRenderer } from "../plugins/hyperscribe/scripts/render.mjs";
+import { render, resolveRenderer } from "../plugins/outprint/scripts/render.mjs";
 
 const envelope = {
   a2ui_version: "0.9",

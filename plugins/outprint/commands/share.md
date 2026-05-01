@@ -17,14 +17,14 @@ $ARGUMENTS
    HTML=$(ls -1t ~/.hyperscribe/out/*.html 2>/dev/null | head -1)
    ```
 
-   If no output files exist, ask the user to generate one first with `/hyperscribe` and try again.
+   If no output files exist, ask the user to generate one first with `/outprint` and try again.
 
 ## Deploy
 
 Invoke the share script:
 
 ```bash
-SHARE=~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe/scripts/share.sh
+SHARE=~/.claude/plugins/cache/outprint-marketplace/*/plugins/outprint/scripts/share.sh
 bash $SHARE "$HTML"
 ```
 
@@ -40,7 +40,7 @@ On success, the script prints `Deployed: https://<id>.vercel.app`.
 After successful deploy, tell the user:
 - The live URL
 - That the page is `cleanUrls: true` on Vercel's edge network
-- That they can re-deploy by running `/hyperscribe:share` again (a new URL is issued each time)
+- That they can re-deploy by running `/outprint:share` again (a new URL is issued each time)
 
 ## Failure modes
 

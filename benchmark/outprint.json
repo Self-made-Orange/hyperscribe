@@ -22,7 +22,7 @@
             {
               "component": "hyperscribe/Prose",
               "props": {
-                "markdown": "Hyperscribe is a **catalog-driven renderer**. The important split is simple:\n\n- `plugins/hyperscribe/spec/catalog.json` defines the contract.\n- `plugins/hyperscribe/scripts/render.mjs` validates and renders.\n- `plugins/hyperscribe/scripts/components/*.mjs` turns semantic nodes into HTML.\n- `plugins/hyperscribe/assets/*` and `plugins/hyperscribe/themes/*` supply the shared look and behavior."
+                "markdown": "Hyperscribe is a **catalog-driven renderer**. The important split is simple:\n\n- `plugins/outprint/spec/catalog.json` defines the contract.\n- `plugins/outprint/scripts/render.mjs` validates and renders.\n- `plugins/outprint/scripts/components/*.mjs` turns semantic nodes into HTML.\n- `plugins/outprint/assets/*` and `plugins/outprint/themes/*` supply the shared look and behavior."
               }
             },
             {
@@ -190,7 +190,7 @@
           "props": {
             "id": "repo-shape",
             "title": "Repository Shape",
-            "lead": "The product source lives under `plugins/hyperscribe`. The skill and docs folders are mirrors and helpers around it."
+            "lead": "The product source lives under `plugins/outprint`. The skill and docs folders are mirrors and helpers around it."
           },
           "children": [
             {
@@ -199,7 +199,7 @@
                 "mode": "grid",
                 "items": [
                   {
-                    "title": "plugins/hyperscribe",
+                    "title": "plugins/outprint",
                     "subtitle": "Canonical runtime",
                     "bullets": [
                       "Renderer, schema, tree walker, themes, assets, and commands live here.",

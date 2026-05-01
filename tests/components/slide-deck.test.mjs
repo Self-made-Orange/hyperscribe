@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { SlideDeck } from "../../plugins/hyperscribe/scripts/components/slide-deck.mjs";
+import { SlideDeck } from "../../plugins/outprint/scripts/components/slide-deck.mjs";
 
 test("SlideDeck: wraps with aspect class", () => {
   const html = SlideDeck({ aspect: "16:9" }, () => "<slide>");
@@ -48,7 +48,7 @@ test("SlideDeck: includes navigation JS with idempotent guard", () => {
 });
 
 test("SlideDeck CSS: keeps slide viewport palette independent from page mode", () => {
-  const css = readFileSync(new URL("../../plugins/hyperscribe/assets/components/slide-deck.css", import.meta.url), "utf8");
+  const css = readFileSync(new URL("../../plugins/outprint/assets/components/slide-deck.css", import.meta.url), "utf8");
   assert.match(css, /--hs-slide-bg:\s+#ffffff/);
   assert.match(css, /--hs-color-fg:\s+var\(--hs-slide-fg\)/);
   assert.match(css, /\.hs-deck-slides \{\s*position: relative;\s*background: var\(--hs-slide-bg\)/m);
@@ -92,7 +92,7 @@ test("SlideDeck JS: detects mode from class and branches scroll logic", () => {
 });
 
 test("SlideDeck CSS: ships scroll-snap, scroll-jack, and reduced-motion rules", () => {
-  const css = readFileSync(new URL("../../plugins/hyperscribe/assets/components/slide-deck.css", import.meta.url), "utf8");
+  const css = readFileSync(new URL("../../plugins/outprint/assets/components/slide-deck.css", import.meta.url), "utf8");
   assert.match(css, /\.hs-deck-mode-scroll-snap/);
   assert.match(css, /scroll-snap-type: y mandatory/);
   assert.match(css, /\.hs-deck-mode-scroll-jack/);
