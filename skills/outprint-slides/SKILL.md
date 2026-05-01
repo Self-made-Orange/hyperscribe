@@ -108,8 +108,8 @@ if [ -z "$HS" ]; then
   exit 1
 fi
 
-mkdir -p ~/.hyperscribe/out
-OUT=~/.hyperscribe/out/slides-$(date +%Y%m%d-%H%M%S).html
+mkdir -p ~/.outprint/out
+OUT=~/.outprint/out/slides-$(date +%Y%m%d-%H%M%S).html
 cat <<'EOF' | "$HS" --theme "${THEME:-notion}" --renderer "${RENDERER:-auto}" --out "$OUT"
 <the JSON you built>
 EOF

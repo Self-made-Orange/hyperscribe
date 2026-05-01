@@ -9,7 +9,7 @@ metadata:
 
 # Hyperscribe — Share mode
 
-Deploys an existing `.html` file (typically from `~/.hyperscribe/out/`) to Vercel and returns a public URL. Thin wrapper over the `hyperscribe` skill's `scripts/share.sh`.
+Deploys an existing `.html` file (typically from `~/.outprint/out/`) to Vercel and returns a public URL. Thin wrapper over the `hyperscribe` skill's `scripts/share.sh`.
 
 ## When to use
 
@@ -30,7 +30,7 @@ Do **not** use for: generating new pages (use `hyperscribe` or `hyperscribe-slid
 1. **Explicit path given** — use it (verify it exists).
 2. **"last" / "just now" / no path** — find the most recent output:
    ```bash
-   HTML=$(ls -1t ~/.hyperscribe/out/*.html 2>/dev/null | head -1)
+   HTML=$(ls -1t ~/.outprint/out/*.html 2>/dev/null | head -1)
    ```
    If nothing exists, ask the user to render one first with `hyperscribe` / `hyperscribe-slides` / `hyperscribe-diff`.
 
@@ -69,11 +69,11 @@ After a successful deploy, tell them:
 | Exit | Cause | Fix |
 |---|---|---|
 | 127 | `vercel` CLI missing | `npm i -g vercel && vercel login` |
-| 2 | path missing/invalid | Check `~/.hyperscribe/out/` exists; render something first |
+| 2 | path missing/invalid | Check `~/.outprint/out/` exists; render something first |
 | 1 | deploy ran but no URL parsed | Read the full deploy log (path printed in stderr) |
 
 ## Avoid
 
 - Deploying HTML containing secrets — if the content has API keys or credentials, warn the user first.
 - Running `vercel login` yourself — it's interactive; the user must do it.
-- Deploying files outside `~/.hyperscribe/out/` unless the user explicitly asks.
+- Deploying files outside `~/.outprint/out/` unless the user explicitly asks.

@@ -43,7 +43,7 @@ test("parsePreference: missing renderer falls back to default", () => {
 test("formatPreference: produces canonical YAML + body", () => {
   const out = formatPreference({ theme: "linear", renderer: "page" });
   assert.match(out, /^---\ntheme: linear\nrenderer: page\ncreated_at: /);
-  assert.match(out, /# Hyperscribe preferences/);
+  assert.match(out, /# Outprint preferences/);
   assert.match(out, /Valid values:/);
   // No mode field anywhere — color mode is intentionally not a preference
   assert.doesNotMatch(out, /^mode:/m);
@@ -52,7 +52,7 @@ test("formatPreference: produces canonical YAML + body", () => {
 test("resolvePreferencePath: project-local wins over global", () => {
   const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
   try {
-    const local = join(tmp, ".hyperscribe");
+    const local = join(tmp, ".outprint");
     mkdirSync(local, { recursive: true });
     const localFile = join(local, "preference.md");
     writeFileSync(localFile, "---\ntheme: linear\nrenderer: page\n---");
@@ -60,6 +60,36 @@ test("resolvePreferencePath: project-local wins over global", () => {
     writeFileSync(globalFile, "---\ntheme: notion\nrenderer: auto\n---");
     const found = resolvePreferencePath({ cwd: tmp, homeFile: globalFile });
     assert.equal(found, localFile);
+  } finally { rmSync(tmp, { recursive: true, force: true }); }
+});
+
+test("resolvePreferencePath: legacy ./.hyperscribe/ is auto-migrated to ./.outprint/", () => {
+  const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
+  try {
+    const legacy = join(tmp, ".hyperscribe");
+    mkdirSync(legacy, { recursive: true });
+    const legacyFile = join(legacy, "preference.md");
+    writeFileSync(legacyFile, "---\ntheme: stripe\nrenderer: canvas\n---");
+    // No .outprint/ exists — resolver should copy and return current path
+    const found = resolvePreferencePath({ cwd: tmp });
+    assert.equal(found, join(tmp, ".outprint", "preference.md"));
+    // Migrated file content matches
+    const migrated = readFileSync(found, "utf8");
+    assert.match(migrated, /theme: stripe/);
+    assert.match(migrated, /renderer: canvas/);
+  } finally { rmSync(tmp, { recursive: true, force: true }); }
+});
+
+test("resolvePreferencePath: legacy ~/.hyperscribe/ is auto-migrated to ~/.outprint/", () => {
+  const tmp = mkdtempSync(join(tmpdir(), "hs-pref-"));
+  try {
+    // No project-local of either kind — only home-legacy exists.
+    const homeLegacy = join(tmp, "_home_legacy_preference.md");
+    writeFileSync(homeLegacy, "---\ntheme: vercel\nrenderer: auto\n---");
+    const homeCurrent = join(tmp, "_home_current_preference.md");
+    const found = resolvePreferencePath({ cwd: tmp, homeFile: homeCurrent, homeLegacyFile: homeLegacy });
+    assert.equal(found, homeCurrent);
+    assert.match(readFileSync(found, "utf8"), /theme: vercel/);
   } finally { rmSync(tmp, { recursive: true, force: true }); }
 });
 

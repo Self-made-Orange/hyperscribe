@@ -10,14 +10,14 @@ argument-hint: <topic or outline>
 
 ```bash
 PREF=""
-for p in ./.hyperscribe/preference.md ~/.hyperscribe/preference.md; do
+for p in ./.outprint/preference.md ~/.outprint/preference.md; do
   [ -f "$p" ] && { PREF="$p"; break; }
 done
 
 if [ -z "$PREF" ]; then
   # See the instruction above — populate from AskUserQuestion or fall back.
   THEME=notion; RENDERER=auto
-  mkdir -p ~/.hyperscribe; PREF=~/.hyperscribe/preference.md
+  mkdir -p ~/.hyperscribe; PREF=~/.outprint/preference.md
   printf -- '---\ntheme: %s\nrenderer: %s\ncreated_at: %s\n---\n' \
     "$THEME" "$RENDERER" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$PREF"
 fi
@@ -89,11 +89,11 @@ Aim for 5-12 slides for most topics. If the topic is huge, suggest splitting int
 
 ## Render + open
 
-Same workflow as `/outprint` — pipe the JSON to the CLI, write to `~/.hyperscribe/out/<slug>.html`, then `open` it.
+Same workflow as `/outprint` — pipe the JSON to the CLI, write to `~/.outprint/out/<slug>.html`, then `open` it.
 
 ```bash
-mkdir -p ~/.hyperscribe/out
-OUT=~/.hyperscribe/out/slides-$(date +%Y%m%d-%H%M%S).html
+mkdir -p ~/.outprint/out
+OUT=~/.outprint/out/slides-$(date +%Y%m%d-%H%M%S).html
 MODE_FLAG=""
 [ "$MODE" = "light" ] && MODE_FLAG="--mode light"
 [ "$MODE" = "dark" ]  && MODE_FLAG="--mode dark"

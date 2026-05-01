@@ -11,10 +11,10 @@ $ARGUMENTS
 ## Resolve the HTML path
 
 1. **Explicit path given**: use it directly (verify it exists).
-2. **"last" or no args**: find the most recent `.html` file under `~/.hyperscribe/out/`:
+2. **"last" or no args**: find the most recent `.html` file under `~/.outprint/out/`:
 
    ```bash
-   HTML=$(ls -1t ~/.hyperscribe/out/*.html 2>/dev/null | head -1)
+   HTML=$(ls -1t ~/.outprint/out/*.html 2>/dev/null | head -1)
    ```
 
    If no output files exist, ask the user to generate one first with `/outprint` and try again.
@@ -47,7 +47,7 @@ After successful deploy, tell the user:
 | Symptom | Likely cause | Fix |
 |---|---|---|
 | exit 127 | vercel CLI missing | `npm i -g vercel` then `vercel login` |
-| exit 2 | path missing/invalid | Check `~/.hyperscribe/out/` exists |
+| exit 2 | path missing/invalid | Check `~/.outprint/out/` exists |
 | exit 1 | deploy ran but no URL matched | Read the full deploy log (path in stderr) |
 
 ## Avoid

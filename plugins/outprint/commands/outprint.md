@@ -10,14 +10,14 @@ argument-hint: <natural language description>
 
 ```bash
 PREF=""
-for p in ./.hyperscribe/preference.md ~/.hyperscribe/preference.md; do
+for p in ./.outprint/preference.md ~/.outprint/preference.md; do
   [ -f "$p" ] && { PREF="$p"; break; }
 done
 
 if [ -z "$PREF" ]; then
   # See the instruction above — populate from AskUserQuestion or fall back.
   THEME=notion; RENDERER=auto
-  mkdir -p ~/.hyperscribe; PREF=~/.hyperscribe/preference.md
+  mkdir -p ~/.hyperscribe; PREF=~/.outprint/preference.md
   printf -- '---\ntheme: %s\nrenderer: %s\ncreated_at: %s\n---\n' \
     "$THEME" "$RENDERER" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$PREF"
 fi
@@ -76,9 +76,9 @@ $ARGUMENTS
 4. **Render via CLI.** Invoke the bash wrapper with the JSON piped in:
 
    ```bash
-   mkdir -p ~/.hyperscribe/out
+   mkdir -p ~/.outprint/out
    SLUG="$(date +%Y%m%d-%H%M%S)"
-   OUT=~/.hyperscribe/out/$SLUG.html
+   OUT=~/.outprint/out/$SLUG.html
    MODE_FLAG=""
    [ "$MODE" = "light" ] && MODE_FLAG="--mode light"
    [ "$MODE" = "dark" ]  && MODE_FLAG="--mode dark"

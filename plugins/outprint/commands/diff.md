@@ -10,14 +10,14 @@ argument-hint: [git range | PR URL | (paste in followup)]
 
 ```bash
 PREF=""
-for p in ./.hyperscribe/preference.md ~/.hyperscribe/preference.md; do
+for p in ./.outprint/preference.md ~/.outprint/preference.md; do
   [ -f "$p" ] && { PREF="$p"; break; }
 done
 
 if [ -z "$PREF" ]; then
   # See the instruction above — populate from AskUserQuestion or fall back.
   THEME=notion; RENDERER=auto
-  mkdir -p ~/.hyperscribe; PREF=~/.hyperscribe/preference.md
+  mkdir -p ~/.hyperscribe; PREF=~/.outprint/preference.md
   printf -- '---\ntheme: %s\nrenderer: %s\ncreated_at: %s\n---\n' \
     "$THEME" "$RENDERER" "$(date -u +%Y-%m-%dT%H:%M:%SZ)" > "$PREF"
 fi
@@ -109,11 +109,11 @@ A solid diff review includes:
 
 ## Render
 
-Same bash flow as other commands — pipe JSON to the hyperscribe CLI, write to `~/.hyperscribe/out/diff-<slug>.html`, `open` it.
+Same bash flow as other commands — pipe JSON to the hyperscribe CLI, write to `~/.outprint/out/diff-<slug>.html`, `open` it.
 
 ```bash
-mkdir -p ~/.hyperscribe/out
-OUT=~/.hyperscribe/out/diff-$(date +%Y%m%d-%H%M%S).html
+mkdir -p ~/.outprint/out
+OUT=~/.outprint/out/diff-$(date +%Y%m%d-%H%M%S).html
 MODE_FLAG=""
 [ "$MODE" = "light" ] && MODE_FLAG="--mode light"
 [ "$MODE" = "dark" ]  && MODE_FLAG="--mode dark"

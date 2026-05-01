@@ -39,11 +39,11 @@ Color mode (light/dark) is **not** a preference: every output inlines both varia
 ```bash
 # 1. Resolve preference path: project-local first, then global.
 PREF=""
-for p in ./.hyperscribe/preference.md ~/.hyperscribe/preference.md; do
+for p in ./.outprint/preference.md ~/.outprint/preference.md; do
   [ -f "$p" ] && { PREF="$p"; break; }
 done
 
-# 2. First run — prompt and save defaults to ~/.hyperscribe/preference.md
+# 2. First run — prompt and save defaults to ~/.outprint/preference.md
 if [ -z "$PREF" ]; then
   # Claude Code: ask via AskUserQuestion (theme 5-choice, renderer 3-choice).
   # Other agents: print the prompt below and wait for a single-line answer.
@@ -71,7 +71,7 @@ PROMPT
   # (Agents with AskUserQuestion populate $THEME and $RENDERER from the structured answer.)
 
   mkdir -p ~/.hyperscribe
-  PREF=~/.hyperscribe/preference.md
+  PREF=~/.outprint/preference.md
   cat > "$PREF" <<EOF
 ---
 theme: $THEME
@@ -115,10 +115,10 @@ When invoking the renderer in later steps, always pass `--theme "$THEME"` and `-
      ./plugins/outprint
    do [ -x "$p/scripts/outprint" ] && { echo "$p/scripts/outprint"; break; }; done)
 
-   mkdir -p ~/.hyperscribe/out
-   echo '<json>' | "$HS" --theme "$THEME" --renderer "$RENDERER" --out ~/.hyperscribe/out/<slug>.html
+   mkdir -p ~/.outprint/out
+   echo '<json>' | "$HS" --theme "$THEME" --renderer "$RENDERER" --out ~/.outprint/out/<slug>.html
    ```
-   Omit `--out` to let the CLI write `~/.hyperscribe/out/<slug-from-title>-<timestamp>.html` and print the path.
+   Omit `--out` to let the CLI write `~/.outprint/out/<slug-from-title>-<timestamp>.html` and print the path.
 5. **Open it for the user.** On macOS: `open <path>`. On Linux: `xdg-open <path>`.
 6. **Report the path.** Reply with the absolute path and a one-line summary of what's inside. Don't dump the JSON back to the user.
 
@@ -300,7 +300,7 @@ Use `"template": "canvas"` when the output is an **ongoing agent report**: a ful
 ### Canvas render command
 
 ```bash
-echo '<json>' | "$HS" --out ~/.hyperscribe/out/<slug>.html
+echo '<json>' | "$HS" --out ~/.outprint/out/<slug>.html
 ```
 
 No `--theme` or `--mode` flags needed — the canvas template always uses `shadcn-dark` + `shadcn-light` with a built-in toggle button.
@@ -412,7 +412,7 @@ Retry policy: up to **2 automatic retries** adjusting the JSON each time. After 
 
 - No streaming render — full JSON is produced, then rendered end-to-end.
 - No custom / third-party components — catalog is fixed at 23 default page components plus 2 slide-only components.
-- No direct styling overrides in props. Users may place `~/.hyperscribe/theme.json` to override CSS token values at the **renderer** level.
+- No direct styling overrides in props. Users may place `~/.outprint/theme.json` to override CSS token values at the **renderer** level.
 - Themeable renderer. Built-in themes are `studio`, `midnight`, `void`, and `gallery`.
 - No multi-page envelopes — one `Page` per default invocation. Slide mode uses one `SlideDeck`.
 - Fonts: `NotionInter` is not bundled; fallback chain uses Inter / system-ui.
@@ -466,8 +466,8 @@ Pipe it to the CLI:
 
 ```bash
 echo '<json-above>' | ~/.claude/plugins/outprint/plugins/outprint/scripts/outprint \
-  --out ~/.hyperscribe/out/deploy-checklist.html && \
-  open ~/.hyperscribe/out/deploy-checklist.html
+  --out ~/.outprint/out/deploy-checklist.html && \
+  open ~/.outprint/out/deploy-checklist.html
 ```
 
 Then report the path to the user.

@@ -157,7 +157,7 @@ Themes live as pure CSS-variable overrides under [`plugins/outprint/themes/`](pl
 
 ## Configuration
 
-User preferences live in `~/.hyperscribe/preference.md` (global) or `./.hyperscribe/preference.md` (project-local; takes priority).
+User preferences live in `~/.outprint/preference.md` (global) or `./.outprint/preference.md` (project-local; takes priority).
 
 ```yaml
 ---

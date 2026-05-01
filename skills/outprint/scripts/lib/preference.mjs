@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
+import { readFileSync, writeFileSync, mkdirSync, existsSync, copyFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { homedir } from "node:os";
 
@@ -7,6 +7,14 @@ const VALID_RENDERERS = new Set(["auto", "canvas", "page"]);
 // Color mode (light/dark) is intentionally NOT part of preference anymore.
 // Both variants are inlined into the output and the toggle button + system
 // `prefers-color-scheme` handle switching at view time.
+
+// Runtime config dirs in priority order:
+//   1. ./.outprint/preference.md            (project-local, current name)
+//   2. ./.hyperscribe/preference.md         (project-local, legacy — auto-migrated on read)
+//   3. ~/.outprint/preference.md            (global, current name)
+//   4. ~/.hyperscribe/preference.md         (global, legacy — auto-migrated on read)
+const CURRENT_DIR_NAME = ".outprint";
+const LEGACY_DIR_NAME  = ".hyperscribe";
 
 export function defaults() {
   return { theme: "notion", renderer: "auto" };
@@ -40,10 +48,10 @@ renderer: ${renderer}
 created_at: ${created}
 ---
 
-# Hyperscribe preferences
+# Outprint preferences
 
 Edit the values above to change your defaults. Delete this file to re-run
-the first-run setup on the next hyperscribe invocation.
+the first-run setup on the next outprint invocation.
 
 Valid values:
   theme:    notion | linear | vercel | stripe | supabase
@@ -51,11 +59,43 @@ Valid values:
 `;
 }
 
-export function resolvePreferencePath({ cwd = process.cwd(), homeFile } = {}) {
-  const local = resolve(cwd, ".hyperscribe", "preference.md");
-  if (existsSync(local)) return local;
-  const globalPath = homeFile ?? join(homedir(), ".hyperscribe", "preference.md");
-  if (existsSync(globalPath)) return globalPath;
+/**
+ * Resolve preference file path with backwards-compat fallback to the legacy
+ * `.hyperscribe/` directory. Search order:
+ *   1. cwd/.outprint/preference.md       (current, project)
+ *   2. cwd/.hyperscribe/preference.md    (legacy, project)  ← auto-migrated
+ *   3. ~/.outprint/preference.md         (current, global)
+ *   4. ~/.hyperscribe/preference.md      (legacy, global)   ← auto-migrated
+ *
+ * If only a legacy file exists, it is copied to the current location and the
+ * current path is returned. The legacy file is left in place so older tools
+ * that still read it keep working; users can delete it manually.
+ */
+export function resolvePreferencePath({ cwd = process.cwd(), homeFile, homeLegacyFile } = {}) {
+  // Project-local — current
+  const localCurrent = resolve(cwd, CURRENT_DIR_NAME, "preference.md");
+  if (existsSync(localCurrent)) return localCurrent;
+
+  // Project-local — legacy (auto-migrate)
+  const localLegacy = resolve(cwd, LEGACY_DIR_NAME, "preference.md");
+  if (existsSync(localLegacy)) {
+    mkdirSync(dirname(localCurrent), { recursive: true });
+    copyFileSync(localLegacy, localCurrent);
+    return localCurrent;
+  }
+
+  // Global — current
+  const globalCurrent = homeFile ?? join(homedir(), CURRENT_DIR_NAME, "preference.md");
+  if (existsSync(globalCurrent)) return globalCurrent;
+
+  // Global — legacy (auto-migrate)
+  const globalLegacy = homeLegacyFile ?? join(homedir(), LEGACY_DIR_NAME, "preference.md");
+  if (existsSync(globalLegacy)) {
+    mkdirSync(dirname(globalCurrent), { recursive: true });
+    copyFileSync(globalLegacy, globalCurrent);
+    return globalCurrent;
+  }
+
   return null;
 }
 
@@ -76,4 +116,4 @@ export function writePreference(path, { theme, renderer }) {
   writeFileSync(path, formatPreference({ theme, renderer }), "utf8");
 }
 
-export { VALID_THEMES, VALID_RENDERERS };
+export { VALID_THEMES, VALID_RENDERERS, CURRENT_DIR_NAME, LEGACY_DIR_NAME };

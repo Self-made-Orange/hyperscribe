@@ -107,7 +107,7 @@ user prompt
   - theme CSS 파일 로드와 light/dark toggle markup 생성.
 
 - `plugins/outprint/scripts/lib/preference.mjs`
-  - `~/.hyperscribe/preference.md` 또는 `./.hyperscribe/preference.md` 처리.
+  - `~/.outprint/preference.md` 또는 `./.outprint/preference.md` 처리.
 
 - `plugins/outprint/scripts/share.sh`
   - 완성된 HTML을 Vercel에 올려 public URL을 만든다.
