@@ -119,6 +119,54 @@ const CANVAS_JS = `
     });
   }
 
+  // Scroll inside hero → advance / retreat slides; overflow → next section
+  var hero = document.querySelector('.hs-hero-carousel');
+  if (hero && total > 1) {
+    var scrollLocked = false;
+
+    function scrollToNextSection() {
+      var next = hero.nextElementSibling;
+      if (next) {
+        next.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+      }
+    }
+
+    hero.addEventListener('wheel', function (e) {
+      var goingDown = e.deltaY > 0;
+      var goingUp   = e.deltaY < 0;
+
+      // At last slide scrolling down → release to next section
+      if (goingDown && current === total - 1) {
+        if (scrollLocked) { e.preventDefault(); return; }
+        scrollToNextSection();
+        return;
+      }
+
+      // At first slide scrolling up → let page scroll naturally
+      if (goingUp && current === 0) return;
+
+      e.preventDefault();
+      if (scrollLocked) return;
+      scrollLocked = true;
+      show(goingDown ? current + 1 : current - 1);
+      setTimeout(function () { scrollLocked = false; }, 700);
+    }, { passive: false });
+
+    // Touch support
+    var touchStartY = 0;
+    hero.addEventListener('touchstart', function (e) {
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    hero.addEventListener('touchend', function (e) {
+      var dy = touchStartY - e.changedTouches[0].clientY;
+      if (Math.abs(dy) < 40) return;
+      if (dy > 0 && current === total - 1) { scrollToNextSection(); return; }
+      show(dy > 0 ? current + 1 : current - 1);
+    }, { passive: true });
+  }
+
   show(0);
 }());
 `.trim();
@@ -279,6 +327,7 @@ export function renderCanvas(doc, REGISTRY) {
         eyebrow:     item.eyebrow     || autoEyebrow,
         title:       item.title       || "Untitled",
         description: item.description || "",
+        href:        item.href        || null,
       });
     }).join("\n");
 
@@ -453,8 +502,6 @@ body { margin: 0; padding: 0 !important; background: var(--hs-color-bg); }
   flex-wrap: nowrap;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  mask-image: linear-gradient(to right, transparent 0%, black 24px, black calc(100% - 24px), transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 24px, black calc(100% - 24px), transparent 100%);
 }
 .hs-site-header-nav::-webkit-scrollbar { display: none; }
 .hs-site-header-nav li { flex-shrink: 0; }
