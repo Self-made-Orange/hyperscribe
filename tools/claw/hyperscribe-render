@@ -18,16 +18,17 @@
 #   CLAW_HYPERSCRIBE_THEME  — default theme (default: notion)
 #   CLAW_HYPERSCRIBE_MODE   — default mode (default: auto)
 
-HYPERSCRIBE_REPO="${HYPERSCRIBE_REPO:-$HOME/src/agent-outprint-skills}"
-DEFAULT_THEME="${CLAW_HYPERSCRIBE_THEME:-notion}"
-DEFAULT_MODE="${CLAW_HYPERSCRIBE_MODE:-auto}"
-
-# canvas-wrap helper lives next to this script in the repo. Resolve symlinks
-# so installs via `ln -s ... ~/.local/bin/hyperscribe-render` still find the
-# helper.
+# Resolve symlinks so installs via `ln -s ... ~/.local/bin/hyperscribe-render`
+# still locate canvas-wrap.py and the repo root from the script's own path.
 SCRIPT_PATH="$(readlink -f -- "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(dirname -- "$SCRIPT_PATH")"
 CANVAS_WRAP_HELPER="$SCRIPT_DIR/canvas-wrap.py"
+
+# Repo root is two dirs above tools/claw/. Allow override via env for relocated
+# checkouts.
+HYPERSCRIBE_REPO="${HYPERSCRIBE_REPO:-$(cd "$SCRIPT_DIR/../.." && pwd)}"
+DEFAULT_THEME="${CLAW_HYPERSCRIBE_THEME:-notion}"
+DEFAULT_MODE="${CLAW_HYPERSCRIBE_MODE:-auto}"
 
 has_theme=0
 has_mode=0
