@@ -242,6 +242,31 @@ html, body {
 }
 
 /* === Page === */
+/* Back-navigation bar (multi-HTML linking) */
+.op-page-backbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: color-mix(in oklab, var(--op-color-surface) 85%, transparent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--op-color-border);
+  padding: 10px var(--op-space-5);
+}
+.op-page-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--op-color-fg-muted);
+  text-decoration: none;
+  transition: color 120ms ease;
+  max-width: var(--op-container-max);
+  margin: 0 auto;
+}
+.op-page-back:hover { color: var(--op-color-fg); }
+
 .op-page {
   max-width: var(--op-container-max);
   margin: 0 auto;

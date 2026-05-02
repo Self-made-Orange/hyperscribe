@@ -1,0 +1,47 @@
+{
+  "template": "canvas",
+  "meta": {
+    "title": "Agent Output Hub",
+    "navLabel": "Agent Output Hub",
+    "agent": "Claude",
+    "subtitle": "Every report, connected.",
+    "divisionsLabel": "All Reports",
+    "statement": {
+      "eyebrow": "Self-made Orange",
+      "text": "One agent. Every output, beautifully connected.",
+      "cta": {
+        "label": "Browse all reports",
+        "href": "#canvas-divisions"
+      }
+    }
+  },
+  "featured": {
+    "component": "outprint/Prose",
+    "props": {
+      "markdown": "## Welcome\n\nThis is the **agent output hub** — a living index of every report this agent has produced.\n\nClick any card below to open the full report. New outputs are added automatically at the top as the agent runs."
+    }
+  },
+  "history": [
+    {
+      "title": "Week 18 Team Update",
+      "navLabel": "Team",
+      "eyebrow": "2026-05-02  ·  Team Update",
+      "description": "Engineering & Product weekly sync. Enterprise tier live, mobile alpha in progress, 4 action items.",
+      "href": "03-week18-team.html"
+    },
+    {
+      "title": "April 2026 Growth Report",
+      "navLabel": "Growth",
+      "eyebrow": "2026-04-30  ·  Growth",
+      "description": "MAU up 178% MoM to 41 200. ARR crossed $1 M. Channel breakdown and retention cohort analysis.",
+      "href": "02-april-growth.html"
+    },
+    {
+      "title": "Q1 2026 Product Launch Report",
+      "navLabel": "Launch",
+      "eyebrow": "2026-03-31  ·  Launch Report",
+      "description": "Falcon Platform post-launch analysis. 14 820 day-1 sign-ups, 68% activation rate, #1 Product Hunt.",
+      "href": "01-q1-launch.html"
+    }
+  ]
+}

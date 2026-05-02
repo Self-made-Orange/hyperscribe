@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Hello</title>
+  <title>Q1 2026 Product Launch Report</title>
   <style>/* ===== Notion theme — strictly per Notion DESIGN.md ===== */
 /*
  *   Source: getdesign.md/notion/design-md (extracted from getdesign npm v0.6.9)
@@ -528,10 +528,297 @@ html:not([data-mode="dark"]) .op-mode-icon-sun  { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .op-mode-toggler, .op-zoom-btn { transition: none; }
 }
+
+/* outprint/KPICard */
+.op-kpi {
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius, 0.5rem);
+  padding: var(--op-space-4);
+  box-shadow: var(--op-shadow-card);
+  min-width: 180px;
+}
+.op-kpi-label {
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  margin-bottom: var(--op-space-2);
+  text-transform: none;
+}
+.op-kpi-value {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-feature-settings: "lnum", "tnum";
+}
+.op-kpi-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: var(--op-space-2);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: var(--op-radius-sm, calc(0.5rem - 2px));
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+}
+.op-kpi-delta-up {
+  background: var(--op-tone-success-bg);
+  color: var(--op-tone-success-fg);
+  border-color: transparent;
+}
+.op-kpi-delta-down {
+  background: var(--op-tone-danger-bg);
+  color: var(--op-tone-danger-fg);
+  border-color: transparent;
+}
+.op-kpi-delta-flat {
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  border-color: transparent;
+}
+.op-kpi-hint {
+  margin-top: var(--op-space-2);
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  font-size: 12px;
+}
+
+/* outprint/Chart */
+/* === Chart — shadcn/ui style via Chart.js === */
+.op-chart-wrap {
+  margin: 0;
+  position: relative;
+}
+
+.op-chart {
+  display: block;
+  width: 100% !important;
+  max-height: 380px;
+}
+
+/* Legend overrides — align with shadcn muted text */
+.op-chart-wrap canvas {
+  color: var(--op-color-muted-fg);
+}
+
+.op-chart-cap {
+  text-align: center;
+  color: var(--op-color-muted-fg);
+  font-size: 11px;
+  font-family: var(--op-font-mono);
+  letter-spacing: 0.04em;
+  margin-top: 12px;
+}
+
+/* outprint/StepList */
+.op-steps {
+  list-style: none;
+  padding: 0;
+  margin: var(--op-space-4) 0;
+}
+.op-step {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  gap: var(--op-space-3);
+  padding: var(--op-space-3) 0;
+  border-bottom: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  align-items: start;
+}
+.op-step:last-child { border-bottom: none; }
+.op-step-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--op-space-3);
+  min-height: 28px;
+}
+.op-step-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius-sm, calc(0.5rem - 2px));
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  flex: 0 0 28px;
+  font-family: var(--op-font-mono);
+}
+.op-step-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  flex: 0 0 28px;
+}
+.op-step-done .op-step-indicator,
+.op-step-done .op-step-index    { color: var(--op-tone-success-fg); border-color: var(--op-tone-success-fg); }
+.op-step-doing .op-step-indicator,
+.op-step-doing .op-step-index   { color: var(--op-color-primary, var(--op-color-fg)); border-color: var(--op-color-primary, var(--op-color-fg)); }
+.op-step-skipped { opacity: 0.5; }
+.op-step-title  { font-weight: 600; font-size: 14px; }
+.op-step-body {
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  font-size: 14px;
+  margin-top: var(--op-space-1);
+  line-height: 1.5;
+}
+.op-step-body > p:first-child { margin-top: 0; }
+.op-step-body > p:last-child  { margin-bottom: 0; }
+
+/* outprint/Callout */
+.op-callout {
+  border-left: 3px solid var(--op-color-border, var(--op-color-fg-muted));
+  background: var(--op-color-card, var(--op-color-surface));
+  border-radius: 0 var(--op-radius, 0.5rem) var(--op-radius, 0.5rem) 0;
+  padding: var(--op-space-4) var(--op-space-5);
+  margin: var(--op-space-4) 0;
+  border-top: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-right: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-bottom: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+}
+.op-callout-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: var(--op-space-2);
+}
+.op-callout-body {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.op-callout-body > p:first-child { margin-top: 0; }
+.op-callout-body > p:last-child  { margin-bottom: 0; }
+
+/* Tone variants */
+.op-callout-info {
+  border-left-color: var(--op-tone-info-fg);
+  background: var(--op-tone-info-bg);
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+.op-callout-info .op-callout-title { color: var(--op-tone-info-fg); }
+
+.op-callout-note {
+  border-left-color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+}
+
+.op-callout-warn {
+  border-left-color: var(--op-tone-warn-fg);
+  background: var(--op-tone-warn-bg);
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+.op-callout-warn .op-callout-title { color: var(--op-tone-warn-fg); }
+
+.op-callout-success {
+  border-left-color: var(--op-tone-success-fg);
+  background: var(--op-tone-success-bg);
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+.op-callout-success .op-callout-title { color: var(--op-tone-success-fg); }
+
+.op-callout-danger {
+  border-left-color: var(--op-tone-danger-fg);
+  background: var(--op-tone-danger-bg);
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+.op-callout-danger .op-callout-title { color: var(--op-tone-danger-fg); }
 </style>
 </head>
 <body>
-<article class="op-page"><header class="op-page-header"><h1 class="op-page-title">Hello</h1></header><main class="op-page-main"><div class="op-prose"><p>minimal body</p></div></main></article>
+<nav class="op-page-backbar"><a class="op-page-back" href="index.html">← All Reports</a></nav><article class="op-page"><header class="op-page-header"><h1 class="op-page-title">Q1 2026 Product Launch Report</h1><p class="op-page-subtitle">Post-launch analysis — Falcon Platform</p></header><main class="op-page-main"><section class="op-section" id="launch-metrics"><h2 class="op-section-title">Launch Metrics</h2><div class="op-section-body"><article class="op-kpi"><div class="op-kpi-label">Day-1 Sign-ups</div><div class="op-kpi-value">14,820</div><div class="op-kpi-delta op-kpi-delta-up"><span class="op-kpi-delta-icon">↑</span>+340%</div><div class="op-kpi-hint">vs. previous launch</div></article><article class="op-kpi"><div class="op-kpi-label">Activation Rate</div><div class="op-kpi-value">68%</div><div class="op-kpi-delta op-kpi-delta-up"><span class="op-kpi-delta-icon">↑</span>+12 pp</div><div class="op-kpi-hint">completed onboarding within 24 h</div></article><article class="op-kpi"><div class="op-kpi-label">Median Time-to-Value</div><div class="op-kpi-value">4 min</div><div class="op-kpi-delta op-kpi-delta-up"><span class="op-kpi-delta-icon">↑</span>-3 min</div><div class="op-kpi-hint">from signup to first output</div></article><article class="op-kpi"><div class="op-kpi-label">Crash-free Sessions</div><div class="op-kpi-value">99.7%</div><div class="op-kpi-delta op-kpi-delta-up"><span class="op-kpi-delta-icon">↑</span>+0.4 pp</div></article></div></section><section class="op-section" id="traffic"><h2 class="op-section-title">Traffic by Channel</h2><div class="op-section-body"><figure class="op-chart-wrap"><canvas class="op-chart" data-kind="bar" id="hsChart_syp37de5"></canvas><figcaption class="op-chart-cap">Channel × Sign-ups</figcaption><script>if (!window.__hsChartLoaded) {
+  window.__hsChartLoaded = true;
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+  s.onload = function() { window.__hsChartReady && window.__hsChartReady(); };
+  document.head.appendChild(s);
+}</script><script>(function(){
+  var id   = 'hsChart_syp37de5';
+  var unit = "";
+  var rawCfg = JSON.parse('{"type":"bar","data":{"labels":["Product Hunt","HN","Twitter/X","LinkedIn","Direct","Other"],"datasets":[{"name":"Day-1 sign-ups","label":"Day-1 sign-ups","data":[6200,3100,2400,1500,980,640],"fill":false,"_colorVar":"--op-chart-1","borderWidth":0,"borderRadius":6,"borderSkipped":false}]},"options":{"responsive":true,"maintainAspectRatio":true,"interaction":{"mode":"index","intersect":false},"plugins":{"legend":{"display":false,"position":"bottom","labels":{"boxWidth":12,"boxHeight":12,"borderRadius":3,"useBorderRadius":true,"padding":16,"font":{"size":12}}},"tooltip":{"enabled":true,"backgroundColor":"hsl(240 10% 3.9%)","titleColor":"hsl(0 0% 98%)","bodyColor":"hsl(240 5% 64.9%)","borderColor":"hsl(240 3.7% 15.9%)","borderWidth":1,"padding":{"x":12,"y":10},"cornerRadius":6,"titleFont":{"size":12,"weight":"600"},"bodyFont":{"size":12}}},"scales":{"x":{"border":{"display":false},"grid":{"display":false},"ticks":{"color":"hsl(240 5% 64.9%)","font":{"size":12},"maxRotation":0},"title":{"display":true,"text":"Channel","color":"hsl(240 5% 64.9%)"}},"y":{"border":{"display":false,"dash":[4,4]},"grid":{"color":"hsl(240 3.7% 15.9%)","drawTicks":false},"ticks":{"color":"hsl(240 5% 64.9%)","font":{"size":12},"padding":8},"title":{"display":true,"text":"Sign-ups","color":"hsl(240 5% 64.9%)"}}}}}');
+
+  function getCssVar(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+        || getComputedStyle(document.body).getPropertyValue(name).trim();
+  }
+
+  function hexAlpha(hslStr, alpha) {
+    // create a tiny canvas to resolve hsl → rgba
+    try {
+      var tmp = document.createElement('canvas');
+      tmp.width = tmp.height = 1;
+      var ctx2d = tmp.getContext('2d');
+      ctx2d.fillStyle = hslStr;
+      ctx2d.fillRect(0,0,1,1);
+      var d = ctx2d.getImageData(0,0,1,1).data;
+      return 'rgba(' + d[0] + ',' + d[1] + ',' + d[2] + ',' + alpha + ')';
+    } catch(e) { return hslStr; }
+  }
+
+  function applyColors(cfg) {
+    var datasets = cfg.data && cfg.data.datasets;
+    if (!datasets) return;
+    datasets.forEach(function(ds) {
+      var vr = ds._colorVar;
+      if (!vr) return;
+      var color = getCssVar(vr);
+      if (!color) color = ds._colorVar; // fallback
+      ds.backgroundColor = cfg.type === 'line' || cfg.type === 'scatter'
+        ? hexAlpha(color, 0.15)
+        : color;
+      ds.borderColor = color;
+      ds.pointBackgroundColor = color;
+      ds.pointBorderColor = color;
+      delete ds._colorVar;
+    });
+    // legend dot colors
+    if (cfg.options && cfg.options.plugins && cfg.options.plugins.legend) {
+      cfg.options.plugins.legend.labels = cfg.options.plugins.legend.labels || {};
+      cfg.options.plugins.legend.labels.color = getCssVar('--op-color-muted-fg') || 'hsl(240 5% 64.9%)';
+    }
+  }
+
+  function addTooltipCallback(cfg) {
+    cfg.options = cfg.options || {};
+    cfg.options.plugins = cfg.options.plugins || {};
+    cfg.options.plugins.tooltip = cfg.options.plugins.tooltip || {};
+    cfg.options.plugins.tooltip.callbacks = {
+      label: function(ctx) {
+        var prefix = ctx.dataset && ctx.dataset.label ? ctx.dataset.label + ': ' : '';
+        var raw = ctx.raw;
+        if (raw && typeof raw === 'object' && raw.y != null) raw = raw.y;
+        return prefix + (unit ? unit : '') + raw;
+      }
+    };
+  }
+
+  function render() {
+    var canvas = document.getElementById(id);
+    if (!canvas || !window.Chart) { setTimeout(render, 50); return; }
+    applyColors(rawCfg);
+    addTooltipCallback(rawCfg);
+    new window.Chart(canvas, rawCfg);
+  }
+
+  if (window.Chart) render();
+  else {
+    var prev = window.__hsChartReady;
+    window.__hsChartReady = function(){ prev && prev(); render(); };
+  }
+})();</script></figure></div></section><section class="op-section" id="launch-phases"><h2 class="op-section-title">Launch Phases</h2><div class="op-section-body"><ol class="op-steps op-steps-numbered"><li class="op-step op-step-done"><div class="op-step-meta"><span class="op-step-index">1</span><span class="op-step-indicator" aria-label="done">✓</span></div><div class="op-step-content"><div class="op-step-title">Soft-launch to waitlist (Mar 10)</div><div class="op-step-body"><p>2 400 early access users. Collected 180 bug reports; 97% resolved before public launch.</p></div></div></li><li class="op-step op-step-done"><div class="op-step-meta"><span class="op-step-index">2</span><span class="op-step-indicator" aria-label="done">✓</span></div><div class="op-step-content"><div class="op-step-title">Product Hunt listing (Mar 24)</div><div class="op-step-body"><p>Peaked at #1 Product of the Day by 14:00 UTC. 6 200 upvotes, 340 comments.</p></div></div></li><li class="op-step op-step-done"><div class="op-step-meta"><span class="op-step-index">3</span><span class="op-step-indicator" aria-label="done">✓</span></div><div class="op-step-content"><div class="op-step-title">Public open access (Mar 31)</div><div class="op-step-body"><p>Rate-limiting removed. All regions live. CDN edge nodes healthy.</p></div></div></li><li class="op-step op-step-doing"><div class="op-step-meta"><span class="op-step-index">4</span><span class="op-step-indicator" aria-label="doing">●</span></div><div class="op-step-content"><div class="op-step-title">Enterprise tier rollout (Apr 14)</div><div class="op-step-body"><p>SSO, audit logs, and priority support available to paying orgs.</p></div></div></li><li class="op-step op-step-todo"><div class="op-step-meta"><span class="op-step-index">5</span></div><div class="op-step-content"><div class="op-step-title">Mobile app (Q2)</div><div class="op-step-body"><p>iOS + Android GA planned for end of Q2.</p></div></div></li></ol></div></section><aside class="op-callout op-callout-success"><div class="op-callout-title">Key Takeaway</div><div class="op-callout-body"><p>Activation rate of 68% exceeds the 55% target set at kick-off. Time-to-value dropped below 5 minutes for the first time. Recommend fast-following with the mobile app to retain momentum.</p></div></aside></main></article>
 <button type="button" class="op-mode-toggler" id="op-mode-toggler" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
   <svg class="op-mode-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
   <svg class="op-mode-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>

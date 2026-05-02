@@ -1,0 +1,161 @@
+{
+  "a2ui_version": "0.9",
+  "catalog": "outprint/v1",
+  "parts": [
+    {
+      "component": "outprint/Page",
+      "props": {
+        "title": "Week 18 Team Update",
+        "subtitle": "Apr 28 – May 2, 2026  ·  Engineering & Product",
+        "backHref": "index.html",
+        "backLabel": "← All Reports"
+      },
+      "children": [
+        {
+          "component": "outprint/Callout",
+          "props": {
+            "severity": "success",
+            "title": "Big win this week",
+            "body": "Enterprise tier went live on schedule. First 12 customers migrated; zero support escalations in 72 hours."
+          }
+        },
+        {
+          "component": "outprint/Section",
+          "props": {
+            "id": "engineering",
+            "title": "Engineering"
+          },
+          "children": [
+            {
+              "component": "outprint/StepList",
+              "props": {
+                "steps": [
+                  {
+                    "title": "Enterprise SSO (SAML 2.0)",
+                    "body": "Shipped Monday. Okta, Azure AD, and Google Workspace tested. JIT provisioning working for Okta only — JIRA-1820 filed for Azure.",
+                    "state": "done"
+                  },
+                  {
+                    "title": "Audit log export (CSV + SIEM)",
+                    "body": "Shipped Wednesday. Splunk and Datadog integrations verified by 3 beta customers.",
+                    "state": "done"
+                  },
+                  {
+                    "title": "Edge cache warming",
+                    "body": "p99 render latency dropped from 410 ms to 118 ms on EU-West. Continuing rollout to APAC this weekend.",
+                    "state": "doing"
+                  },
+                  {
+                    "title": "Mobile app alpha (iOS)",
+                    "body": "SwiftUI shell done. Renderer WebView loading outprint output. Offline mode stubbed. Beta target: May 19.",
+                    "state": "doing"
+                  },
+                  {
+                    "title": "Streaming partial renders",
+                    "body": "Design doc in review. Unblocked once edge cache is fully rolled out.",
+                    "state": "todo"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "component": "outprint/Section",
+          "props": {
+            "id": "product",
+            "title": "Product"
+          },
+          "children": [
+            {
+              "component": "outprint/StepList",
+              "props": {
+                "steps": [
+                  {
+                    "title": "Component catalog v1.1 shipped",
+                    "body": "CountdownTimer, ERDDiagram, and Swimlane GA. Catalog.md and spec/catalog.json updated.",
+                    "state": "done"
+                  },
+                  {
+                    "title": "Theme: Supabase",
+                    "body": "Dark-native emerald theme merged and live. 5 themes total.",
+                    "state": "done"
+                  },
+                  {
+                    "title": "Prompt guidelines v3",
+                    "body": "Updated SKILL.md with Canvas-first examples and multi-HTML linking pattern. Merged to main.",
+                    "state": "done"
+                  },
+                  {
+                    "title": "Scroll-jack slide mode",
+                    "body": "SlideDeck gets a new scroll-jack mode (sticky scroll + IntersectionObserver). Tests green.",
+                    "state": "doing"
+                  },
+                  {
+                    "title": "Benchmark vs. GPT-4o HTML output",
+                    "body": "Token-cost comparison on 12 real use-cases. Draft ready for review.",
+                    "state": "doing"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "component": "outprint/Section",
+          "props": {
+            "id": "adr",
+            "title": "Architecture Decision"
+          },
+          "children": [
+            {
+              "component": "outprint/Callout",
+              "props": {
+                "severity": "note",
+                "title": "ADR-09: Canvas as default render mode",
+                "body": "Accepted. All new agent outputs default to canvas template unless parts[] is present. Page mode remains fully supported for one-shot documents. Rationale: canvas builds a persistent thread of outputs rather than orphaned files — better agent UX long-term."
+              }
+            }
+          ]
+        },
+        {
+          "component": "outprint/Section",
+          "props": {
+            "id": "action-items",
+            "title": "Action Items"
+          },
+          "children": [
+            {
+              "component": "outprint/StepList",
+              "props": {
+                "numbered": false,
+                "steps": [
+                  {
+                    "title": "Finish APAC edge cache rollout",
+                    "body": "Owner: infra team. Due: Sunday May 4.",
+                    "state": "todo"
+                  },
+                  {
+                    "title": "Resolve Azure AD JIT provisioning (JIRA-1820)",
+                    "body": "Owner: auth squad. Due: May 7.",
+                    "state": "todo"
+                  },
+                  {
+                    "title": "Merge benchmark report",
+                    "body": "Owner: product. Due: May 6.",
+                    "state": "todo"
+                  },
+                  {
+                    "title": "iOS beta build to TestFlight",
+                    "body": "Owner: mobile team. Due: May 19.",
+                    "state": "todo"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

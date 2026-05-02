@@ -1,0 +1,162 @@
+{
+  "a2ui_version": "0.9",
+  "catalog": "outprint/v1",
+  "parts": [
+    {
+      "component": "outprint/Page",
+      "props": {
+        "title": "Q1 2026 Product Launch Report",
+        "subtitle": "Post-launch analysis — Falcon Platform",
+        "backHref": "index.html",
+        "backLabel": "← All Reports"
+      },
+      "children": [
+        {
+          "component": "outprint/Section",
+          "props": {
+            "id": "launch-metrics",
+            "title": "Launch Metrics"
+          },
+          "children": [
+            {
+              "component": "outprint/KPICard",
+              "props": {
+                "label": "Day-1 Sign-ups",
+                "value": "14,820",
+                "delta": {
+                  "value": "+340%",
+                  "direction": "up"
+                },
+                "hint": "vs. previous launch"
+              }
+            },
+            {
+              "component": "outprint/KPICard",
+              "props": {
+                "label": "Activation Rate",
+                "value": "68%",
+                "delta": {
+                  "value": "+12 pp",
+                  "direction": "up"
+                },
+                "hint": "completed onboarding within 24 h"
+              }
+            },
+            {
+              "component": "outprint/KPICard",
+              "props": {
+                "label": "Median Time-to-Value",
+                "value": "4 min",
+                "delta": {
+                  "value": "-3 min",
+                  "direction": "up"
+                },
+                "hint": "from signup to first output"
+              }
+            },
+            {
+              "component": "outprint/KPICard",
+              "props": {
+                "label": "Crash-free Sessions",
+                "value": "99.7%",
+                "delta": {
+                  "value": "+0.4 pp",
+                  "direction": "up"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "component": "outprint/Section",
+          "props": {
+            "id": "traffic",
+            "title": "Traffic by Channel"
+          },
+          "children": [
+            {
+              "component": "outprint/Chart",
+              "props": {
+                "kind": "bar",
+                "xLabel": "Channel",
+                "yLabel": "Sign-ups",
+                "data": {
+                  "labels": [
+                    "Product Hunt",
+                    "HN",
+                    "Twitter/X",
+                    "LinkedIn",
+                    "Direct",
+                    "Other"
+                  ],
+                  "series": [
+                    {
+                      "name": "Day-1 sign-ups",
+                      "values": [
+                        6200,
+                        3100,
+                        2400,
+                        1500,
+                        980,
+                        640
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "component": "outprint/Section",
+          "props": {
+            "id": "launch-phases",
+            "title": "Launch Phases"
+          },
+          "children": [
+            {
+              "component": "outprint/StepList",
+              "props": {
+                "steps": [
+                  {
+                    "title": "Soft-launch to waitlist (Mar 10)",
+                    "body": "2 400 early access users. Collected 180 bug reports; 97% resolved before public launch.",
+                    "state": "done"
+                  },
+                  {
+                    "title": "Product Hunt listing (Mar 24)",
+                    "body": "Peaked at #1 Product of the Day by 14:00 UTC. 6 200 upvotes, 340 comments.",
+                    "state": "done"
+                  },
+                  {
+                    "title": "Public open access (Mar 31)",
+                    "body": "Rate-limiting removed. All regions live. CDN edge nodes healthy.",
+                    "state": "done"
+                  },
+                  {
+                    "title": "Enterprise tier rollout (Apr 14)",
+                    "body": "SSO, audit logs, and priority support available to paying orgs.",
+                    "state": "doing"
+                  },
+                  {
+                    "title": "Mobile app (Q2)",
+                    "body": "iOS + Android GA planned for end of Q2.",
+                    "state": "todo"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "component": "outprint/Callout",
+          "props": {
+            "severity": "success",
+            "title": "Key Takeaway",
+            "body": "Activation rate of 68% exceeds the 55% target set at kick-off. Time-to-value dropped below 5 minutes for the first time. Recommend fast-following with the mobile app to retain momentum."
+          }
+        }
+      ]
+    }
+  ]
+}

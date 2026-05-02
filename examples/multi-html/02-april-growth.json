@@ -1,0 +1,235 @@
+{
+  "a2ui_version": "0.9",
+  "catalog": "outprint/v1",
+  "parts": [
+    {
+      "component": "outprint/Page",
+      "props": {
+        "title": "April 2026 Growth Report",
+        "subtitle": "MoM metrics, channel analysis, and pipeline snapshot",
+        "backHref": "index.html",
+        "backLabel": "← All Reports"
+      },
+      "children": [
+        {
+          "component": "outprint/Section",
+          "props": {
+            "id": "headline",
+            "title": "Headline Numbers"
+          },
+          "children": [
+            {
+              "component": "outprint/KPICard",
+              "props": {
+                "label": "Monthly Active Users",
+                "value": "41,200",
+                "delta": {
+                  "value": "+178%",
+                  "direction": "up"
+                },
+                "hint": "vs. March 2026"
+              }
+            },
+            {
+              "component": "outprint/KPICard",
+              "props": {
+                "label": "ARR",
+                "value": "$1.04 M",
+                "delta": {
+                  "value": "+$380 K",
+                  "direction": "up"
+                },
+                "hint": "annualised from April billings"
+              }
+            },
+            {
+              "component": "outprint/KPICard",
+              "props": {
+                "label": "Paying Customers",
+                "value": "312",
+                "delta": {
+                  "value": "+88",
+                  "direction": "up"
+                }
+              }
+            },
+            {
+              "component": "outprint/KPICard",
+              "props": {
+                "label": "Churn Rate",
+                "value": "1.8%",
+                "delta": {
+                  "value": "-0.6 pp",
+                  "direction": "up"
+                },
+                "hint": "monthly logo churn"
+              }
+            }
+          ]
+        },
+        {
+          "component": "outprint/Section",
+          "props": {
+            "id": "mau-trend",
+            "title": "MAU Trend (Jan – Apr)"
+          },
+          "children": [
+            {
+              "component": "outprint/Chart",
+              "props": {
+                "kind": "line",
+                "xLabel": "Month",
+                "yLabel": "MAU",
+                "data": {
+                  "labels": [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr"
+                  ],
+                  "series": [
+                    {
+                      "name": "MAU",
+                      "values": [
+                        0,
+                        0,
+                        14820,
+                        41200
+                      ]
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "component": "outprint/Section",
+          "props": {
+            "id": "channels",
+            "title": "Channel Breakdown — April"
+          },
+          "children": [
+            {
+              "component": "outprint/DataTable",
+              "props": {
+                "caption": "Sign-ups by acquisition channel",
+                "columns": [
+                  {
+                    "key": "channel",
+                    "label": "Channel",
+                    "align": "left"
+                  },
+                  {
+                    "key": "signups",
+                    "label": "Sign-ups",
+                    "align": "right"
+                  },
+                  {
+                    "key": "share",
+                    "label": "Share",
+                    "align": "right"
+                  },
+                  {
+                    "key": "cac",
+                    "label": "CAC",
+                    "align": "right"
+                  },
+                  {
+                    "key": "note",
+                    "label": "Notes",
+                    "align": "left"
+                  }
+                ],
+                "rows": [
+                  {
+                    "channel": "Organic / SEO",
+                    "signups": "12,400",
+                    "share": "30%",
+                    "cac": "$0",
+                    "note": "Launch SEO spike still compounding"
+                  },
+                  {
+                    "channel": "Product Hunt tail",
+                    "signups": "8,100",
+                    "share": "20%",
+                    "cac": "$0",
+                    "note": "Residual from Mar 24 listing"
+                  },
+                  {
+                    "channel": "Word-of-mouth",
+                    "signups": "7,200",
+                    "share": "17%",
+                    "cac": "$0",
+                    "note": "Referral link uptick in last 2 weeks"
+                  },
+                  {
+                    "channel": "Paid social",
+                    "signups": "5,600",
+                    "share": "14%",
+                    "cac": "$28",
+                    "note": "Twitter/X best performer"
+                  },
+                  {
+                    "channel": "Partnerships",
+                    "signups": "4,300",
+                    "share": "10%",
+                    "cac": "$11",
+                    "note": "Dev-tools bundle deal with Retool"
+                  },
+                  {
+                    "channel": "Newsletter/email",
+                    "signups": "2,100",
+                    "share": "5%",
+                    "cac": "$4",
+                    "note": "Outprint weekly digest"
+                  },
+                  {
+                    "channel": "Other",
+                    "signups": "1,500",
+                    "share": "4%",
+                    "cac": "—",
+                    "note": ""
+                  }
+                ],
+                "footer": {
+                  "channel": "Total",
+                  "signups": "41,200",
+                  "share": "100%",
+                  "cac": "~$9 blended",
+                  "note": ""
+                },
+                "density": "compact"
+              }
+            }
+          ]
+        },
+        {
+          "component": "outprint/Section",
+          "props": {
+            "id": "retention",
+            "title": "Retention Cohorts"
+          },
+          "children": [
+            {
+              "component": "outprint/Callout",
+              "props": {
+                "severity": "info",
+                "title": "D30 retention: 42%",
+                "body": "The March launch cohort shows 42% D30 retention — well above the 30% industry median for PLG tools. The April cohort is tracking even higher at 47% on D7, suggesting onboarding improvements are working."
+              }
+            }
+          ]
+        },
+        {
+          "component": "outprint/Callout",
+          "props": {
+            "severity": "warn",
+            "title": "Watch: paid CAC creeping up",
+            "body": "Twitter/X CPM rose 18% in April. If the trend continues, blended CAC will breach $15 by June. Recommend increasing organic content investment and activating affiliate programme before Q3 paid push."
+          }
+        }
+      ]
+    }
+  ]
+}

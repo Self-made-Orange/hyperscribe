@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Hello</title>
+  <title>April 2026 Growth Report</title>
   <style>/* ===== Notion theme — strictly per Notion DESIGN.md ===== */
 /*
  *   Source: getdesign.md/notion/design-md (extracted from getdesign npm v0.6.9)
@@ -528,10 +528,287 @@ html:not([data-mode="dark"]) .op-mode-icon-sun  { display: none; }
 @media (prefers-reduced-motion: reduce) {
   .op-mode-toggler, .op-zoom-btn { transition: none; }
 }
+
+/* outprint/KPICard */
+.op-kpi {
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius, 0.5rem);
+  padding: var(--op-space-4);
+  box-shadow: var(--op-shadow-card);
+  min-width: 180px;
+}
+.op-kpi-label {
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  margin-bottom: var(--op-space-2);
+  text-transform: none;
+}
+.op-kpi-value {
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  font-feature-settings: "lnum", "tnum";
+}
+.op-kpi-delta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: var(--op-space-2);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: var(--op-radius-sm, calc(0.5rem - 2px));
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+}
+.op-kpi-delta-up {
+  background: var(--op-tone-success-bg);
+  color: var(--op-tone-success-fg);
+  border-color: transparent;
+}
+.op-kpi-delta-down {
+  background: var(--op-tone-danger-bg);
+  color: var(--op-tone-danger-fg);
+  border-color: transparent;
+}
+.op-kpi-delta-flat {
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  border-color: transparent;
+}
+.op-kpi-hint {
+  margin-top: var(--op-space-2);
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  font-size: 12px;
+}
+
+/* outprint/Chart */
+/* === Chart — shadcn/ui style via Chart.js === */
+.op-chart-wrap {
+  margin: 0;
+  position: relative;
+}
+
+.op-chart {
+  display: block;
+  width: 100% !important;
+  max-height: 380px;
+}
+
+/* Legend overrides — align with shadcn muted text */
+.op-chart-wrap canvas {
+  color: var(--op-color-muted-fg);
+}
+
+.op-chart-cap {
+  text-align: center;
+  color: var(--op-color-muted-fg);
+  font-size: 11px;
+  font-family: var(--op-font-mono);
+  letter-spacing: 0.04em;
+  margin-top: 12px;
+}
+
+/* outprint/DataTable */
+.op-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--op-space-4) 0;
+  font-size: 14px;
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius, 0.5rem);
+  overflow: hidden;
+}
+.op-table caption {
+  font-size: 13px;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  text-align: left;
+  padding: var(--op-space-2) 0;
+  caption-side: bottom;
+}
+.op-table th,
+.op-table td {
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+}
+.op-table tr:last-child td {
+  border-bottom: none;
+}
+.op-table th {
+  font-weight: 500;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  font-size: 12px;
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+  letter-spacing: 0.01em;
+}
+.op-table tbody tr:hover {
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+}
+.op-table tfoot td {
+  font-weight: 600;
+  border-top: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-bottom: none;
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+}
+.op-td-right   { text-align: right; }
+.op-td-center  { text-align: center; }
+.op-td-left    { text-align: left; }
+.op-table-compact th,
+.op-table-compact td {
+  padding: var(--op-space-1) var(--op-space-2);
+  font-size: 12px;
+}
+
+/* outprint/Callout */
+.op-callout {
+  border-left: 3px solid var(--op-color-border, var(--op-color-fg-muted));
+  background: var(--op-color-card, var(--op-color-surface));
+  border-radius: 0 var(--op-radius, 0.5rem) var(--op-radius, 0.5rem) 0;
+  padding: var(--op-space-4) var(--op-space-5);
+  margin: var(--op-space-4) 0;
+  border-top: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-right: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-bottom: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+}
+.op-callout-title {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: var(--op-space-2);
+}
+.op-callout-body {
+  font-size: 14px;
+  line-height: 1.5;
+}
+.op-callout-body > p:first-child { margin-top: 0; }
+.op-callout-body > p:last-child  { margin-bottom: 0; }
+
+/* Tone variants */
+.op-callout-info {
+  border-left-color: var(--op-tone-info-fg);
+  background: var(--op-tone-info-bg);
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+.op-callout-info .op-callout-title { color: var(--op-tone-info-fg); }
+
+.op-callout-note {
+  border-left-color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+}
+
+.op-callout-warn {
+  border-left-color: var(--op-tone-warn-fg);
+  background: var(--op-tone-warn-bg);
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+.op-callout-warn .op-callout-title { color: var(--op-tone-warn-fg); }
+
+.op-callout-success {
+  border-left-color: var(--op-tone-success-fg);
+  background: var(--op-tone-success-bg);
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+.op-callout-success .op-callout-title { color: var(--op-tone-success-fg); }
+
+.op-callout-danger {
+  border-left-color: var(--op-tone-danger-fg);
+  background: var(--op-tone-danger-bg);
+  border-top-color: transparent;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+}
+.op-callout-danger .op-callout-title { color: var(--op-tone-danger-fg); }
 </style>
 </head>
 <body>
-<article class="op-page"><header class="op-page-header"><h1 class="op-page-title">Hello</h1></header><main class="op-page-main"><div class="op-prose"><p>minimal body</p></div></main></article>
+<nav class="op-page-backbar"><a class="op-page-back" href="index.html">← All Reports</a></nav><article class="op-page"><header class="op-page-header"><h1 class="op-page-title">April 2026 Growth Report</h1><p class="op-page-subtitle">MoM metrics, channel analysis, and pipeline snapshot</p></header><main class="op-page-main"><section class="op-section" id="headline"><h2 class="op-section-title">Headline Numbers</h2><div class="op-section-body"><article class="op-kpi"><div class="op-kpi-label">Monthly Active Users</div><div class="op-kpi-value">41,200</div><div class="op-kpi-delta op-kpi-delta-up"><span class="op-kpi-delta-icon">↑</span>+178%</div><div class="op-kpi-hint">vs. March 2026</div></article><article class="op-kpi"><div class="op-kpi-label">ARR</div><div class="op-kpi-value">$1.04 M</div><div class="op-kpi-delta op-kpi-delta-up"><span class="op-kpi-delta-icon">↑</span>+$380 K</div><div class="op-kpi-hint">annualised from April billings</div></article><article class="op-kpi"><div class="op-kpi-label">Paying Customers</div><div class="op-kpi-value">312</div><div class="op-kpi-delta op-kpi-delta-up"><span class="op-kpi-delta-icon">↑</span>+88</div></article><article class="op-kpi"><div class="op-kpi-label">Churn Rate</div><div class="op-kpi-value">1.8%</div><div class="op-kpi-delta op-kpi-delta-up"><span class="op-kpi-delta-icon">↑</span>-0.6 pp</div><div class="op-kpi-hint">monthly logo churn</div></article></div></section><section class="op-section" id="mau-trend"><h2 class="op-section-title">MAU Trend (Jan – Apr)</h2><div class="op-section-body"><figure class="op-chart-wrap"><canvas class="op-chart" data-kind="line" id="hsChart_c747v80h"></canvas><figcaption class="op-chart-cap">Month × MAU</figcaption><script>if (!window.__hsChartLoaded) {
+  window.__hsChartLoaded = true;
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js';
+  s.onload = function() { window.__hsChartReady && window.__hsChartReady(); };
+  document.head.appendChild(s);
+}</script><script>(function(){
+  var id   = 'hsChart_c747v80h';
+  var unit = "";
+  var rawCfg = JSON.parse('{"type":"line","data":{"labels":["Jan","Feb","Mar","Apr"],"datasets":[{"name":"MAU","label":"MAU","data":[0,0,14820,41200],"fill":false,"_colorVar":"--op-chart-1","tension":0.3,"pointRadius":4,"pointHoverRadius":6,"pointHitRadius":16,"borderWidth":2}]},"options":{"responsive":true,"maintainAspectRatio":true,"interaction":{"mode":"nearest","intersect":false},"plugins":{"legend":{"display":false,"position":"bottom","labels":{"boxWidth":12,"boxHeight":12,"borderRadius":3,"useBorderRadius":true,"padding":16,"font":{"size":12}}},"tooltip":{"enabled":true,"backgroundColor":"hsl(240 10% 3.9%)","titleColor":"hsl(0 0% 98%)","bodyColor":"hsl(240 5% 64.9%)","borderColor":"hsl(240 3.7% 15.9%)","borderWidth":1,"padding":{"x":12,"y":10},"cornerRadius":6,"titleFont":{"size":12,"weight":"600"},"bodyFont":{"size":12}}},"scales":{"x":{"border":{"display":false},"grid":{"display":false},"ticks":{"color":"hsl(240 5% 64.9%)","font":{"size":12},"maxRotation":0},"title":{"display":true,"text":"Month","color":"hsl(240 5% 64.9%)"}},"y":{"border":{"display":false,"dash":[4,4]},"grid":{"color":"hsl(240 3.7% 15.9%)","drawTicks":false},"ticks":{"color":"hsl(240 5% 64.9%)","font":{"size":12},"padding":8},"title":{"display":true,"text":"MAU","color":"hsl(240 5% 64.9%)"}}}}}');
+
+  function getCssVar(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+        || getComputedStyle(document.body).getPropertyValue(name).trim();
+  }
+
+  function hexAlpha(hslStr, alpha) {
+    // create a tiny canvas to resolve hsl → rgba
+    try {
+      var tmp = document.createElement('canvas');
+      tmp.width = tmp.height = 1;
+      var ctx2d = tmp.getContext('2d');
+      ctx2d.fillStyle = hslStr;
+      ctx2d.fillRect(0,0,1,1);
+      var d = ctx2d.getImageData(0,0,1,1).data;
+      return 'rgba(' + d[0] + ',' + d[1] + ',' + d[2] + ',' + alpha + ')';
+    } catch(e) { return hslStr; }
+  }
+
+  function applyColors(cfg) {
+    var datasets = cfg.data && cfg.data.datasets;
+    if (!datasets) return;
+    datasets.forEach(function(ds) {
+      var vr = ds._colorVar;
+      if (!vr) return;
+      var color = getCssVar(vr);
+      if (!color) color = ds._colorVar; // fallback
+      ds.backgroundColor = cfg.type === 'line' || cfg.type === 'scatter'
+        ? hexAlpha(color, 0.15)
+        : color;
+      ds.borderColor = color;
+      ds.pointBackgroundColor = color;
+      ds.pointBorderColor = color;
+      delete ds._colorVar;
+    });
+    // legend dot colors
+    if (cfg.options && cfg.options.plugins && cfg.options.plugins.legend) {
+      cfg.options.plugins.legend.labels = cfg.options.plugins.legend.labels || {};
+      cfg.options.plugins.legend.labels.color = getCssVar('--op-color-muted-fg') || 'hsl(240 5% 64.9%)';
+    }
+  }
+
+  function addTooltipCallback(cfg) {
+    cfg.options = cfg.options || {};
+    cfg.options.plugins = cfg.options.plugins || {};
+    cfg.options.plugins.tooltip = cfg.options.plugins.tooltip || {};
+    cfg.options.plugins.tooltip.callbacks = {
+      label: function(ctx) {
+        var prefix = ctx.dataset && ctx.dataset.label ? ctx.dataset.label + ': ' : '';
+        var raw = ctx.raw;
+        if (raw && typeof raw === 'object' && raw.y != null) raw = raw.y;
+        return prefix + (unit ? unit : '') + raw;
+      }
+    };
+  }
+
+  function render() {
+    var canvas = document.getElementById(id);
+    if (!canvas || !window.Chart) { setTimeout(render, 50); return; }
+    applyColors(rawCfg);
+    addTooltipCallback(rawCfg);
+    new window.Chart(canvas, rawCfg);
+  }
+
+  if (window.Chart) render();
+  else {
+    var prev = window.__hsChartReady;
+    window.__hsChartReady = function(){ prev && prev(); render(); };
+  }
+})();</script></figure></div></section><section class="op-section" id="channels"><h2 class="op-section-title">Channel Breakdown — April</h2><div class="op-section-body"><div class="op-table-wrap"><table class="op-table op-table-compact"><caption>Sign-ups by acquisition channel</caption><thead><tr><th class="op-td-left">Channel</th><th class="op-td-right">Sign-ups</th><th class="op-td-right">Share</th><th class="op-td-right">CAC</th><th class="op-td-left">Notes</th></tr></thead><tbody><tr><td class="op-td-left">Organic / SEO</td><td class="op-td-right">12,400</td><td class="op-td-right">30%</td><td class="op-td-right">$0</td><td class="op-td-left">Launch SEO spike still compounding</td></tr><tr><td class="op-td-left">Product Hunt tail</td><td class="op-td-right">8,100</td><td class="op-td-right">20%</td><td class="op-td-right">$0</td><td class="op-td-left">Residual from Mar 24 listing</td></tr><tr><td class="op-td-left">Word-of-mouth</td><td class="op-td-right">7,200</td><td class="op-td-right">17%</td><td class="op-td-right">$0</td><td class="op-td-left">Referral link uptick in last 2 weeks</td></tr><tr><td class="op-td-left">Paid social</td><td class="op-td-right">5,600</td><td class="op-td-right">14%</td><td class="op-td-right">$28</td><td class="op-td-left">Twitter/X best performer</td></tr><tr><td class="op-td-left">Partnerships</td><td class="op-td-right">4,300</td><td class="op-td-right">10%</td><td class="op-td-right">$11</td><td class="op-td-left">Dev-tools bundle deal with Retool</td></tr><tr><td class="op-td-left">Newsletter/email</td><td class="op-td-right">2,100</td><td class="op-td-right">5%</td><td class="op-td-right">$4</td><td class="op-td-left">Outprint weekly digest</td></tr><tr><td class="op-td-left">Other</td><td class="op-td-right">1,500</td><td class="op-td-right">4%</td><td class="op-td-right">—</td><td class="op-td-left"></td></tr></tbody><tfoot><tr><td class="op-td-left">Total</td><td class="op-td-right">41,200</td><td class="op-td-right">100%</td><td class="op-td-right">~$9 blended</td><td class="op-td-left"></td></tr></tfoot></table></div></div></section><section class="op-section" id="retention"><h2 class="op-section-title">Retention Cohorts</h2><div class="op-section-body"><aside class="op-callout op-callout-info"><div class="op-callout-title">D30 retention: 42%</div><div class="op-callout-body"><p>The March launch cohort shows 42% D30 retention — well above the 30% industry median for PLG tools. The April cohort is tracking even higher at 47% on D7, suggesting onboarding improvements are working.</p></div></aside></div></section><aside class="op-callout op-callout-warn"><div class="op-callout-title">Watch: paid CAC creeping up</div><div class="op-callout-body"><p>Twitter/X CPM rose 18% in April. If the trend continues, blended CAC will breach $15 by June. Recommend increasing organic content investment and activating affiliate programme before Q3 paid push.</p></div></aside></main></article>
 <button type="button" class="op-mode-toggler" id="op-mode-toggler" aria-label="Toggle light/dark mode" title="Toggle light/dark mode">
   <svg class="op-mode-icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
   <svg class="op-mode-icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>

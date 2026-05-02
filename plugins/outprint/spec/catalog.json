@@ -13,7 +13,9 @@
         "title": { "type": "string", "required": true },
         "subtitle": { "type": "string" },
         "toc": { "type": "boolean", "default": false },
-        "chromeless": { "type": "boolean", "default": false, "description": "When true, suppresses the default page header. Use for site-mode rendering where SiteHeader/HeroCarousel provide chrome." }
+        "chromeless": { "type": "boolean", "default": false, "description": "When true, suppresses the default page header. Use for site-mode rendering where SiteHeader/HeroCarousel provide chrome." },
+        "backHref": { "type": "string", "description": "When set, renders a sticky back-navigation bar at the top of the page linking back to the given URL. Use for multi-HTML linking (e.g. '← index.html')." },
+        "backLabel": { "type": "string", "description": "Label for the back navigation link. Defaults to '← Back'." }
       }
     },
     "outprint/Section": {

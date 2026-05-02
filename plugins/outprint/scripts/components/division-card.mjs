@@ -10,5 +10,14 @@ export function DivisionCard(props) {
   const image = props.image
     ? `<div class="op-division-card-media"><img src="${escape(props.image)}" alt="${escape(props.title || "")}" loading="lazy"></div>`
     : "";
-  return `<article class="op-division-card"><div class="op-division-card-body"><span class="op-division-card-eyebrow">${escape(props.eyebrow || "")}</span><h3 class="op-division-card-title">${escape(props.title || "")}</h3>${props.description ? `<p class="op-division-card-desc">${escape(props.description)}</p>` : ""}${projects}${cta}</div>${image}</article>`;
+  const arrow = props.href
+    ? `<span class="op-division-card-link-arrow" aria-hidden="true">↗</span>`
+    : "";
+  const inner = `<div class="op-division-card-body"><span class="op-division-card-eyebrow">${escape(props.eyebrow || "")}</span><h3 class="op-division-card-title">${escape(props.title || "")}${arrow}</h3>${props.description ? `<p class="op-division-card-desc">${escape(props.description)}</p>` : ""}${projects}${cta}</div>${image}`;
+
+  // If href provided, the whole card is a link
+  if (props.href) {
+    return `<a class="op-division-card op-division-card-linked" href="${escape(props.href)}">${inner}</a>`;
+  }
+  return `<article class="op-division-card">${inner}</article>`;
 }
