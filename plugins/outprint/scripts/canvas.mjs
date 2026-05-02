@@ -505,8 +505,6 @@ body { margin: 0; padding: 0 !important; background: var(--op-color-bg); }
   flex-wrap: nowrap;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  mask-image: linear-gradient(to right, transparent 0%, black 48px, black calc(100% - 48px), transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 48px, black calc(100% - 48px), transparent 100%);
 }
 .hs-site-header-nav::-webkit-scrollbar { display: none; }
 .hs-site-header-nav li { flex-shrink: 0; }
