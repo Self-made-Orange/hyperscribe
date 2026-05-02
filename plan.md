@@ -40,8 +40,8 @@
 - 이후 `render.mjs`에 `--preview` 플래그 추가 고려
 
 ### 2. GalleryIndex 컴포넌트
-- `plugins/hyperscribe/scripts/components/gallery-index.mjs`
-- `plugins/hyperscribe/assets/components/gallery-index.css`
+- `plugins/outprint/scripts/components/gallery-index.mjs`
+- `plugins/outprint/assets/components/gallery-index.css`
 - 마소너리 그리드 (CSS columns 또는 grid + dense)
 - 카드 hover: 제목/메타 오버레이 슬라이드업
 - 반응형 (3col desktop → 2col tablet → 1col mobile)

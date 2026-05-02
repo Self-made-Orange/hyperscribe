@@ -1,0 +1,154 @@
+/* === CanvasStage — full-viewport content showcase === */
+.op-canvas-stage {
+  position: relative;
+  width: 100%;
+  min-height: 100lvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--op-color-bg);
+  padding: clamp(80px, 12vh, 120px) clamp(16px, 4vw, 64px) clamp(64px, 8vh, 100px);
+}
+
+.op-canvas-stage-inner {
+  width: 100%;
+  max-width: 1100px;
+}
+
+.op-canvas-stage-meta {
+  position: absolute;
+  left: clamp(16px, 2.5vw, 40px);
+  bottom: clamp(16px, 2.5vh, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.op-canvas-stage-date {
+  font-family: var(--op-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--op-color-muted-fg, var(--op-color-fg-placeholder));
+}
+
+.op-canvas-stage-empty {
+  font-family: var(--op-font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: var(--op-color-muted-fg, var(--op-color-fg-placeholder));
+  text-align: center;
+  padding: 80px 0;
+}
+
+/* Suppress inner op-page/section chrome inside the stage */
+.op-canvas-stage-inner .op-page { max-width: none; padding: 0; margin: 0; }
+.op-canvas-stage-inner .op-page-main { padding: 0; max-width: none; }
+.op-canvas-stage-inner .op-section { padding: 0; border-top: none; max-width: none; }
+.op-canvas-stage-inner .op-section-title {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: var(--op-font-mono);
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  padding: 0;
+  border-top: none;
+  margin-bottom: 24px;
+}
+
+/* Canvas History Feed */
+.op-canvas-history {
+  border-top: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+}
+
+.op-canvas-history-eyebrow {
+  display: block;
+  font-family: var(--op-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  padding: clamp(40px, 5vh, 64px) clamp(16px, 3vw, 48px) clamp(16px, 2vh, 24px);
+}
+
+.op-canvas-history-item {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) 3fr;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: start;
+  padding: clamp(32px, 5vh, 60px) clamp(16px, 3vw, 48px);
+  border-top: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.op-canvas-history-header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: sticky;
+  top: clamp(64px, 9vh, 88px);
+}
+
+.op-canvas-history-meta-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.op-canvas-history-label {
+  font-family: var(--op-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+}
+
+.op-canvas-history-date {
+  font-family: var(--op-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--op-color-muted-fg, var(--op-color-fg-placeholder));
+}
+
+.op-canvas-history-title {
+  font-family: var(--op-font-display, var(--op-font-sans));
+  font-size: clamp(18px, 2vw, 28px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--op-color-fg);
+}
+
+.op-canvas-history-content {
+  background: var(--op-color-card, var(--op-color-surface));
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius, 0.5rem);
+  padding: clamp(20px, 2.5vw, 40px);
+  overflow-x: auto;
+  box-shadow: var(--op-shadow-card);
+}
+
+/* Flatten inner wrappers inside history content */
+.op-canvas-history-content .op-page { max-width: none; padding: 0; margin: 0; }
+.op-canvas-history-content .op-page-main { padding: 0; max-width: none; }
+.op-canvas-history-content .op-section { padding: 0; border-top: none; max-width: none; }
+.op-canvas-history-content .op-section-title {
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-family: var(--op-font-mono);
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  padding: 0;
+  border-top: none;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 760px) {
+  .op-canvas-history-item {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .op-canvas-history-header { position: static; }
+  .op-canvas-stage { padding-top: 88px; }
+}

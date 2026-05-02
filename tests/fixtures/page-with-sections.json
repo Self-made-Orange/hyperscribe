@@ -1,17 +1,17 @@
 {
   "a2ui_version": "0.9",
-  "catalog": "hyperscribe/v1",
+  "catalog": "outprint/v1",
   "parts": [
     {
-      "component": "hyperscribe/Page",
+      "component": "outprint/Page",
       "props": { "title": "Auth Flow", "subtitle": "How login works", "toc": true },
       "children": [
         {
-          "component": "hyperscribe/Section",
+          "component": "outprint/Section",
           "props": { "id": "overview", "title": "Overview", "lead": "The auth flow has **three stages**." },
           "children": [
-            { "component": "hyperscribe/Heading", "props": { "level": 3, "text": "Goals" } },
-            { "component": "hyperscribe/Prose", "props": { "markdown": "We want *simple* and `secure`.\n\n- Single sign-on\n- MFA optional" } }
+            { "component": "outprint/Heading", "props": { "level": 3, "text": "Goals" } },
+            { "component": "outprint/Prose", "props": { "markdown": "We want *simple* and `secure`.\n\n- Single sign-on\n- MFA optional" } }
           ]
         }
       ]

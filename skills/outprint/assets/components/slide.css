@@ -1,0 +1,99 @@
+.op-slide {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-4);
+}
+.op-slide-title, .op-slide-section {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.op-slide-title-text {
+  font-size: 56px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.06;
+  margin: 0;
+}
+.op-slide-section-title {
+  font-size: 80px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  margin: 0;
+  color: var(--op-color-fg);
+}
+.op-slide-subtitle {
+  font-size: 20px;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  font-weight: 400;
+  margin: 0;
+  line-height: 1.45;
+}
+.op-slide-heading {
+  font-size: 32px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin: 0 0 var(--op-space-4);
+}
+.op-slide-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.5;
+}
+.op-slide-bullets li {
+  padding: var(--op-space-2) 0;
+  padding-left: var(--op-space-4);
+  position: relative;
+  border-bottom: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+}
+.op-slide-bullets li:last-child { border-bottom: none; }
+.op-slide-bullets li::before {
+  content: '–';
+  position: absolute;
+  left: 4px;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+}
+.op-slide-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--op-space-5);
+}
+.op-slide-col { min-width: 0; }
+.op-slide-quote {
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.3;
+  margin: auto 0;
+  padding: 0;
+  font-style: normal;
+  text-align: left;
+}
+.op-slide-attrib {
+  display: block;
+  text-align: left;
+  font-size: 13px;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  margin-top: var(--op-space-3);
+  font-style: normal;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-family: var(--op-font-mono);
+}
+.op-slide-image {
+  max-width: 100%;
+  max-height: 70%;
+  object-fit: contain;
+  margin: 0 auto;
+  border-radius: var(--op-radius, 0.5rem);
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+}
+.op-slide-caption {
+  text-align: center;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  font-size: 13px;
+  margin: 0;
+}

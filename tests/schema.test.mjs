@@ -3,23 +3,23 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
-import { validate } from "../plugins/hyperscribe/scripts/lib/schema.mjs";
+import { validate } from "../plugins/outprint/scripts/lib/schema.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const catalog = JSON.parse(
-  readFileSync(resolve(__dirname, "../plugins/hyperscribe/spec/catalog.json"), "utf8")
+  readFileSync(resolve(__dirname, "../plugins/outprint/spec/catalog.json"), "utf8")
 );
 
 test("validate: accepts minimal valid envelope", () => {
   const doc = {
     a2ui_version: "0.9",
-    catalog: "hyperscribe/v1",
+    catalog: "outprint/v1",
     parts: [
       {
-        component: "hyperscribe/Page",
+        component: "outprint/Page",
         props: { title: "Hi" },
         children: [
-          { component: "hyperscribe/Prose", props: { markdown: "hello" } }
+          { component: "outprint/Prose", props: { markdown: "hello" } }
         ]
       }
     ]
@@ -29,7 +29,7 @@ test("validate: accepts minimal valid envelope", () => {
 });
 
 test("validate: rejects missing envelope field", () => {
-  const doc = { catalog: "hyperscribe/v1", parts: [] };
+  const doc = { catalog: "outprint/v1", parts: [] };
   const errors = validate(doc, catalog);
   assert.ok(errors.length > 0);
   assert.match(errors[0].message, /a2ui_version/);
@@ -38,7 +38,7 @@ test("validate: rejects missing envelope field", () => {
 test("validate: rejects unknown component", () => {
   const doc = {
     a2ui_version: "0.9",
-    catalog: "hyperscribe/v1",
+    catalog: "outprint/v1",
     parts: [
       { component: "hyperscribe/UnknownThing", props: {} }
     ]
@@ -52,13 +52,13 @@ test("validate: rejects unknown component", () => {
 test("validate: rejects missing required prop", () => {
   const doc = {
     a2ui_version: "0.9",
-    catalog: "hyperscribe/v1",
+    catalog: "outprint/v1",
     parts: [
       {
-        component: "hyperscribe/Page",
+        component: "outprint/Page",
         props: {},
         children: [
-          { component: "hyperscribe/Prose", props: { markdown: "x" } }
+          { component: "outprint/Prose", props: { markdown: "x" } }
         ]
       }
     ]
@@ -70,13 +70,13 @@ test("validate: rejects missing required prop", () => {
 test("validate: rejects wrong type on prop", () => {
   const doc = {
     a2ui_version: "0.9",
-    catalog: "hyperscribe/v1",
+    catalog: "outprint/v1",
     parts: [
       {
-        component: "hyperscribe/Page",
+        component: "outprint/Page",
         props: { title: 42 },
         children: [
-          { component: "hyperscribe/Prose", props: { markdown: "x" } }
+          { component: "outprint/Prose", props: { markdown: "x" } }
         ]
       }
     ]
@@ -88,13 +88,13 @@ test("validate: rejects wrong type on prop", () => {
 test("validate: rejects enum violation", () => {
   const doc = {
     a2ui_version: "0.9",
-    catalog: "hyperscribe/v1",
+    catalog: "outprint/v1",
     parts: [
       {
-        component: "hyperscribe/Page",
+        component: "outprint/Page",
         props: { title: "x" },
         children: [
-          { component: "hyperscribe/Heading", props: { level: 5, text: "bad" } }
+          { component: "outprint/Heading", props: { level: 5, text: "bad" } }
         ]
       }
     ]
@@ -106,9 +106,9 @@ test("validate: rejects enum violation", () => {
 test("validate: root must be Page", () => {
   const doc = {
     a2ui_version: "0.9",
-    catalog: "hyperscribe/v1",
+    catalog: "outprint/v1",
     parts: [
-      { component: "hyperscribe/Prose", props: { markdown: "x" } }
+      { component: "outprint/Prose", props: { markdown: "x" } }
     ]
   };
   const errors = validate(doc, catalog);
@@ -128,13 +128,13 @@ test("validate: catalog must match", () => {
 test("validate: pattern enforced on Section.id", () => {
   const doc = {
     a2ui_version: "0.9",
-    catalog: "hyperscribe/v1",
+    catalog: "outprint/v1",
     parts: [
       {
-        component: "hyperscribe/Page",
+        component: "outprint/Page",
         props: { title: "x" },
         children: [
-          { component: "hyperscribe/Section", props: { id: "BadID!", title: "t" } }
+          { component: "outprint/Section", props: { id: "BadID!", title: "t" } }
         ]
       }
     ]
@@ -146,17 +146,17 @@ test("validate: pattern enforced on Section.id", () => {
 test("validate: returns path for nested errors", () => {
   const doc = {
     a2ui_version: "0.9",
-    catalog: "hyperscribe/v1",
+    catalog: "outprint/v1",
     parts: [
       {
-        component: "hyperscribe/Page",
+        component: "outprint/Page",
         props: { title: "x" },
         children: [
           {
-            component: "hyperscribe/Section",
+            component: "outprint/Section",
             props: { id: "s", title: "t" },
             children: [
-              { component: "hyperscribe/Heading", props: { level: 2 } }
+              { component: "outprint/Heading", props: { level: 2 } }
             ]
           }
         ]
@@ -170,7 +170,7 @@ test("validate: returns path for nested errors", () => {
 test("validate: rejects non-array parts", () => {
   const doc = {
     a2ui_version: "0.9",
-    catalog: "hyperscribe/v1",
+    catalog: "outprint/v1",
     parts: {}
   };
   const errors = validate(doc, catalog);
@@ -180,13 +180,13 @@ test("validate: rejects non-array parts", () => {
 test("validate: null-valued prop reports 'got null' not 'got object'", () => {
   const doc = {
     a2ui_version: "0.9",
-    catalog: "hyperscribe/v1",
+    catalog: "outprint/v1",
     parts: [
       {
-        component: "hyperscribe/Page",
+        component: "outprint/Page",
         props: { title: null },
         children: [
-          { component: "hyperscribe/Prose", props: { markdown: "x" } }
+          { component: "outprint/Prose", props: { markdown: "x" } }
         ]
       }
     ]

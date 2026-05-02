@@ -1,0 +1,65 @@
+/* === SiteFooter — multi-column footer === */
+.op-site-footer {
+  border-top: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  padding: clamp(40px, 7vh, 80px) clamp(16px, 4vw, 64px) clamp(24px, 3vh, 48px);
+  background: var(--op-color-bg);
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  font-size: 14px;
+}
+.op-site-footer-cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(24px, 3.5vw, 64px);
+  max-width: 1400px;
+  margin: 0 auto;
+}
+.op-site-footer-col h4 {
+  font-family: var(--op-font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--op-color-fg);
+  margin: 0 0 var(--op-space-3, 12px) 0;
+  letter-spacing: -0.01em;
+}
+.op-site-footer-col ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.op-site-footer-col a {
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 120ms ease;
+}
+.op-site-footer-col a:hover {
+  color: var(--op-color-fg);
+}
+
+.op-site-footer-bottom {
+  max-width: 1400px;
+  margin: clamp(32px, 5vh, 64px) auto 0;
+  padding-top: var(--op-space-4, 16px);
+  border-top: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--op-space-4, 16px);
+  flex-wrap: wrap;
+  font-size: 12px;
+}
+.op-site-footer-meta,
+.op-site-footer-credit {
+  margin: 0;
+  color: var(--op-color-muted-fg, var(--op-color-fg-placeholder));
+}
+
+@media (max-width: 760px) {
+  .op-site-footer-cols { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+  .op-site-footer-cols { grid-template-columns: 1fr; }
+}

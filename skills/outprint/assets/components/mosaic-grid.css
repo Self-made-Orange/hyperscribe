@@ -1,0 +1,31 @@
+/* === MosaicGrid — 12-col CSS grid for portfolio tiles === */
+.op-mosaic-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--op-mosaic-cols, 12), minmax(0, 1fr));
+  grid-auto-rows: var(--op-mosaic-row, minmax(200px, auto));
+  gap: var(--op-mosaic-gap, var(--op-space-3, 12px));
+  margin: var(--op-space-5, 24px) 0;
+}
+.op-mosaic-grid-dense {
+  grid-auto-flow: dense;
+}
+
+@media (max-width: 960px) {
+  .op-mosaic-grid {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-auto-rows: minmax(160px, auto);
+  }
+  .op-mosaic-grid > * {
+    grid-column: span 4 !important;
+    grid-row: auto !important;
+  }
+}
+@media (max-width: 640px) {
+  .op-mosaic-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-auto-rows: minmax(140px, auto);
+  }
+  .op-mosaic-grid > * {
+    grid-column: span 4 !important;
+  }
+}

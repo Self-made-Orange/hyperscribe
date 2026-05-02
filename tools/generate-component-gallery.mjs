@@ -5,7 +5,7 @@ import { writeFileSync, existsSync, rmSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
 
-import { render } from "../plugins/hyperscribe/scripts/render.mjs";
+import { render } from "../plugins/outprint/scripts/render.mjs";
 import {
   GALLERY_COMPONENTS,
   GALLERY_ASSET_DIR,
@@ -106,11 +106,11 @@ function addCaptureFrame(html, entry) {
         padding: 0;
       }
 
-      .hs-mode-toggler {
+      .op-mode-toggler {
         display: none !important;
       }
 
-      .hs-page {
+      .op-page {
         width: min(1180px, calc(100vw - 64px));
         min-height: calc(100vh - 64px);
         padding: 28px 32px;
@@ -119,29 +119,29 @@ function addCaptureFrame(html, entry) {
         align-items: center;
       }
 
-      .hs-page-header {
+      .op-page-header {
         display: ${headerDisplay};
         margin: 0 0 20px;
         text-align: center;
       }
 
-      .hs-page-title {
+      .op-page-title {
         font-size: 44px;
         letter-spacing: -1.2px;
       }
 
-      .hs-page-subtitle,
-      .hs-section-lead {
+      .op-page-subtitle,
+      .op-section-lead {
         font-size: 18px;
       }
 
-      .hs-page-main {
+      .op-page-main {
         width: 100%;
         display: grid;
         place-items: center;
       }
 
-      .hs-page-main > * {
+      .op-page-main > * {
         width: min(100%, ${entry.captureWidth});
         margin: 0 !important;
         transform: scale(${entry.captureScale});

@@ -1,0 +1,163 @@
+.op-annotated-code {
+  margin: var(--op-space-4) 0;
+  background: var(--op-color-muted, var(--op-color-surface));
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius, 0.5rem);
+  overflow: hidden;
+  box-shadow: var(--op-shadow-card);
+}
+
+.op-annotated-code-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--op-space-3);
+  padding: 8px 14px;
+  background: var(--op-color-surface-alt);
+  border-bottom: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+}
+
+.op-annotated-code-filename {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--op-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.01em;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+}
+
+.op-code-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  min-height: 20px;
+  padding: 0 8px;
+  border-radius: var(--op-radius-sm, calc(0.5rem - 2px));
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  background: var(--op-color-card, var(--op-color-surface));
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  font-family: var(--op-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.op-annotated-code-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 360px);
+  gap: 0;
+}
+
+@media (max-width: 720px) {
+  .op-annotated-code-grid { grid-template-columns: 1fr; }
+}
+
+.op-annotated-code-code {
+  padding: 10px 0;
+  overflow-x: auto;
+  font-family: var(--op-font-mono);
+  font-size: 12px;
+  line-height: 1.6;
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+}
+
+.op-annotated-code-code table { border-collapse: collapse; width: 100%; }
+.op-annotated-code-code pre {
+  margin: 0;
+  min-height: 1.55em;
+  white-space: pre;
+  font: inherit;
+  color: var(--op-color-fg);
+}
+
+.op-annotated-code-line td     { padding: 0.08rem 0.5rem; vertical-align: top; }
+.op-annotated-code-lineno {
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  text-align: right;
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+  width: 3rem;
+  padding-right: 0.35rem;
+  opacity: 0.6;
+}
+.op-annotated-code-src {
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  column-gap: 8px;
+  align-items: start;
+}
+
+.op-annotated-code-pin-rail {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.08rem;
+}
+
+.op-annotated-code-notes {
+  list-style: none;
+  margin: 0;
+  padding: 12px;
+  border-left: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  background: var(--op-color-card, var(--op-color-surface));
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+@media (max-width: 720px) {
+  .op-annotated-code-notes {
+    border-left: 0;
+    border-top: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  }
+}
+
+.op-annotated-code-note {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.op-annotated-code-note-title {
+  font-weight: 600;
+  font-size: 12px;
+  font-family: var(--op-font-sans);
+  color: var(--op-color-fg);
+}
+
+.op-annotated-code-note-text {
+  font-size: 12px;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  font-family: var(--op-font-sans);
+  line-height: 1.5;
+}
+
+.op-annotated-code-pin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  margin-inline: 0.35rem;
+  border-radius: 9999px;
+  background: var(--op-color-primary, var(--op-color-fg));
+  color: var(--op-color-primary-fg, var(--op-color-bg));
+  font-family: var(--op-font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  flex: 0 0 auto;
+}
+
+.op-code-token-keyword  { color: var(--op-color-primary, var(--op-color-fg)); font-weight: 600; }
+.op-code-token-number   { color: var(--op-chart-3, var(--op-color-fg)); }
+.op-code-token-string   { color: var(--op-chart-2, var(--op-color-fg)); }
+.op-code-token-comment  { color: var(--op-color-muted-fg, var(--op-color-fg-muted)); font-style: italic; }
+
+@supports not (background: color-mix(in srgb, white 50%, black 50%)) {
+  .op-annotated-code-meta  { background: var(--op-color-surface-alt); }
+  .op-annotated-code-code  { background: var(--op-color-surface-alt); }
+  .op-annotated-code-notes { background: var(--op-color-surface-alt); }
+}

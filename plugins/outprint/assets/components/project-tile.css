@@ -1,0 +1,108 @@
+/* === ProjectTile — portfolio card with image and body === */
+.op-project-tile {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius-lg, calc(0.5rem + 2px));
+  box-shadow: var(--op-shadow-card);
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.2s ease;
+  isolation: isolate;
+}
+a.op-project-tile { cursor: pointer; }
+a.op-project-tile:hover,
+a.op-project-tile:focus-visible {
+  transform: translate3d(0, -2px, 0);
+  box-shadow: var(--op-shadow-deep);
+  border-color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  outline: none;
+}
+
+.op-project-tile-media {
+  position: relative;
+  overflow: hidden;
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.op-project-tile-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+a.op-project-tile:hover .op-project-tile-media img,
+a.op-project-tile:focus-visible .op-project-tile-media img {
+  transform: scale(1.04);
+}
+.op-project-tile-media-empty::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(135deg, transparent 49%, rgba(127,127,127,0.04) 50%, transparent 51%),
+    linear-gradient(45deg, transparent 49%, rgba(127,127,127,0.04) 50%, transparent 51%);
+  background-size: 24px 24px;
+}
+
+.op-project-tile-aspect-landscape .op-project-tile-media { aspect-ratio: 16/10; }
+.op-project-tile-aspect-square    .op-project-tile-media { aspect-ratio: 1/1;   }
+.op-project-tile-aspect-portrait  .op-project-tile-media { aspect-ratio: 3/4;   }
+.op-project-tile-aspect-wide      .op-project-tile-media { aspect-ratio: 21/9;  }
+
+.op-mosaic-grid .op-project-tile-media { aspect-ratio: auto; }
+
+.op-project-tile-body {
+  padding: var(--op-space-3) var(--op-space-4) var(--op-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-2);
+  border-top: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+}
+.op-project-tile-cats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.op-project-tile-cats li {
+  font-family: var(--op-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  padding: 2px 8px;
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius-sm, calc(0.5rem - 2px));
+  line-height: 1.4;
+}
+.op-project-tile-title {
+  font-size: clamp(15px, 1.2vw, 18px);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+  line-height: 1.3;
+  color: var(--op-color-fg);
+}
+.op-project-tile-meta {
+  font-family: var(--op-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .op-project-tile,
+  .op-project-tile-media img { transition: none; }
+  a.op-project-tile:hover,
+  a.op-project-tile:focus-visible { transform: none; }
+}

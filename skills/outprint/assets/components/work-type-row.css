@@ -1,0 +1,95 @@
+/* === WorkTypeRow — image-left/right horizontal alternating row === */
+.op-work-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: clamp(32px, 5vw, 80px);
+  padding: clamp(40px, 7vh, 96px) clamp(16px, 4vw, 64px);
+  border-top: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+}
+.op-work-row-align-right .op-work-row-media { order: 2; }
+.op-work-row-align-right .op-work-row-body  { order: 1; }
+
+.op-work-row-media {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--op-radius, 0.5rem);
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  aspect-ratio: 4/3;
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+}
+.op-work-row-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s ease;
+}
+.op-work-row:hover .op-work-row-media img {
+  transform: scale(1.04);
+}
+
+.op-work-row-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-3, 12px);
+  max-width: 48ch;
+}
+.op-work-row-meta {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 0 0 var(--op-space-1, 4px) 0;
+  padding: 0;
+}
+.op-work-row-meta li {
+  font-family: var(--op-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  padding: 2px 8px;
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius-sm, calc(0.5rem - 2px));
+  line-height: 1.5;
+}
+.op-work-row-title {
+  font-family: var(--op-font-display, var(--op-font-sans));
+  font-size: clamp(22px, 3vw, 40px);
+  font-weight: 600;
+  letter-spacing: -0.016em;
+  line-height: 1.1;
+  margin: 0;
+  color: var(--op-color-fg);
+}
+.op-work-row-desc {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  margin: 0;
+}
+.op-work-row-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  align-self: flex-start;
+  margin-top: 6px;
+  transition: gap 120ms ease, color 120ms ease;
+}
+.op-work-row-cta:hover {
+  gap: 12px;
+  color: var(--op-color-fg);
+}
+
+@media (max-width: 760px) {
+  .op-work-row { grid-template-columns: 1fr; }
+  .op-work-row-align-right .op-work-row-media,
+  .op-work-row-align-right .op-work-row-body { order: initial; }
+}

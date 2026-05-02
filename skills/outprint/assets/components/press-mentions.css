@@ -1,0 +1,48 @@
+/* === PressMentions — publication credits row === */
+.op-press-mentions {
+  padding: clamp(40px, 7vh, 80px) clamp(16px, 4vw, 64px);
+  border-top: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+}
+.op-press-eyebrow {
+  font-family: var(--op-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  margin: 0 0 clamp(24px, 3vh, 40px) 0;
+}
+.op-press-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(24px, 4vw, 64px);
+  align-items: baseline;
+}
+.op-press-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.op-press-name {
+  font-family: var(--op-font-display, var(--op-font-sans));
+  font-size: clamp(18px, 2.4vw, 32px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  opacity: 0.5;
+  transition: opacity 120ms ease, color 120ms ease;
+  line-height: 1;
+}
+.op-press-item:hover .op-press-name {
+  opacity: 1;
+  color: var(--op-color-fg);
+}
+.op-press-note {
+  font-family: var(--op-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+}

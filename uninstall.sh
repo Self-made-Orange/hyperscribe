@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# Hyperscribe uninstaller.
-# Removes all hyperscribe skills from every agent directory in one shot.
-# Works with installations made via `npx skills add Atipico1/hyperscribe`.
+# Outprint uninstaller.
+# Removes all outprint skills from every agent directory in one shot.
+# Works with installations made via `npx skills add Self-made-Orange/agent-outprint-skills`.
 
 set -e
 
-SKILLS=(hyperscribe hyperscribe-slides hyperscribe-diff hyperscribe-share)
+SKILLS=(outprint outprint-slides outprint-diff outprint-share)
 
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -14,7 +14,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 echo ""
-echo -e "${BLUE}Hyperscribe — uninstaller${NC}"
+echo -e "${BLUE}Outprint — uninstaller${NC}"
 echo ""
 
 if ! command -v npx >/dev/null 2>&1; then
@@ -36,8 +36,10 @@ echo ""
 echo -e "${GREEN}✓${NC} Uninstall complete."
 echo ""
 echo "If you also installed via Claude Code plugin marketplace, remove it with:"
-echo "  /plugin uninstall hyperscribe@hyperscribe-marketplace"
+echo "  /plugin uninstall outprint@outprint-marketplace"
 echo ""
-echo "Rendered output files live at ~/.hyperscribe/out/ and are NOT removed."
-echo "Delete them manually if desired:  rm -rf ~/.hyperscribe"
+echo "Rendered output files live at ~/.outprint/out/ and are NOT removed."
+echo "Delete them manually if desired:"
+echo "  rm -rf ~/.outprint           # current config + outputs"
+echo "  rm -rf ~/.hyperscribe        # legacy (only if you upgraded from <0.6)"
 echo ""

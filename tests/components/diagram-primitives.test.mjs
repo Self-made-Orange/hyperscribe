@@ -1,16 +1,16 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { render } from "../../plugins/hyperscribe/scripts/render.mjs";
+import { render } from "../../plugins/outprint/scripts/render.mjs";
 
 function envelope(child) {
   return {
     a2ui_version: "0.9",
-    catalog: "hyperscribe/v1",
+    catalog: "outprint/v1",
     is_task_complete: true,
     parts: [
       {
-        component: "hyperscribe/Page",
+        component: "outprint/Page",
         props: { title: "Diagram Gallery" },
         children: [child]
       }
@@ -20,7 +20,7 @@ function envelope(child) {
 
 test("render: Quadrant outputs labeled quadrants and plotted points", async () => {
   const html = await render(envelope({
-    component: "hyperscribe/Quadrant",
+    component: "outprint/Quadrant",
     props: {
       xLabel: "Effort",
       yLabel: "Impact",
@@ -37,7 +37,7 @@ test("render: Quadrant outputs labeled quadrants and plotted points", async () =
     }
   }));
 
-  assert.match(html, /class="hs-quadrant"/);
+  assert.match(html, /class="op-quadrant"/);
   assert.match(html, /Quick wins/);
   assert.match(html, /Docs refresh/);
   assert.match(html, /&lt;Risky&gt;/);
@@ -47,7 +47,7 @@ test("render: Quadrant outputs labeled quadrants and plotted points", async () =
 
 test("render: Swimlane outputs lanes, steps, and edge labels", async () => {
   const html = await render(envelope({
-    component: "hyperscribe/Swimlane",
+    component: "outprint/Swimlane",
     props: {
       lanes: [
         { id: "user", title: "User", subtitle: "Prompt source" },
@@ -66,7 +66,7 @@ test("render: Swimlane outputs lanes, steps, and edge labels", async () => {
     }
   }));
 
-  assert.match(html, /class="hs-swimlane"/);
+  assert.match(html, /class="op-swimlane"/);
   assert.match(html, /User/);
   assert.match(html, /Generate HTML/);
   assert.match(html, /artifact/);
@@ -74,6 +74,6 @@ test("render: Swimlane outputs lanes, steps, and edge labels", async () => {
 });
 
 test("Quadrant CSS: uses theme variables for divider lines", () => {
-  const css = readFileSync(new URL("../../plugins/hyperscribe/assets/components/quadrant.css", import.meta.url), "utf8");
-  assert.match(css, /var\(--hs-color-fg-muted\)/);
+  const css = readFileSync(new URL("../../plugins/outprint/assets/components/quadrant.css", import.meta.url), "utf8");
+  assert.match(css, /var\(--op-color-fg-muted\)/);
 });

@@ -1,0 +1,56 @@
+/* === EditorialStatement — large centered statement === */
+.op-editorial-statement {
+  padding: clamp(64px, 12vh, 160px) clamp(16px, 4vw, 64px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  background: var(--op-color-bg);
+}
+.op-editorial-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(24px, 3vh, 40px);
+}
+.op-editorial-eyebrow {
+  font-family: var(--op-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+}
+.op-editorial-text {
+  font-family: var(--op-font-display, var(--op-font-sans));
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--op-color-fg);
+  margin: 0;
+  max-width: 22ch;
+}
+.op-editorial-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  transition: gap 120ms ease, color 120ms ease;
+}
+.op-editorial-cta:hover {
+  gap: 16px;
+  color: var(--op-color-fg);
+}
+.op-editorial-cta-arrow {
+  font-size: 16px;
+  line-height: 1;
+}

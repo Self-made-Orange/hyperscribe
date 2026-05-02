@@ -1,0 +1,71 @@
+.op-seq-wrap {
+  margin: var(--op-space-5) 0;
+  padding: var(--op-space-5);
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius, 0.5rem);
+  background: var(--op-color-card, var(--op-color-surface));
+  box-shadow: var(--op-shadow-card);
+  overflow-x: auto;
+}
+.op-seq {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+.op-seq-pbox {
+  fill: var(--op-color-muted, var(--op-color-surface-alt));
+  stroke: var(--op-color-border, var(--op-color-surface-alt));
+  stroke-width: 1;
+}
+.op-seq-ptitle {
+  font-family: var(--op-font-sans);
+  font-size: 12.5px;
+  font-weight: 600;
+  fill: var(--op-color-fg);
+}
+.op-seq-psub {
+  font-family: var(--op-font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  fill: var(--op-color-muted-fg, var(--op-color-fg-muted));
+}
+.op-seq-lifeline {
+  stroke: var(--op-color-border, var(--op-color-surface-alt));
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+.op-seq-arrow {
+  stroke: var(--op-color-fg);
+  stroke-width: 1.25;
+  fill: none;
+}
+.op-seq-arrow-dashed {
+  stroke-dasharray: 5 4;
+}
+.op-seq-head {
+  fill: var(--op-color-fg);
+  stroke: none;
+}
+.op-seq-head-open {
+  stroke: var(--op-color-fg);
+  stroke-width: 1.5;
+  fill: none;
+}
+.op-seq-msg-text {
+  font-family: var(--op-font-sans);
+  font-size: 11.5px;
+  font-weight: 500;
+  fill: var(--op-color-fg);
+}
+.op-seq-note-box {
+  fill: var(--op-note-bg);
+  stroke: var(--op-note-border);
+  stroke-width: 1;
+}
+.op-seq-note-text {
+  font-family: var(--op-font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  fill: var(--op-note-text);
+}

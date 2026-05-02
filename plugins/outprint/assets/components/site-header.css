@@ -1,0 +1,78 @@
+/* === SiteHeader — shadcn-style sticky brand+nav row === */
+.op-site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 2.5vw, 32px);
+  height: 56px;
+  background: color-mix(in oklab, var(--op-color-bg) 95%, transparent);
+  backdrop-filter: blur(8px) saturate(160%);
+  -webkit-backdrop-filter: blur(8px) saturate(160%);
+  border-bottom: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  font-size: 14px;
+}
+.op-site-header-brand {
+  font-family: var(--op-font-sans);
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  color: var(--op-color-fg);
+  text-decoration: none;
+}
+.op-site-header-nav {
+  list-style: none;
+  display: flex;
+  gap: clamp(4px, 1.5vw, 8px);
+  margin: 0;
+  padding: 0;
+}
+.op-site-header-nav a {
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  text-decoration: none;
+  font-weight: 400;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: var(--op-radius-sm, calc(0.5rem - 2px));
+  transition: background 120ms ease, color 120ms ease;
+}
+.op-site-header-nav a:hover {
+  background: var(--op-color-muted, var(--op-color-surface-alt));
+  color: var(--op-color-fg);
+}
+.op-site-header-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--op-color-primary-fg, var(--op-color-bg));
+  text-decoration: none;
+  font-weight: 500;
+  padding: 7px 14px;
+  background: var(--op-color-primary, var(--op-color-fg));
+  border: 1px solid var(--op-color-primary, var(--op-color-fg));
+  border-radius: var(--op-radius-sm, calc(0.5rem - 2px));
+  font-size: 13px;
+  transition: opacity 120ms ease;
+}
+.op-site-header-cta:hover { opacity: 0.88; }
+.op-site-header-cta-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+  animation: op-site-header-pulse 2s ease infinite;
+}
+@keyframes op-site-header-pulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(0.8); }
+}
+@media (max-width: 720px) {
+  .op-site-header-nav { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .op-site-header-cta-dot { animation: none; }
+}

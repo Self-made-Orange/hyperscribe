@@ -1,0 +1,25 @@
+/* === Chart — shadcn/ui style via Chart.js === */
+.op-chart-wrap {
+  margin: 0;
+  position: relative;
+}
+
+.op-chart {
+  display: block;
+  width: 100% !important;
+  max-height: 380px;
+}
+
+/* Legend overrides — align with shadcn muted text */
+.op-chart-wrap canvas {
+  color: var(--op-color-muted-fg);
+}
+
+.op-chart-cap {
+  text-align: center;
+  color: var(--op-color-muted-fg);
+  font-size: 11px;
+  font-family: var(--op-font-mono);
+  letter-spacing: 0.04em;
+  margin-top: 12px;
+}

@@ -1,0 +1,112 @@
+#!/bin/bash
+# claw-agent wrapper for agent-outprint-skills' render.mjs.
+#
+# Behaviors added on top of vanilla render.mjs:
+# 1. Force --theme + --mode defaults (LLMs routinely drop these).
+# 2. Inspect envelope JSON for component diversity. Bypass via --allow-prose-only.
+# 3. Optional canvas-wrap: pass --canvas-wrap to convert a general envelope
+#    (parts[Page]) into `template: "canvas"` so canvas.mjs renders with
+#    hero carousel + section-as-slide layout. Off by default — page envelopes
+#    render as page mode unless the caller explicitly asks for canvas.
+#    Skipped for site-mode (SiteHeader / etc.) and slide-mode (SlideDeck) envelopes.
+#
+# Install (user-local):
+#   ln -s "$(pwd)/tools/claw/hyperscribe-render" ~/.local/bin/hyperscribe-render
+#
+# Required env (or override):
+#   HYPERSCRIBE_REPO  — agent-outprint-skills checkout (default: ~/src/agent-outprint-skills)
+#
+# Optional env:
+#   CLAW_HYPERSCRIBE_THEME  — default theme (default: notion)
+#   CLAW_HYPERSCRIBE_MODE   — default mode (default: auto)
+
+HYPERSCRIBE_REPO="${HYPERSCRIBE_REPO:-$HOME/src/agent-outprint-skills}"
+DEFAULT_THEME="${CLAW_HYPERSCRIBE_THEME:-notion}"
+DEFAULT_MODE="${CLAW_HYPERSCRIBE_MODE:-auto}"
+
+# canvas-wrap helper lives next to this script in the repo
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+CANVAS_WRAP_HELPER="$SCRIPT_DIR/canvas-wrap.py"
+
+has_theme=0
+has_mode=0
+allow_prose_only=0
+canvas_wrap=0
+in_path=""
+expect_in=0
+forwarded_args=()
+for arg in "$@"; do
+  if [ "$expect_in" -eq 1 ]; then
+    in_path="$arg"
+    expect_in=0
+  fi
+  case "$arg" in
+    --theme|--theme=*) has_theme=1 ;;
+    --mode|--mode=*)   has_mode=1 ;;
+    --in)              expect_in=1 ;;
+    --in=*)            in_path="${arg#--in=}" ;;
+    --allow-prose-only) allow_prose_only=1; continue ;;  # claw-only flag, do not forward
+    --canvas-wrap)      canvas_wrap=1;      continue ;;  # claw-only flag, do not forward
+  esac
+  forwarded_args+=("$arg")
+done
+
+# --- diversity check -----------------------------------------------------
+if [ "$allow_prose_only" -eq 0 ] && [ -n "$in_path" ] && [ -f "$in_path" ]; then
+  rich_components=$(grep -oE '"component"\s*:\s*"hyperscribe/(Mermaid|ArchitectureGrid|FlowChart|Sequence|Swimlane|Quadrant|Comparison|Chart|StepList|ERDDiagram|CodeDiff|AnnotatedCode|FileTree|FileCard|HeroCarousel|MosaicGrid|ProjectTile|DivisionCard|WorkTypeRow|EditorialStatement|SiteHeader)"' "$in_path" 2>/dev/null | wc -l)
+  if [ "${rich_components:-0}" -eq 0 ]; then
+    used_components=$(grep -oE '"component"\s*:\s*"hyperscribe/[^"]+"' "$in_path" 2>/dev/null | sort -u | tr '\n' ' ')
+    echo "ENVELOPE DIVERSITY CHECK FAILED — no dominant visual surface present." >&2
+    echo "Found only: ${used_components}" >&2
+    echo "" >&2
+    echo "An HTML artifact without a diagram, comparison-card, quadrant, chart, swimlane, flowchart, or step-list is a flat textbook page." >&2
+    echo "Pick ONE dominant visual based on the content type:" >&2
+    echo "  - Topology / 시스템 / 모듈 / 서비스 → ArchitectureGrid (cards + connectors)" >&2
+    echo "  - Flow / 파이프라인 / 라이프사이클 / 결정 분기 → FlowChart (ranked nodes) OR Sequence (actor messages)" >&2
+    echo "  - Comparison / 비교 / 옵션 / 트레이드오프 → Comparison (mode=vs|grid) OR Quadrant (2-axis)" >&2
+    echo "  - Process / 프로세스 / 작업 흐름 / lane × ownership → Swimlane" >&2
+    echo "  - DB / Schema / Type → ERDDiagram" >&2
+    echo "  - Numerical trend / shape → Chart (line|bar|pie|area|scatter)" >&2
+    echo "  - Steps / checklist / phased → StepList" >&2
+    echo "  - File / dir structure → FileTree + FileCard" >&2
+    echo "" >&2
+    echo "Rewrite the envelope with at least ONE rich visual surface as the dominant element, then retry." >&2
+    echo "If this artifact is legitimately prose-only (long-form narrative explanation), pass --allow-prose-only to skip this check." >&2
+    exit 2
+  fi
+fi
+# -------------------------------------------------------------------------
+
+# --- canvas auto-wrap (opt-in) -------------------------------------------
+# Convert general envelope (parts[]) to canvas template ONLY when the caller
+# explicitly asks via --canvas-wrap. Page envelopes default to page mode so the
+# caller's envelope shape (parts[]) is honored, not silently rewritten.
+# Site-mode and slide-mode envelopes are still skipped inside canvas-wrap.py.
+if [ "$canvas_wrap" -eq 1 ] && [ -n "$in_path" ] && [ -f "$in_path" ] && [ -f "$CANVAS_WRAP_HELPER" ]; then
+  wrapped=$(python3 "$CANVAS_WRAP_HELPER" "$in_path" 2>/dev/null | tail -1)
+  if [ -n "$wrapped" ] && [ "$wrapped" != "$in_path" ] && [ -f "$wrapped" ]; then
+    new_args=()
+    swap_next=0
+    for a in "${forwarded_args[@]}"; do
+      if [ "$swap_next" -eq 1 ]; then
+        new_args+=("$wrapped")
+        swap_next=0
+        continue
+      fi
+      case "$a" in
+        --in)     new_args+=("$a"); swap_next=1 ;;
+        --in=*)   new_args+=("--in=$wrapped") ;;
+        *)        new_args+=("$a") ;;
+      esac
+    done
+    forwarded_args=("${new_args[@]}")
+    in_path="$wrapped"
+  fi
+fi
+# -------------------------------------------------------------------------
+
+extra=()
+[ "$has_theme" -eq 0 ] && extra+=(--theme "$DEFAULT_THEME")
+[ "$has_mode"  -eq 0 ] && extra+=(--mode  "$DEFAULT_MODE")
+
+exec node "$HYPERSCRIBE_REPO/plugins/hyperscribe/scripts/render.mjs" "${extra[@]}" "${forwarded_args[@]}"

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { ERDDiagram } from "../../plugins/hyperscribe/scripts/components/erd-diagram.mjs";
+import { ERDDiagram } from "../../plugins/outprint/scripts/components/erd-diagram.mjs";
 
 const sample = {
   entities: [
@@ -21,20 +21,20 @@ const sample = {
 
 test("ERDDiagram: root + entity tables", () => {
   const html = ERDDiagram(sample);
-  assert.match(html, /class="hs-erd/);
+  assert.match(html, /class="op-erd/);
   assert.match(html, />User</);
   assert.match(html, />Post</);
 });
 
 test("ERDDiagram: pk/fk fields get key classes", () => {
   const html = ERDDiagram(sample);
-  assert.match(html, /hs-erd-field-key-pk/);
-  assert.match(html, /hs-erd-field-key-fk/);
+  assert.match(html, /op-erd-field-key-pk/);
+  assert.match(html, /op-erd-field-key-fk/);
 });
 
 test("ERDDiagram: nullable fields marked", () => {
   const html = ERDDiagram(sample);
-  assert.match(html, /hs-erd-field-nullable/);
+  assert.match(html, /op-erd-field-nullable/);
 });
 
 test("ERDDiagram: relationship cardinality label rendered", () => {

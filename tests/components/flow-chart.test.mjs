@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { FlowChart } from "../../plugins/hyperscribe/scripts/components/flow-chart.mjs";
+import { FlowChart } from "../../plugins/outprint/scripts/components/flow-chart.mjs";
 
 const simple = {
   layout: "LR",
@@ -16,13 +16,13 @@ const simple = {
 
 test("FlowChart: renders wrapper + svg", () => {
   const html = FlowChart(simple);
-  assert.match(html, /<div class="hs-flow hs-flow-lr[^"]*"/);
+  assert.match(html, /<div class="op-flow op-flow-lr[^"]*"/);
   assert.match(html, /<svg/);
 });
 
 test("FlowChart: renders one node element per node", () => {
   const html = FlowChart(simple);
-  const m = html.match(/class="hs-flow-node"/g);
+  const m = html.match(/class="op-flow-node"/g);
   assert.equal(m.length, 3);
 });
 
@@ -38,12 +38,12 @@ test("FlowChart: diamond shape uses <polygon>", () => {
     edges: [],
     ranks: [["a"]]
   });
-  assert.match(html, /<polygon[^>]+class="hs-flow-shape-diamond"/);
+  assert.match(html, /<polygon[^>]+class="op-flow-shape-diamond"/);
 });
 
 test("FlowChart: TD layout class", () => {
   const html = FlowChart({ ...simple, layout: "TD" });
-  assert.match(html, /hs-flow-td/);
+  assert.match(html, /op-flow-td/);
 });
 
 test("FlowChart: escapes labels", () => {
@@ -57,6 +57,6 @@ test("FlowChart: escapes labels", () => {
 });
 
 test("FlowChart CSS: uses theme variables for node borders and edges", () => {
-  const css = readFileSync(new URL("../../plugins/hyperscribe/assets/components/flow-chart.css", import.meta.url), "utf8");
-  assert.match(css, /var\(--hs-color-fg-muted\)/);
+  const css = readFileSync(new URL("../../plugins/outprint/assets/components/flow-chart.css", import.meta.url), "utf8");
+  assert.match(css, /var\(--op-color-fg-muted\)/);
 });

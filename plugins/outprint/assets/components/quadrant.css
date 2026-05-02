@@ -1,0 +1,121 @@
+.op-quadrant {
+  margin: var(--op-space-5) 0;
+}
+
+.op-quadrant-plot {
+  position: relative;
+  min-height: 420px;
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius, 0.5rem);
+  background:
+    linear-gradient(to right, transparent calc(50% - 0.5px), var(--op-color-border, hsl(0 0% 50% / 0.2)) calc(50% - 0.5px), var(--op-color-border, hsl(0 0% 50% / 0.2)) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    linear-gradient(to bottom, transparent calc(50% - 0.5px), var(--op-color-border, hsl(0 0% 50% / 0.2)) calc(50% - 0.5px), var(--op-color-border, hsl(0 0% 50% / 0.2)) calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    var(--op-color-card, var(--op-color-surface));
+  overflow: hidden;
+  box-shadow: var(--op-shadow-card);
+}
+
+.op-quadrant-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  min-height: 420px;
+}
+
+.op-quadrant-cell {
+  padding: var(--op-space-4) var(--op-space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--op-space-1);
+}
+
+.op-quadrant-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.op-quadrant-description {
+  max-width: 28ch;
+  font-size: 13px;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  line-height: 1.4;
+}
+
+.op-quadrant-axis {
+  position: absolute;
+  z-index: 2;
+  font-family: var(--op-font-mono);
+  font-size: 11px;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.op-quadrant-axis-y {
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%) rotate(-90deg);
+  transform-origin: left top;
+}
+
+.op-quadrant-axis-x {
+  right: 16px;
+  bottom: 10px;
+}
+
+.op-quadrant-points {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+}
+
+.op-quadrant-point {
+  position: absolute;
+  left: var(--op-quadrant-x);
+  top: calc(100% - var(--op-quadrant-y));
+  transform: translate(-50%, -50%);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.op-quadrant-point-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--op-color-primary, var(--op-color-fg));
+  border: 2px solid var(--op-color-bg);
+  box-shadow: 0 0 0 2px var(--op-color-border, var(--op-color-surface-alt));
+}
+
+.op-quadrant-point-muted .op-quadrant-point-dot {
+  background: var(--op-color-muted-fg, var(--op-color-fg-muted));
+}
+
+.op-quadrant-point-success .op-quadrant-point-dot {
+  background: var(--op-tone-success-fg);
+}
+
+.op-quadrant-point-warn .op-quadrant-point-dot {
+  background: var(--op-tone-warn-fg);
+}
+
+.op-quadrant-point-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border: 1px solid var(--op-color-border, var(--op-color-surface-alt));
+  border-radius: var(--op-radius-sm, calc(0.5rem - 2px));
+  background: var(--op-color-card, var(--op-color-surface));
+  box-shadow: var(--op-shadow-card);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.op-quadrant-point-tag {
+  font-family: var(--op-font-mono);
+  font-size: 10px;
+  color: var(--op-color-muted-fg, var(--op-color-fg-muted));
+}

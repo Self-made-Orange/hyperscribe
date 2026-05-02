@@ -16,19 +16,19 @@
 
 ### New files
 ```
-plugins/hyperscribe/themes/void.css
-plugins/hyperscribe/themes/gallery.css
-plugins/hyperscribe/scripts/lib/preference.mjs
-plugins/hyperscribe/scripts/components/file-tree.mjs
-plugins/hyperscribe/scripts/components/dependency-graph.mjs
-plugins/hyperscribe/scripts/components/file-card.mjs
-plugins/hyperscribe/scripts/components/annotated-code.mjs
-plugins/hyperscribe/scripts/components/erd-diagram.mjs
-plugins/hyperscribe/assets/components/file-tree.css
-plugins/hyperscribe/assets/components/dependency-graph.css
-plugins/hyperscribe/assets/components/file-card.css
-plugins/hyperscribe/assets/components/annotated-code.css
-plugins/hyperscribe/assets/components/erd-diagram.css
+plugins/outprint/themes/void.css
+plugins/outprint/themes/gallery.css
+plugins/outprint/scripts/lib/preference.mjs
+plugins/outprint/scripts/components/file-tree.mjs
+plugins/outprint/scripts/components/dependency-graph.mjs
+plugins/outprint/scripts/components/file-card.mjs
+plugins/outprint/scripts/components/annotated-code.mjs
+plugins/outprint/scripts/components/erd-diagram.mjs
+plugins/outprint/assets/components/file-tree.css
+plugins/outprint/assets/components/dependency-graph.css
+plugins/outprint/assets/components/file-card.css
+plugins/outprint/assets/components/annotated-code.css
+plugins/outprint/assets/components/erd-diagram.css
 tests/lib/preference.test.mjs
 tests/components/file-tree.test.mjs
 tests/components/dependency-graph.test.mjs
@@ -39,22 +39,22 @@ tests/components/erd-diagram.test.mjs
 
 ### Renamed files
 ```
-plugins/hyperscribe/themes/notion.css    -> plugins/hyperscribe/themes/studio.css
-plugins/hyperscribe/themes/linear.css    -> plugins/hyperscribe/themes/midnight.css
+plugins/outprint/themes/notion.css    -> plugins/outprint/themes/studio.css
+plugins/outprint/themes/linear.css    -> plugins/outprint/themes/midnight.css
 ```
 
 ### Modified files
 ```
-plugins/hyperscribe/scripts/render.mjs           # --mode flag, data-mode injection, REGISTRY +5, default theme rename
-plugins/hyperscribe/spec/catalog.json            # 5 new component schemas
-plugins/hyperscribe/references/catalog.md        # regenerated
-plugins/hyperscribe/SKILL.md                     # Step 0 preference block + inventory rows
-plugins/hyperscribe/commands/hyperscribe.md      # Step 0 preference block
-plugins/hyperscribe/commands/slides.md           # Step 0 preference block
-plugins/hyperscribe/commands/diff.md             # Step 0 preference block
-skills/hyperscribe/SKILL.md                      # mirror of plugin SKILL.md changes
-skills/hyperscribe-slides/SKILL.md               # reference Step 0 block
-skills/hyperscribe-diff/SKILL.md                 # reference Step 0 block
+plugins/outprint/scripts/render.mjs           # --mode flag, data-mode injection, REGISTRY +5, default theme rename
+plugins/outprint/spec/catalog.json            # 5 new component schemas
+plugins/outprint/references/catalog.md        # regenerated
+plugins/outprint/SKILL.md                     # Step 0 preference block + inventory rows
+plugins/outprint/commands/hyperscribe.md      # Step 0 preference block
+plugins/outprint/commands/slides.md           # Step 0 preference block
+plugins/outprint/commands/diff.md             # Step 0 preference block
+skills/outprint/SKILL.md                      # mirror of plugin SKILL.md changes
+skills/outprint-slides/SKILL.md               # reference Step 0 block
+skills/outprint-diff/SKILL.md                 # reference Step 0 block
 tests/render-theme.test.mjs                      # notion/linear -> studio/midnight, 4-theme coverage
 README.md                                        # rewrite Themes section
 package.json                                     # bump version to 0.4.0-alpha
@@ -67,13 +67,13 @@ package.json                                     # bump version to 0.4.0-alpha
 ### Task 1: Rename `notion.css` → `studio.css`
 
 **Files:**
-- Rename: `plugins/hyperscribe/themes/notion.css` → `plugins/hyperscribe/themes/studio.css`
+- Rename: `plugins/outprint/themes/notion.css` → `plugins/outprint/themes/studio.css`
 - Modify: inside the renamed file — change the two `[data-theme="notion"]` selectors to `[data-theme="studio"]`
 
 - [ ] **Step 1: Git-aware rename**
 
 ```bash
-git mv plugins/hyperscribe/themes/notion.css plugins/hyperscribe/themes/studio.css
+git mv plugins/outprint/themes/notion.css plugins/outprint/themes/studio.css
 ```
 
 - [ ] **Step 2: Update selectors inside the file**
@@ -81,15 +81,15 @@ git mv plugins/hyperscribe/themes/notion.css plugins/hyperscribe/themes/studio.c
 Replace both occurrences (one for light, one for dark). The `:root:not([data-theme])` fallback is removed since `studio` becomes the default but explicitly-set only.
 
 ```bash
-sed -i.bak 's/data-theme="notion"/data-theme="studio"/g' plugins/hyperscribe/themes/studio.css
-sed -i.bak 's/:root:not(\[data-theme\])/[data-theme="studio"]/g' plugins/hyperscribe/themes/studio.css
-rm plugins/hyperscribe/themes/studio.css.bak
+sed -i.bak 's/data-theme="notion"/data-theme="studio"/g' plugins/outprint/themes/studio.css
+sed -i.bak 's/:root:not(\[data-theme\])/[data-theme="studio"]/g' plugins/outprint/themes/studio.css
+rm plugins/outprint/themes/studio.css.bak
 ```
 
 - [ ] **Step 3: Verify**
 
 ```bash
-grep -c 'data-theme="studio"' plugins/hyperscribe/themes/studio.css
+grep -c 'data-theme="studio"' plugins/outprint/themes/studio.css
 ```
 
 Expected: `2` (light + dark).
@@ -97,7 +97,7 @@ Expected: `2` (light + dark).
 - [ ] **Step 4: Commit**
 
 ```bash
-git add plugins/hyperscribe/themes/studio.css
+git add plugins/outprint/themes/studio.css
 git commit -m "refactor(theme): rename notion theme to studio"
 ```
 
@@ -106,25 +106,25 @@ git commit -m "refactor(theme): rename notion theme to studio"
 ### Task 2: Rename `linear.css` → `midnight.css`
 
 **Files:**
-- Rename: `plugins/hyperscribe/themes/linear.css` → `plugins/hyperscribe/themes/midnight.css`
+- Rename: `plugins/outprint/themes/linear.css` → `plugins/outprint/themes/midnight.css`
 
 - [ ] **Step 1: Git rename**
 
 ```bash
-git mv plugins/hyperscribe/themes/linear.css plugins/hyperscribe/themes/midnight.css
+git mv plugins/outprint/themes/linear.css plugins/outprint/themes/midnight.css
 ```
 
 - [ ] **Step 2: Update selectors**
 
 ```bash
-sed -i.bak 's/data-theme="linear"/data-theme="midnight"/g' plugins/hyperscribe/themes/midnight.css
-rm plugins/hyperscribe/themes/midnight.css.bak
+sed -i.bak 's/data-theme="linear"/data-theme="midnight"/g' plugins/outprint/themes/midnight.css
+rm plugins/outprint/themes/midnight.css.bak
 ```
 
 - [ ] **Step 3: Verify**
 
 ```bash
-grep -c 'data-theme="midnight"' plugins/hyperscribe/themes/midnight.css
+grep -c 'data-theme="midnight"' plugins/outprint/themes/midnight.css
 ```
 
 Expected: `2`.
@@ -132,7 +132,7 @@ Expected: `2`.
 - [ ] **Step 4: Commit**
 
 ```bash
-git add plugins/hyperscribe/themes/midnight.css
+git add plugins/outprint/themes/midnight.css
 git commit -m "refactor(theme): rename linear theme to midnight"
 ```
 
@@ -141,7 +141,7 @@ git commit -m "refactor(theme): rename linear theme to midnight"
 ### Task 3: Change renderer default theme from `notion` to `studio`
 
 **Files:**
-- Modify: `plugins/hyperscribe/scripts/render.mjs` (line ~73 `themeName` default, line ~179 `printHelp` text)
+- Modify: `plugins/outprint/scripts/render.mjs` (line ~73 `themeName` default, line ~179 `printHelp` text)
 
 - [ ] **Step 1: Patch the default**
 
@@ -178,7 +178,7 @@ Replace the entire file contents with:
 ```js
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { render } from "../plugins/hyperscribe/scripts/render.mjs";
+import { render } from "../plugins/outprint/scripts/render.mjs";
 
 const envelope = {
   a2ui_version: "0.9",
@@ -230,7 +230,7 @@ Expected: studio and midnight tests pass; void and gallery tests fail with `Unkn
 - [ ] **Step 5: Commit**
 
 ```bash
-git add plugins/hyperscribe/scripts/render.mjs tests/render-theme.test.mjs
+git add plugins/outprint/scripts/render.mjs tests/render-theme.test.mjs
 git commit -m "refactor(theme): default is studio; tests cover all 4 theme names"
 ```
 
@@ -241,7 +241,7 @@ git commit -m "refactor(theme): default is studio; tests cover all 4 theme names
 ### Task 4: Add `themes/void.css` (Framer-inspired)
 
 **Files:**
-- Create: `plugins/hyperscribe/themes/void.css`
+- Create: `plugins/outprint/themes/void.css`
 
 - [ ] **Step 1: Run failing test**
 
@@ -364,7 +364,7 @@ Expected: PASS.
 - [ ] **Step 4: Commit**
 
 ```bash
-git add plugins/hyperscribe/themes/void.css
+git add plugins/outprint/themes/void.css
 git commit -m "feat(theme): add void — pure-black dark-first with blue ring"
 ```
 
@@ -373,7 +373,7 @@ git commit -m "feat(theme): add void — pure-black dark-first with blue ring"
 ### Task 5: Add `themes/gallery.css` (Apple-inspired)
 
 **Files:**
-- Create: `plugins/hyperscribe/themes/gallery.css`
+- Create: `plugins/outprint/themes/gallery.css`
 
 - [ ] **Step 1: Run failing test**
 
@@ -492,7 +492,7 @@ Expected: all 4 theme tests PASS.
 - [ ] **Step 4: Commit**
 
 ```bash
-git add plugins/hyperscribe/themes/gallery.css
+git add plugins/outprint/themes/gallery.css
 git commit -m "feat(theme): add gallery — Apple-inspired binary surfaces + soft diffused shadow"
 ```
 
@@ -503,7 +503,7 @@ git commit -m "feat(theme): add gallery — Apple-inspired binary surfaces + sof
 ### Task 6: Add `--mode` CLI flag and initial `data-mode` on `<html>`
 
 **Files:**
-- Modify: `plugins/hyperscribe/scripts/render.mjs` (`render()`, `parseArgs()`, `buildDocument()`, `printHelp()`, `main()`)
+- Modify: `plugins/outprint/scripts/render.mjs` (`render()`, `parseArgs()`, `buildDocument()`, `printHelp()`, `main()`)
 - Modify: `tests/render-theme.test.mjs` (add `--mode` coverage)
 
 - [ ] **Step 1: Write failing tests**
@@ -605,7 +605,7 @@ Expected: all PASS (4 themes × initial 2 cases + 5 new mode tests).
 - [ ] **Step 5: Commit**
 
 ```bash
-git add plugins/hyperscribe/scripts/render.mjs tests/render-theme.test.mjs
+git add plugins/outprint/scripts/render.mjs tests/render-theme.test.mjs
 git commit -m "feat(render): --mode flag injects initial data-mode to prevent FOUC"
 ```
 
@@ -616,7 +616,7 @@ git commit -m "feat(render): --mode flag injects initial data-mode to prevent FO
 ### Task 7: Create `scripts/lib/preference.mjs` with full TDD
 
 **Files:**
-- Create: `plugins/hyperscribe/scripts/lib/preference.mjs`
+- Create: `plugins/outprint/scripts/lib/preference.mjs`
 - Create: `tests/lib/preference.test.mjs`
 
 - [ ] **Step 1: Write the failing test file**
@@ -636,7 +636,7 @@ import {
   resolvePreferencePath,
   readPreference,
   writePreference
-} from "../../plugins/hyperscribe/scripts/lib/preference.mjs";
+} from "../../plugins/outprint/scripts/lib/preference.mjs";
 
 test("defaults: studio + light", () => {
   assert.deepEqual(defaults(), { theme: "studio", mode: "light" });
@@ -747,7 +747,7 @@ Expected: FAIL with import error.
 
 - [ ] **Step 3: Create the implementation**
 
-Create `plugins/hyperscribe/scripts/lib/preference.mjs`:
+Create `plugins/outprint/scripts/lib/preference.mjs`:
 
 ```js
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from "node:fs";
@@ -837,7 +837,7 @@ Expected: all PASS.
 - [ ] **Step 5: Commit**
 
 ```bash
-git add plugins/hyperscribe/scripts/lib/preference.mjs tests/lib/preference.test.mjs
+git add plugins/outprint/scripts/lib/preference.mjs tests/lib/preference.test.mjs
 git commit -m "feat(preference): add preference.mjs read/write helpers with validation"
 ```
 
@@ -850,11 +850,11 @@ Each component follows the exact same shape: `.mjs` module + per-component `.css
 ### Task 8: `FileTree` component
 
 **Files:**
-- Create: `plugins/hyperscribe/scripts/components/file-tree.mjs`
-- Create: `plugins/hyperscribe/assets/components/file-tree.css`
+- Create: `plugins/outprint/scripts/components/file-tree.mjs`
+- Create: `plugins/outprint/assets/components/file-tree.css`
 - Create: `tests/components/file-tree.test.mjs`
-- Modify: `plugins/hyperscribe/scripts/render.mjs` (REGISTRY)
-- Modify: `plugins/hyperscribe/spec/catalog.json`
+- Modify: `plugins/outprint/scripts/render.mjs` (REGISTRY)
+- Modify: `plugins/outprint/spec/catalog.json`
 
 - [ ] **Step 1: Write the failing test**
 
@@ -863,7 +863,7 @@ Each component follows the exact same shape: `.mjs` module + per-component `.css
 ```js
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { FileTree } from "../../plugins/hyperscribe/scripts/components/file-tree.mjs";
+import { FileTree } from "../../plugins/outprint/scripts/components/file-tree.mjs";
 
 const sample = {
   nodes: [
@@ -931,7 +931,7 @@ Expected: FAIL — module not found.
 
 - [ ] **Step 3: Create the component module**
 
-`plugins/hyperscribe/scripts/components/file-tree.mjs`:
+`plugins/outprint/scripts/components/file-tree.mjs`:
 
 ```js
 import { escape } from "../lib/html.mjs";
@@ -964,7 +964,7 @@ export function FileTree(props) {
 
 - [ ] **Step 4: Create the CSS**
 
-`plugins/hyperscribe/assets/components/file-tree.css`:
+`plugins/outprint/assets/components/file-tree.css`:
 
 ```css
 .hs-file-tree {
@@ -1080,10 +1080,10 @@ Expected: all existing tests + new `file-tree.test.mjs` PASS.
 - [ ] **Step 8: Commit**
 
 ```bash
-git add plugins/hyperscribe/scripts/components/file-tree.mjs \
-        plugins/hyperscribe/assets/components/file-tree.css \
-        plugins/hyperscribe/scripts/render.mjs \
-        plugins/hyperscribe/spec/catalog.json \
+git add plugins/outprint/scripts/components/file-tree.mjs \
+        plugins/outprint/assets/components/file-tree.css \
+        plugins/outprint/scripts/render.mjs \
+        plugins/outprint/spec/catalog.json \
         tests/components/file-tree.test.mjs
 git commit -m "feat(component): add FileTree — directory/file structure"
 ```
@@ -1093,10 +1093,10 @@ git commit -m "feat(component): add FileTree — directory/file structure"
 ### Task 9: `DependencyGraph` component
 
 **Files:**
-- Create: `plugins/hyperscribe/scripts/components/dependency-graph.mjs`
-- Create: `plugins/hyperscribe/assets/components/dependency-graph.css`
+- Create: `plugins/outprint/scripts/components/dependency-graph.mjs`
+- Create: `plugins/outprint/assets/components/dependency-graph.css`
 - Create: `tests/components/dependency-graph.test.mjs`
-- Modify: `plugins/hyperscribe/scripts/render.mjs`, `plugins/hyperscribe/spec/catalog.json`
+- Modify: `plugins/outprint/scripts/render.mjs`, `plugins/outprint/spec/catalog.json`
 
 - [ ] **Step 1: Failing test**
 
@@ -1105,7 +1105,7 @@ git commit -m "feat(component): add FileTree — directory/file structure"
 ```js
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { DependencyGraph } from "../../plugins/hyperscribe/scripts/components/dependency-graph.mjs";
+import { DependencyGraph } from "../../plugins/outprint/scripts/components/dependency-graph.mjs";
 
 const sample = {
   layout: "ranks",
@@ -1174,7 +1174,7 @@ node --test tests/components/dependency-graph.test.mjs
 
 - [ ] **Step 3: Implement**
 
-`plugins/hyperscribe/scripts/components/dependency-graph.mjs`:
+`plugins/outprint/scripts/components/dependency-graph.mjs`:
 
 ```js
 import { escape } from "../lib/html.mjs";
@@ -1261,7 +1261,7 @@ ${nodeSvg.join("\n")}
 
 - [ ] **Step 4: CSS**
 
-`plugins/hyperscribe/assets/components/dependency-graph.css`:
+`plugins/outprint/assets/components/dependency-graph.css`:
 
 ```css
 .hs-dep-graph {
@@ -1346,10 +1346,10 @@ Expected: PASS.
 - [ ] **Step 7: Commit**
 
 ```bash
-git add plugins/hyperscribe/scripts/components/dependency-graph.mjs \
-        plugins/hyperscribe/assets/components/dependency-graph.css \
-        plugins/hyperscribe/scripts/render.mjs \
-        plugins/hyperscribe/spec/catalog.json \
+git add plugins/outprint/scripts/components/dependency-graph.mjs \
+        plugins/outprint/assets/components/dependency-graph.css \
+        plugins/outprint/scripts/render.mjs \
+        plugins/outprint/spec/catalog.json \
         tests/components/dependency-graph.test.mjs
 git commit -m "feat(component): add DependencyGraph — ranked module/import graph"
 ```
@@ -1359,10 +1359,10 @@ git commit -m "feat(component): add DependencyGraph — ranked module/import gra
 ### Task 10: `FileCard` component
 
 **Files:**
-- Create: `plugins/hyperscribe/scripts/components/file-card.mjs`
-- Create: `plugins/hyperscribe/assets/components/file-card.css`
+- Create: `plugins/outprint/scripts/components/file-card.mjs`
+- Create: `plugins/outprint/assets/components/file-card.css`
 - Create: `tests/components/file-card.test.mjs`
-- Modify: `plugins/hyperscribe/scripts/render.mjs`, `plugins/hyperscribe/spec/catalog.json`
+- Modify: `plugins/outprint/scripts/render.mjs`, `plugins/outprint/spec/catalog.json`
 
 - [ ] **Step 1: Test**
 
@@ -1371,7 +1371,7 @@ git commit -m "feat(component): add DependencyGraph — ranked module/import gra
 ```js
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { FileCard } from "../../plugins/hyperscribe/scripts/components/file-card.mjs";
+import { FileCard } from "../../plugins/outprint/scripts/components/file-card.mjs";
 
 test("FileCard: base wrapper + name", () => {
   const html = FileCard({ name: "index.ts", responsibility: "entry point" });
@@ -1434,7 +1434,7 @@ node --test tests/components/file-card.test.mjs
 
 - [ ] **Step 3: Implement**
 
-`plugins/hyperscribe/scripts/components/file-card.mjs`:
+`plugins/outprint/scripts/components/file-card.mjs`:
 
 ```js
 import { escape } from "../lib/html.mjs";
@@ -1477,7 +1477,7 @@ ${footer}
 
 - [ ] **Step 4: CSS**
 
-`plugins/hyperscribe/assets/components/file-card.css`:
+`plugins/outprint/assets/components/file-card.css`:
 
 ```css
 .hs-file-card {
@@ -1606,10 +1606,10 @@ npm test
 - [ ] **Step 7: Commit**
 
 ```bash
-git add plugins/hyperscribe/scripts/components/file-card.mjs \
-        plugins/hyperscribe/assets/components/file-card.css \
-        plugins/hyperscribe/scripts/render.mjs \
-        plugins/hyperscribe/spec/catalog.json \
+git add plugins/outprint/scripts/components/file-card.mjs \
+        plugins/outprint/assets/components/file-card.css \
+        plugins/outprint/scripts/render.mjs \
+        plugins/outprint/spec/catalog.json \
         tests/components/file-card.test.mjs
 git commit -m "feat(component): add FileCard — per-file summary with exports + state"
 ```
@@ -1619,10 +1619,10 @@ git commit -m "feat(component): add FileCard — per-file summary with exports +
 ### Task 11: `AnnotatedCode` component
 
 **Files:**
-- Create: `plugins/hyperscribe/scripts/components/annotated-code.mjs`
-- Create: `plugins/hyperscribe/assets/components/annotated-code.css`
+- Create: `plugins/outprint/scripts/components/annotated-code.mjs`
+- Create: `plugins/outprint/assets/components/annotated-code.css`
 - Create: `tests/components/annotated-code.test.mjs`
-- Modify: `plugins/hyperscribe/scripts/render.mjs`, `plugins/hyperscribe/spec/catalog.json`
+- Modify: `plugins/outprint/scripts/render.mjs`, `plugins/outprint/spec/catalog.json`
 
 - [ ] **Step 1: Test**
 
@@ -1631,7 +1631,7 @@ git commit -m "feat(component): add FileCard — per-file summary with exports +
 ```js
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { AnnotatedCode } from "../../plugins/hyperscribe/scripts/components/annotated-code.mjs";
+import { AnnotatedCode } from "../../plugins/outprint/scripts/components/annotated-code.mjs";
 
 const sample = {
   lang: "js",
@@ -1703,7 +1703,7 @@ node --test tests/components/annotated-code.test.mjs
 
 - [ ] **Step 3: Implement**
 
-`plugins/hyperscribe/scripts/components/annotated-code.mjs`:
+`plugins/outprint/scripts/components/annotated-code.mjs`:
 
 ```js
 import { escape } from "../lib/html.mjs";
@@ -1762,7 +1762,7 @@ ${filename}
 
 - [ ] **Step 4: CSS**
 
-`plugins/hyperscribe/assets/components/annotated-code.css`:
+`plugins/outprint/assets/components/annotated-code.css`:
 
 ```css
 .hs-annotated-code {
@@ -1901,10 +1901,10 @@ npm test
 - [ ] **Step 7: Commit**
 
 ```bash
-git add plugins/hyperscribe/scripts/components/annotated-code.mjs \
-        plugins/hyperscribe/assets/components/annotated-code.css \
-        plugins/hyperscribe/scripts/render.mjs \
-        plugins/hyperscribe/spec/catalog.json \
+git add plugins/outprint/scripts/components/annotated-code.mjs \
+        plugins/outprint/assets/components/annotated-code.css \
+        plugins/outprint/scripts/render.mjs \
+        plugins/outprint/spec/catalog.json \
         tests/components/annotated-code.test.mjs
 git commit -m "feat(component): add AnnotatedCode — pinned code with side notes"
 ```
@@ -1914,10 +1914,10 @@ git commit -m "feat(component): add AnnotatedCode — pinned code with side note
 ### Task 12: `ERDDiagram` component
 
 **Files:**
-- Create: `plugins/hyperscribe/scripts/components/erd-diagram.mjs`
-- Create: `plugins/hyperscribe/assets/components/erd-diagram.css`
+- Create: `plugins/outprint/scripts/components/erd-diagram.mjs`
+- Create: `plugins/outprint/assets/components/erd-diagram.css`
 - Create: `tests/components/erd-diagram.test.mjs`
-- Modify: `plugins/hyperscribe/scripts/render.mjs`, `plugins/hyperscribe/spec/catalog.json`
+- Modify: `plugins/outprint/scripts/render.mjs`, `plugins/outprint/spec/catalog.json`
 
 - [ ] **Step 1: Test**
 
@@ -1926,7 +1926,7 @@ git commit -m "feat(component): add AnnotatedCode — pinned code with side note
 ```js
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { ERDDiagram } from "../../plugins/hyperscribe/scripts/components/erd-diagram.mjs";
+import { ERDDiagram } from "../../plugins/outprint/scripts/components/erd-diagram.mjs";
 
 const sample = {
   entities: [
@@ -1998,7 +1998,7 @@ node --test tests/components/erd-diagram.test.mjs
 
 - [ ] **Step 3: Implement**
 
-`plugins/hyperscribe/scripts/components/erd-diagram.mjs`:
+`plugins/outprint/scripts/components/erd-diagram.mjs`:
 
 ```js
 import { escape } from "../lib/html.mjs";
@@ -2045,7 +2045,7 @@ ${rels ? `<ul class="hs-erd-rels">${rels}</ul>` : ""}
 
 - [ ] **Step 4: CSS**
 
-`plugins/hyperscribe/assets/components/erd-diagram.css`:
+`plugins/outprint/assets/components/erd-diagram.css`:
 
 ```css
 .hs-erd {
@@ -2185,10 +2185,10 @@ npm test
 - [ ] **Step 7: Commit**
 
 ```bash
-git add plugins/hyperscribe/scripts/components/erd-diagram.mjs \
-        plugins/hyperscribe/assets/components/erd-diagram.css \
-        plugins/hyperscribe/scripts/render.mjs \
-        plugins/hyperscribe/spec/catalog.json \
+git add plugins/outprint/scripts/components/erd-diagram.mjs \
+        plugins/outprint/assets/components/erd-diagram.css \
+        plugins/outprint/scripts/render.mjs \
+        plugins/outprint/spec/catalog.json \
         tests/components/erd-diagram.test.mjs
 git commit -m "feat(component): add ERDDiagram — entity-relationship tables"
 ```
@@ -2200,7 +2200,7 @@ git commit -m "feat(component): add ERDDiagram — entity-relationship tables"
 ### Task 13: Regenerate `references/catalog.md`
 
 **Files:**
-- Modify (regen): `plugins/hyperscribe/references/catalog.md`
+- Modify (regen): `plugins/outprint/references/catalog.md`
 
 - [ ] **Step 1: Run the generator**
 
@@ -2213,7 +2213,7 @@ Expected: file overwritten with 27 components (22 existing + 5 new).
 - [ ] **Step 2: Verify**
 
 ```bash
-grep -c '^### `hyperscribe/' plugins/hyperscribe/references/catalog.md
+grep -c '^### `hyperscribe/' plugins/outprint/references/catalog.md
 ```
 
 Expected: `27`.
@@ -2222,7 +2222,7 @@ Expected: `27`.
 
 ```bash
 for n in FileTree DependencyGraph FileCard AnnotatedCode ERDDiagram; do
-  grep -q "hyperscribe/$n" plugins/hyperscribe/references/catalog.md && echo "ok $n" || echo "MISSING $n"
+  grep -q "hyperscribe/$n" plugins/outprint/references/catalog.md && echo "ok $n" || echo "MISSING $n"
 done
 ```
 
@@ -2231,16 +2231,16 @@ Expected: five `ok ...` lines.
 - [ ] **Step 4: Commit**
 
 ```bash
-git add plugins/hyperscribe/references/catalog.md
+git add plugins/outprint/references/catalog.md
 git commit -m "docs(catalog): regenerate catalog.md with 5 new components"
 ```
 
 ---
 
-### Task 14: Update `plugins/hyperscribe/SKILL.md` — Step 0 block + inventory rows
+### Task 14: Update `plugins/outprint/SKILL.md` — Step 0 block + inventory rows
 
 **Files:**
-- Modify: `plugins/hyperscribe/SKILL.md`
+- Modify: `plugins/outprint/SKILL.md`
 
 - [ ] **Step 1: Insert Step 0 block before existing "How to use" section**
 
@@ -2324,7 +2324,7 @@ HS=$(for p in \
   ./.opencode/skills/hyperscribe ~/.opencode/skills/hyperscribe \
   ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe \
   ./plugins/hyperscribe
-do [ -x "$p/scripts/hyperscribe" ] && { echo "$p/scripts/hyperscribe"; break; }; done)
+do [ -x "$p/scripts/outprint" ] && { echo "$p/scripts/outprint"; break; }; done)
 
 MODE_FLAG=""
 [ "$MODE" = "light" ] && MODE_FLAG="--mode light"
@@ -2349,7 +2349,7 @@ In the existing inventory table, add five new rows (place under their categorica
 - [ ] **Step 4: Commit**
 
 ```bash
-git add plugins/hyperscribe/SKILL.md
+git add plugins/outprint/SKILL.md
 git commit -m "docs(skill): add Step 0 preference flow + 5 new components in inventory"
 ```
 
@@ -2358,9 +2358,9 @@ git commit -m "docs(skill): add Step 0 preference flow + 5 new components in inv
 ### Task 15: Update the three slash-command files with the Step 0 block
 
 **Files:**
-- Modify: `plugins/hyperscribe/commands/hyperscribe.md`
-- Modify: `plugins/hyperscribe/commands/slides.md`
-- Modify: `plugins/hyperscribe/commands/diff.md`
+- Modify: `plugins/outprint/commands/hyperscribe.md`
+- Modify: `plugins/outprint/commands/slides.md`
+- Modify: `plugins/outprint/commands/diff.md`
 
 - [ ] **Step 1: Insert Step 0 at the top of each command body**
 
@@ -2392,14 +2392,14 @@ MODE=$(awk -F': *'  '/^mode:/{print $2; exit}'  "$PREF")
 
 - [ ] **Step 2: In each file's final render bash block, add `--theme "$THEME"` and conditional `--mode`**
 
-Search each file for the `| ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe/scripts/hyperscribe --out` invocation and replace with:
+Search each file for the `| ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/outprint/scripts/outprint --out` invocation and replace with:
 
 ```bash
 MODE_FLAG=""
 [ "$MODE" = "light" ] && MODE_FLAG="--mode light"
 [ "$MODE" = "dark" ]  && MODE_FLAG="--mode dark"
 
-cat <<'EOF' | ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/hyperscribe/scripts/hyperscribe --theme "$THEME" $MODE_FLAG --out "$OUT"
+cat <<'EOF' | ~/.claude/plugins/cache/hyperscribe-marketplace/*/plugins/outprint/scripts/outprint --theme "$THEME" $MODE_FLAG --out "$OUT"
 <the JSON you built>
 EOF
 ```
@@ -2407,26 +2407,26 @@ EOF
 - [ ] **Step 3: Commit**
 
 ```bash
-git add plugins/hyperscribe/commands/hyperscribe.md \
-        plugins/hyperscribe/commands/slides.md \
-        plugins/hyperscribe/commands/diff.md
+git add plugins/outprint/commands/hyperscribe.md \
+        plugins/outprint/commands/slides.md \
+        plugins/outprint/commands/diff.md
 git commit -m "docs(commands): add Step 0 preference block; pipe --theme/--mode flags"
 ```
 
 ---
 
-### Task 16: Update `skills/hyperscribe-slides/SKILL.md` and `skills/hyperscribe-diff/SKILL.md` to reference Step 0
+### Task 16: Update `skills/outprint-slides/SKILL.md` and `skills/outprint-diff/SKILL.md` to reference Step 0
 
 **Files:**
-- Modify: `skills/hyperscribe-slides/SKILL.md`
-- Modify: `skills/hyperscribe-diff/SKILL.md`
+- Modify: `skills/outprint-slides/SKILL.md`
+- Modify: `skills/outprint-diff/SKILL.md`
 
 - [ ] **Step 1: Insert a "Step 0" cross-reference after frontmatter in each file**
 
 Add this paragraph directly below the frontmatter:
 
 ```markdown
-> **Step 0 — Preference:** Before running any renderer command, perform the theme-preference resolution block from the base `hyperscribe` skill (`~/.claude/skills/hyperscribe/SKILL.md`, section "Step 0"). It sets `$THEME` and `$MODE`. If absent, this wrapper falls back to `studio` + `light`.
+> **Step 0 — Preference:** Before running any renderer command, perform the theme-preference resolution block from the base `hyperscribe` skill (`~/.claude/skills/outprint/SKILL.md`, section "Step 0"). It sets `$THEME` and `$MODE`. If absent, this wrapper falls back to `studio` + `light`.
 ```
 
 - [ ] **Step 2: In each file's render bash block, pass `--theme "$THEME"` and conditional `--mode`**
@@ -2447,7 +2447,7 @@ cat <<'EOF' | "$HS" --theme "${THEME:-studio}" $MODE_FLAG --out "$OUT"
 - [ ] **Step 3: Commit**
 
 ```bash
-git add skills/hyperscribe-slides/SKILL.md skills/hyperscribe-diff/SKILL.md
+git add skills/outprint-slides/SKILL.md skills/outprint-diff/SKILL.md
 git commit -m "docs(skills): wire --theme/--mode through sub-skills"
 ```
 
@@ -2455,38 +2455,38 @@ git commit -m "docs(skills): wire --theme/--mode through sub-skills"
 
 ## Phase 7 — Sync, release
 
-### Task 17: Sync engine assets from `plugins/hyperscribe/` into `skills/hyperscribe/`
+### Task 17: Sync engine assets from `plugins/outprint/` into `skills/outprint/`
 
-The `skills/hyperscribe/` copy must include all engine changes (themes, components, preference helper, render updates). A simple `rsync` covers it.
+The `skills/outprint/` copy must include all engine changes (themes, components, preference helper, render updates). A simple `rsync` covers it.
 
 - [ ] **Step 1: Run rsync with --delete-after for clean sync**
 
 ```bash
 rsync -a --delete \
-  plugins/hyperscribe/SKILL.md \
-  plugins/hyperscribe/scripts/ \
-  plugins/hyperscribe/assets/ \
-  plugins/hyperscribe/spec/ \
-  plugins/hyperscribe/themes/ \
-  plugins/hyperscribe/references/ \
-  skills/hyperscribe/
+  plugins/outprint/SKILL.md \
+  plugins/outprint/scripts/ \
+  plugins/outprint/assets/ \
+  plugins/outprint/spec/ \
+  plugins/outprint/themes/ \
+  plugins/outprint/references/ \
+  skills/outprint/
 ```
 
 (The first argument must list individual source files/dirs, each copied to the destination. Run the commands individually to avoid rsync's single-target confusion:)
 
 ```bash
-rsync -a --delete plugins/hyperscribe/scripts/    skills/hyperscribe/scripts/
-rsync -a --delete plugins/hyperscribe/assets/     skills/hyperscribe/assets/
-rsync -a --delete plugins/hyperscribe/spec/       skills/hyperscribe/spec/
-rsync -a --delete plugins/hyperscribe/themes/     skills/hyperscribe/themes/
-rsync -a --delete plugins/hyperscribe/references/ skills/hyperscribe/references/
-cp plugins/hyperscribe/SKILL.md                    skills/hyperscribe/SKILL.md
+rsync -a --delete plugins/outprint/scripts/    skills/outprint/scripts/
+rsync -a --delete plugins/outprint/assets/     skills/outprint/assets/
+rsync -a --delete plugins/outprint/spec/       skills/outprint/spec/
+rsync -a --delete plugins/outprint/themes/     skills/outprint/themes/
+rsync -a --delete plugins/outprint/references/ skills/outprint/references/
+cp plugins/outprint/SKILL.md                    skills/outprint/SKILL.md
 ```
 
 - [ ] **Step 2: Verify the 4 theme files exist in skills/**
 
 ```bash
-ls skills/hyperscribe/themes/
+ls skills/outprint/themes/
 ```
 
 Expected: `studio.css  midnight.css  void.css  gallery.css`.
@@ -2494,7 +2494,7 @@ Expected: `studio.css  midnight.css  void.css  gallery.css`.
 - [ ] **Step 3: Verify no orphan `notion.css` / `linear.css`**
 
 ```bash
-ls skills/hyperscribe/themes/ | grep -E '^(notion|linear)\.css$' && echo "LEAK" || echo "clean"
+ls skills/outprint/themes/ | grep -E '^(notion|linear)\.css$' && echo "LEAK" || echo "clean"
 ```
 
 Expected: `clean`.
@@ -2510,7 +2510,7 @@ Expected: all tests PASS.
 - [ ] **Step 5: Commit**
 
 ```bash
-git add skills/hyperscribe/
+git add skills/outprint/
 git commit -m "chore(skills): sync engine — new themes, 5 components, preference helper"
 ```
 
@@ -2537,7 +2537,7 @@ Four bundled themes, each shipping both **light and dark modes** in a single CSS
 | `void` | Pure-black dark-first, electric blue ring accents | Product pages, launch decks, high-contrast demos |
 | `gallery` | Cinematic alternating surfaces, soft diffused shadow | Executive summaries, product showcases |
 
-Themes are pure CSS-variable overrides (`plugins/hyperscribe/themes/*.css`). Each defines tokens under `[data-theme="<name>"]` (light) and `[data-theme="<name>"][data-mode="dark"]` (dark). Semantic tones (`--hs-tone-{info|warn|success|danger}-{bg|fg}`) and surface palette (`--hs-color-surface*`) keep components legible across all four.
+Themes are pure CSS-variable overrides (`plugins/outprint/themes/*.css`). Each defines tokens under `[data-theme="<name>"]` (light) and `[data-theme="<name>"][data-mode="dark"]` (dark). Semantic tones (`--hs-tone-{info|warn|success|danger}-{bg|fg}`) and surface palette (`--hs-color-surface*`) keep components legible across all four.
 
 **Breaking change in v0.4:** The former `notion` and `midnight` theme names are renamed to `studio` and `midnight` respectively; `linear` is renamed to `midnight`. The old names no longer resolve — update any `--theme notion` / `--theme linear` calls to the new names. Running with the old names now throws `Unknown theme "notion". Available: studio, midnight, void, gallery`.
 
@@ -2556,7 +2556,7 @@ git commit -m "docs(readme): rewrite Themes section for 4-theme lineup"
 ### Task 19: Bump version in `plugin.json` and `package.json`
 
 **Files:**
-- Modify: `plugins/hyperscribe/.claude-plugin/plugin.json`
+- Modify: `plugins/outprint/.claude-plugin/plugin.json`
 - Modify: `package.json`
 - Modify: all four `skills/hyperscribe*/SKILL.md` version metadata (search for `version: "0.3.1-alpha"`)
 
@@ -2564,13 +2564,13 @@ git commit -m "docs(readme): rewrite Themes section for 4-theme lineup"
 
 ```bash
 sed -i.bak 's/"version": "0.3.1-alpha"/"version": "0.4.0-alpha"/' \
-  plugins/hyperscribe/.claude-plugin/plugin.json \
+  plugins/outprint/.claude-plugin/plugin.json \
   package.json
-rm plugins/hyperscribe/.claude-plugin/plugin.json.bak package.json.bak
+rm plugins/outprint/.claude-plugin/plugin.json.bak package.json.bak
 
 # Update skill frontmatter
-for f in skills/hyperscribe/SKILL.md skills/hyperscribe-slides/SKILL.md \
-         skills/hyperscribe-diff/SKILL.md skills/hyperscribe-share/SKILL.md; do
+for f in skills/outprint/SKILL.md skills/outprint-slides/SKILL.md \
+         skills/outprint-diff/SKILL.md skills/outprint-share/SKILL.md; do
   sed -i.bak 's/version: "0.3.1-alpha"/version: "0.4.0-alpha"/' "$f"
   rm "$f.bak"
 done
@@ -2587,7 +2587,7 @@ Expected: `clean`.
 - [ ] **Step 3: Commit**
 
 ```bash
-git add plugins/hyperscribe/.claude-plugin/plugin.json package.json skills/hyperscribe*/SKILL.md
+git add plugins/outprint/.claude-plugin/plugin.json package.json skills/hyperscribe*/SKILL.md
 git commit -m "chore: bump to 0.4.0-alpha (themes + catalog extensions)"
 ```
 
@@ -2639,7 +2639,7 @@ JSON
 cd /Users/seongil/works/hyperscribe
 for theme in studio midnight void gallery; do
   for mode in light dark; do
-    node plugins/hyperscribe/scripts/render.mjs \
+    node plugins/outprint/scripts/render.mjs \
       --in /tmp/hs-smoke/envelope.json \
       --out "/tmp/hs-smoke/$theme-$mode.html" \
       --theme "$theme" --mode "$mode" --quiet

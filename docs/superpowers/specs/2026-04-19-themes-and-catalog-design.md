@@ -252,7 +252,7 @@ Valid values:
 
 ### 6.3 Reader/writer helper
 
-New file: `plugins/hyperscribe/scripts/lib/preference.mjs`
+New file: `plugins/outprint/scripts/lib/preference.mjs`
 
 ```js
 export function resolvePreferencePath() { /* project-local → global → null */ }
@@ -273,7 +273,7 @@ Bash equivalent inlined in SKILL.md (`awk -F': *' '/^theme:/{print $2; exit}' "$
 ## 7. Touched files
 
 ```
-plugins/hyperscribe/
+plugins/outprint/
   SKILL.md                              # add Step 0 preference block + component inventory rows
   .claude-plugin/plugin.json            # version bump
   themes/studio.css                     # rename from notion.css
@@ -299,10 +299,10 @@ plugins/hyperscribe/
   assets/components/annotated-code.css
   assets/components/erd-diagram.css
 
-skills/hyperscribe/                     # sync-copy all of the above engine files
-skills/hyperscribe-slides/SKILL.md      # reference Step 0 from main skill
-skills/hyperscribe-diff/SKILL.md        # reference Step 0 from main skill
-skills/hyperscribe-share/SKILL.md       # (no change)
+skills/outprint/                     # sync-copy all of the above engine files
+skills/outprint-slides/SKILL.md      # reference Step 0 from main skill
+skills/outprint-diff/SKILL.md        # reference Step 0 from main skill
+skills/outprint-share/SKILL.md       # (no change)
 
 README.md                               # Themes section rewrite, new theme list
 package.json                            # version bump

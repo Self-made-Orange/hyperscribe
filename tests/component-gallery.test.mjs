@@ -11,11 +11,11 @@ import {
 test("component gallery: includes the 23 default page-mode components", () => {
   assert.equal(GALLERY_COMPONENTS.length, 23);
   assert.equal(
-    GALLERY_COMPONENTS.some((entry) => entry.component === "hyperscribe/SlideDeck"),
+    GALLERY_COMPONENTS.some((entry) => entry.component === "outprint/SlideDeck"),
     false
   );
   assert.equal(
-    GALLERY_COMPONENTS.some((entry) => entry.component === "hyperscribe/Slide"),
+    GALLERY_COMPONENTS.some((entry) => entry.component === "outprint/Slide"),
     false
   );
 });
@@ -24,10 +24,10 @@ test("component gallery: README gallery excludes the 4 text-only components", ()
   assert.equal(README_GALLERY_COMPONENTS.length, 19);
   assert.equal(README_GALLERY_COUNT, 19);
   for (const name of [
-    "hyperscribe/Page",
-    "hyperscribe/Section",
-    "hyperscribe/Heading",
-    "hyperscribe/Prose"
+    "outprint/Page",
+    "outprint/Section",
+    "outprint/Heading",
+    "outprint/Prose"
   ]) {
     assert.equal(
       README_GALLERY_COMPONENTS.some((entry) => entry.component === name),
