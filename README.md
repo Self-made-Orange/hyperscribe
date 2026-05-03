@@ -16,7 +16,7 @@ The model emits a component envelope. The renderer handles layout, theming, vali
 LLMs are bad at HTML. Token cost is high, output is inconsistent, and a single misplaced `</div>` breaks everything. This project flips the contract:
 
 - **The model emits semantic data only** — picks components from a fixed catalog, fills in props. No CSS, no class names, no markup.
-- **The renderer owns presentation** — `render.mjs` validates the schema, picks a theme, inlines all CSS / fonts / JS, and writes one HTML file.
+- **The renderer owns presentation** — validates the schema, picks a theme, inlines all CSS / fonts / JS, and writes one HTML file.
 - **The output ships offline** — no CDN, no build step, no server. Open the file, see the result.
 
 ---
@@ -29,20 +29,19 @@ cd agent-outprint-skills
 
 cat > /tmp/hello.json <<'EOF'
 {
-  "a2ui_version": "0.9",
-  "catalog": "outprint/v1",
-  "parts": [{
-    "component": "outprint/Page",
-    "props": { "title": "Deploy checklist" },
-    "children": [{
-      "component": "outprint/StepList",
-      "props": { "steps": [
-        { "title": "Run test suite",   "state": "done"  },
-        { "title": "DB migration",     "state": "doing" },
-        { "title": "Deploy to staging","state": "todo"  }
-      ]}
-    }]
-  }]
+  "template": "canvas",
+  "meta": {
+    "title": "Deploy Status",
+    "agent": "Claude"
+  },
+  "featured": {
+    "component": "outprint/StepList",
+    "props": { "steps": [
+      { "title": "Run test suite",    "state": "done"  },
+      { "title": "DB migration",      "state": "doing" },
+      { "title": "Deploy to staging", "state": "todo"  }
+    ]}
+  }
 }
 EOF
 
@@ -56,11 +55,76 @@ That's the whole loop: write semantic JSON, run the renderer, open the HTML.
 
 ## Two render modes
 
-A doc is either a **page** (a single document) or a **canvas** (a persistent agent dashboard). The renderer picks based on envelope shape.
+A doc is either a **canvas** (persistent agent dashboard, default) or a **page** (one-shot document). The renderer picks automatically based on envelope shape.
+
+### Canvas mode — default
+
+Full-viewport dashboard the agent updates over time. A hero carousel cycles through past outputs; `featured` is the current run. The `history` array builds a linked archive below.
+
+```json
+{
+  "template": "canvas",
+  "meta": {
+    "title": "Product Analytics",
+    "navLabel": "Analytics Hub",
+    "subtitle": "Updated weekly by Claude",
+    "agent": "Claude",
+    "topic": "Growth",
+    "divisionsLabel": "Past Reports",
+    "statement": {
+      "eyebrow": "Self-made Orange",
+      "text": "One agent. Every output, beautifully rendered.",
+      "cta": { "label": "Browse archive", "href": "#canvas-divisions" }
+    }
+  },
+  "featured": {
+    "component": "outprint/Chart",
+    "props": { "kind": "bar", "data": { "labels": ["Jan","Feb","Mar"], "series": [{ "name": "MAU", "values": [1200, 3400, 8100] }] } }
+  },
+  "history": [
+    {
+      "title": "March Growth Report",
+      "navLabel": "March",
+      "eyebrow": "2026-03-31  ·  Growth",
+      "description": "MAU up 140% MoM. Channel breakdown inside.",
+      "date": "2026-03-31",
+      "href": "march-report.html",
+      "content": { "component": "outprint/KPICard", "props": { "label": "MAU", "value": "8 100" } }
+    }
+  ]
+}
+```
+
+#### Canvas `meta` fields
+
+| Field | Purpose |
+|---|---|
+| `title` | Page `<title>` + hero slide heading |
+| `navLabel` | Nav link label for the featured slide (defaults to `title`) |
+| `subtitle` | Hero slide subtitle |
+| `agent` | Agent name shown in header badge |
+| `topic` | Topic badge shown alongside agent name |
+| `divisionsLabel` | Section heading above the history cards (default: `"Previous Outputs"`) |
+| `statement` | Editorial statement block: `eyebrow`, `text`, `cta` |
+
+#### Canvas `history[]` item fields
+
+| Field | Purpose |
+|---|---|
+| `title` | Card title + hero slide heading |
+| `navLabel` | Nav link label (defaults to `title`) |
+| `subtitle` | Hero slide subtitle |
+| `eyebrow` | Division card eyebrow (default: `date · type`) |
+| `description` | Division card description |
+| `date` | ISO date string — used in auto eyebrow |
+| `href` | Path to a linked HTML file — makes the whole card a clickable link |
+| `content` | Component node **or** array of component nodes to render in the slide |
+
+> **Multi-component slides:** pass `content` as an array to render multiple components side-by-side in a responsive grid.
 
 ### Page mode — `parts[]`
 
-A traditional one-shot document. Every component sits inside a `Page` (or `SlideDeck`). Render once, open.
+A traditional one-shot document. Every component sits inside a `Page` (or `SlideDeck`).
 
 ```json
 {
@@ -68,48 +132,64 @@ A traditional one-shot document. Every component sits inside a `Page` (or `Slide
   "catalog": "outprint/v1",
   "parts": [{
     "component": "outprint/Page",
-    "props": { "title": "Q1 metrics" },
-    "children": [ /* Section, Chart, DataTable, KPICard, ... */ ]
+    "props": {
+      "title": "Q1 Metrics",
+      "subtitle": "January – March 2026",
+      "backHref": "index.html",
+      "backLabel": "← All Reports"
+    },
+    "children": [
+      { "component": "outprint/Section", "props": { "id": "kpis", "title": "KPIs" }, "children": [
+        { "component": "outprint/KPICard", "props": { "label": "Revenue", "value": "$1.2 M" } }
+      ]}
+    ]
   }]
 }
 ```
 
-### Canvas mode — `template: "canvas"`
-
-A full-viewport dashboard the agent appends to over time. Hero carousel cycles through past outputs; current run becomes the featured slide.
-
-```json
-{
-  "template": "canvas",
-  "meta": {
-    "title": "Product Analytics",
-    "agent": "Claude",
-    "statement": {
-      "eyebrow": "Self-made Orange",
-      "text": "One agent. Every output, beautifully rendered.",
-      "cta": { "label": "View all outputs", "href": "#canvas-divisions" }
-    }
-  },
-  "featured": { "component": "outprint/Chart",    "props": { "kind": "bar" } },
-  "history":  [{ "title": "April KPIs", "date": "2026-04-30",
-                 "content": { "component": "outprint/KPICard", "props": {} } }]
-}
-```
+`backHref` + `backLabel` render a sticky frosted-glass back-navigation bar at the top of the page — useful when the page is part of a multi-HTML set linked from a canvas hub.
 
 ### Choosing a mode
 
-| Use page mode when… | Use canvas mode when… |
+| Use canvas when… | Use page when… |
 |---|---|
-| Single render, single artifact | Same agent runs repeatedly, you want a thread of outputs |
-| Document, report, recap, slide deck | Dashboard, ongoing brief, "what did the agent do this week" |
-| Send a one-off file | Persistent landing surface for the agent |
+| Agent runs repeatedly, outputs build up over time | Single render, one-off artifact |
+| Dashboard, brief, "what did the agent do this week" | Document, report, slide deck |
+| You want a persistent hub with linked sub-pages | You're sending a standalone file |
 
-The renderer is decided automatically (`auto`) but you can force either side:
+Default is `canvas`. Force either side:
 
 ```bash
 node plugins/outprint/scripts/render.mjs --in envelope.json --out out.html --renderer page
 node plugins/outprint/scripts/render.mjs --in envelope.json --out out.html --renderer canvas
 ```
+
+---
+
+## Multi-HTML linking
+
+Canvas outputs can link to individual page-mode reports. The result is a navigable set of HTML files that work offline or over a tunnel — no server, no framework.
+
+```
+index.html  (canvas hub)
+├── Division Card → 01-q1-launch.html
+├── Division Card → 02-april-growth.html
+└── Division Card → 03-week18-team.html
+```
+
+**Hub side** — add `href` to each `history[]` item:
+
+```json
+{ "title": "April Growth", "href": "02-april-growth.html", ... }
+```
+
+**Sub-page side** — add `backHref` to the `Page` props:
+
+```json
+{ "component": "outprint/Page", "props": { "title": "April Growth", "backHref": "index.html" } }
+```
+
+See [`examples/multi-html/`](examples/multi-html/) for a fully rendered working example with `build.sh`.
 
 ---
 
@@ -131,11 +211,23 @@ Components carry **semantic data only** — styling props (`color`, `backgroundC
 
 Full prop schemas: [`plugins/outprint/references/catalog.md`](plugins/outprint/references/catalog.md).
 
+### Slide deck modes
+
+`SlideDeck` supports three scroll modes via the `mode` prop:
+
+| Mode | Behaviour |
+|---|---|
+| `deck` (default) | Click/keyboard navigation, no scroll |
+| `scroll-snap` | Native CSS scroll-snap; each slide snaps into view |
+| `scroll-jack` | Sticky scroll-jacking via IntersectionObserver; cinematic feel |
+
+Respects `prefers-reduced-motion` — scroll animations are suppressed when the user has reduced motion enabled.
+
 ---
 
 ## Themes
 
-5 bundled themes — each strictly per their public DESIGN.md tokens. Every output inlines both light and dark variants; the toggle button + system `prefers-color-scheme` switch them at view time, so color mode is **not** a setting.
+5 bundled themes — each strictly per their public DESIGN.md tokens. Every output inlines both light and dark variants; the toggle button + system `prefers-color-scheme` switch them at view time, so color mode is **not** a render-time setting.
 
 | Theme | Character |
 |---|---|
@@ -151,7 +243,7 @@ Default: `notion`. Override per call:
 node plugins/outprint/scripts/render.mjs --in envelope.json --out out.html --theme stripe
 ```
 
-Themes live as pure CSS-variable overrides under [`plugins/outprint/themes/`](plugins/outprint/themes/). Each defines tokens under `[data-theme="<name>"]` (light) and `[data-theme="<name>"][data-mode="dark"]` (dark).
+Themes live as pure CSS-variable overrides under [`plugins/outprint/themes/`](plugins/outprint/themes/).
 
 ---
 
@@ -186,8 +278,6 @@ The skill prompts for these on first run via `Step 0` in `SKILL.md` and writes t
 | `--title <s>` | Override `Page.title` |
 | `--validate-only` | Validate JSON, do not render |
 
-Run `--help` for the full list.
-
 ---
 
 ## Install
@@ -219,10 +309,50 @@ node plugins/outprint/scripts/render.mjs --in envelope.json --out out.html
 
 | Command | Description |
 |---|---|
-| `/outprint` | General page — diagrams, tables, explainers |
+| `/outprint` | Canvas-first output — dashboard, report, recap |
 | `/outprint:slides` | Forces `SlideDeck` root |
 | `/outprint:diff` | PR / diff review with `CodeDiff` + `ArchitectureGrid` |
 | `/outprint:share` | Deploy output to Vercel, return public URL |
+
+---
+
+## Serving & sharing
+
+Every output is a single self-contained `.html` file — all CSS and JS are inlined.
+
+### Local file (offline)
+
+```bash
+open out.html          # macOS
+xdg-open out.html      # Linux
+```
+
+Multi-HTML sets (canvas hub + sub-pages) work the same way — just keep all files in the same folder.
+
+### Local server + tunnel (shareable URL, no hosting)
+
+```bash
+# Terminal 1 — static file server
+cd examples/multi-html     # or wherever your HTML files are
+npx serve .                # → http://localhost:3000
+# alternative: python3 -m http.server 8080
+
+# Terminal 2 — public tunnel
+npx cloudflared tunnel --url http://localhost:3000
+# alternative: ngrok http 3000
+```
+
+The tunnel prints a URL like `https://xxxx.trycloudflare.com`. Anyone with the link can browse the full HTML set, including inter-page navigation.
+
+> Google Fonts load from the CDN. Everything else is inlined. Fonts fall back gracefully offline.
+
+### Deploy to Vercel (permanent URL)
+
+```bash
+npx vercel examples/multi-html --prod
+```
+
+Or use `/outprint:share` in Claude Code — it runs the deploy and returns the URL automatically.
 
 ---
 
@@ -232,68 +362,25 @@ node plugins/outprint/scripts/render.mjs --in envelope.json --out out.html
 .
 ├── plugins/outprint/        # Renderer + components + themes
 │   ├── scripts/
-│   │   ├── render.mjs            # CLI entry — page-mode renderer
-│   │   ├── canvas.mjs            # canvas-mode renderer
-│   │   ├── components/           # ~34 component renderers
-│   │   └── lib/                  # schema validation, theme loader, preference parser
+│   │   ├── render.mjs            # CLI entry + resolveRenderer()
+│   │   ├── canvas.mjs            # Canvas-mode renderer
+│   │   ├── components/           # 34 component renderers
+│   │   └── lib/                  # Schema validation, theme loader, preference parser
 │   ├── assets/                   # base.css + per-component CSS + interactive.js
 │   ├── themes/                   # 5 brand themes
-│   ├── spec/catalog.json         # component catalog (source of truth)
-│   ├── references/catalog.md    # human-readable prop docs
-│   └── skills/outprint/       # Claude Code skill bundle
-├── skills/                     # Mirror for non-plugin agent runtimes
-│   ├── outprint/                 # base skill (page + canvas)
-│   ├── outprint-slides/          # slide-deck variant
+│   ├── spec/catalog.json         # Component catalog (source of truth)
+│   └── references/catalog.md    # Human-readable prop docs
+├── skills/                  # Mirror for non-plugin agent runtimes
+│   ├── outprint/                 # Base skill (page + canvas)
+│   ├── outprint-slides/          # Slide-deck variant
 │   ├── outprint-diff/            # PR review variant
 │   └── outprint-share/           # Vercel deploy variant
-├── tools/claw/                 # Optional Slack/agent wrapper (see tools/claw/README.md)
-├── tests/                      # Unit + golden-snapshot tests
-└── benchmark/                  # Token-cost comparison vs hand-written HTML
+├── examples/
+│   └── multi-html/               # Canvas hub + 3 linked page-mode reports
+├── tools/claw/              # Optional Slack/agent wrapper
+├── tests/                   # Unit + golden-snapshot tests
+└── benchmark/               # Token-cost comparison vs hand-written HTML
 ```
-
----
-
-## Serving & sharing
-
-Every output is a single self-contained `.html` file — all CSS and JS are inlined. You have three ways to share it.
-
-### Local file (offline)
-
-Just open the file directly:
-
-```bash
-open out.html          # macOS
-xdg-open out.html      # Linux
-```
-
-Or zip the whole folder and send it — relative links between pages stay intact.
-
-### Local server + tunnel (shareable URL, no hosting)
-
-Spin up a static server in the output directory, then expose it with a tunnel:
-
-```bash
-# Terminal 1 — static file server
-cd examples/multi-html     # or wherever your HTML files are
-npx serve .                # serves on http://localhost:3000
-# alternative: python3 -m http.server 8080
-
-# Terminal 2 — public tunnel
-npx cloudflared tunnel --url http://localhost:3000
-# alternative: ngrok http 3000
-```
-
-The tunnel prints a public URL like `https://xxxx.trycloudflare.com`. Share it — anyone with the link can browse the full multi-HTML set including inter-page navigation.
-
-> **Note:** Google Fonts load from the CDN (`fonts.googleapis.com`). Everything else is inlined. Fonts fall back gracefully when offline.
-
-### Deploy to Vercel (permanent URL)
-
-```bash
-npx vercel examples/multi-html --prod
-```
-
-Or use the `/outprint:share` slash command in Claude Code — it runs the deploy and returns the public URL automatically.
 
 ---
 
@@ -305,7 +392,7 @@ Or use the `/outprint:share` slash command in Claude Code — it runs the deploy
 - **Envelope diversity check** — rejects flat prose-only outputs (skip with `--allow-prose-only`)
 - **Opt-in canvas wrap** (`--canvas-wrap`) — converts page envelope to canvas template
 
-See [`tools/claw/README.md`](tools/claw/README.md) for install and env vars. Not needed for direct `render.mjs` use.
+See [`tools/claw/README.md`](tools/claw/README.md) for install and env vars.
 
 ---
 
@@ -314,12 +401,13 @@ See [`tools/claw/README.md`](tools/claw/README.md) for install and env vars. Not
 - Richer canvas interactions (inline editing, pinning, reordering history)
 - More data components (pivot table, timeline, heatmap)
 - Agent SDK streaming — partial renders as the envelope arrives
+- Inline font bundling for fully offline output (no Google Fonts CDN)
 
 ---
 
 ## Contributing
 
-Node 20+. Run `npm test` before opening a PR. Keep the renderer (`render.mjs`) and the catalog (`spec/catalog.json` + `references/catalog.md`) in sync when touching component schemas.
+Node 20+. Run `npm test` before opening a PR. Keep the renderer (`render.mjs` / `canvas.mjs`) and the catalog (`spec/catalog.json` + `references/catalog.md`) in sync when touching component schemas.
 
 Issues: [github.com/Self-made-Orange/agent-outprint-skills/issues](https://github.com/Self-made-Orange/agent-outprint-skills/issues)
 
