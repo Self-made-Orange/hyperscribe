@@ -67,26 +67,46 @@ const CANVAS_JS = `
 (function () {
   var slides   = Array.from(document.querySelectorAll('[data-canvas-slide]'));
   var navLinks = Array.from(document.querySelectorAll('[data-canvas-nav]'));
+  var stage    = document.querySelector('.op-hero-stage');
   var counter  = document.querySelector('.op-hero-counter');
   var total    = slides.length;
   var current  = 0;
+  var animating = false;
 
-  function show(n) {
-    current = ((n % total) + total) % total;
+  function show(n, dir) {
+    var next = ((n % total) + total) % total;
+    if (next === current && dir) return;
+
+    // Set direction on stage for CSS keyframe targeting
+    if (stage && dir) {
+      stage.setAttribute('data-dir', dir);
+    }
+
     slides.forEach(function (s, i) {
-      s.classList.toggle('op-hero-slide-active', i === current);
+      s.classList.toggle('op-hero-slide-active', i === next);
     });
     navLinks.forEach(function (a) {
       a.classList.toggle('op-canvas-nav-active',
-        parseInt(a.getAttribute('data-canvas-nav'), 10) === current);
+        parseInt(a.getAttribute('data-canvas-nav'), 10) === next);
     });
-    if (counter) counter.textContent = (current + 1) + ' / ' + total;
+    if (counter) counter.textContent = (next + 1) + ' / ' + total;
+    current = next;
+
+    // Lock during transition, then clear direction
+    if (dir) {
+      animating = true;
+      setTimeout(function () {
+        animating = false;
+        if (stage) stage.removeAttribute('data-dir');
+      }, 550);
+    }
   }
 
   navLinks.forEach(function (a) {
     a.addEventListener('click', function (e) {
       e.preventDefault();
-      show(parseInt(a.getAttribute('data-canvas-nav'), 10));
+      var target = parseInt(a.getAttribute('data-canvas-nav'), 10);
+      show(target, target > current ? 'next' : 'prev');
     });
   });
 
@@ -120,39 +140,31 @@ const CANVAS_JS = `
     });
   }
 
-  // Scroll inside hero → advance / retreat slides; overflow → next section
-  var hero = document.querySelector('.hs-hero-carousel');
+  // Wheel inside hero → change slides; at boundary → pass to page scroll
+  var hero = document.querySelector('.op-hero-carousel');
   if (hero && total > 1) {
-    var scrollLocked = false;
-
     function scrollToNextSection() {
       var next = hero.nextElementSibling;
-      if (next) {
-        next.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
-      }
+      if (next) next.scrollIntoView({ behavior: 'smooth' });
+      else window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
     }
 
     hero.addEventListener('wheel', function (e) {
       var goingDown = e.deltaY > 0;
       var goingUp   = e.deltaY < 0;
 
-      // At last slide scrolling down → release to next section
+      // Last slide + down → release to next section
       if (goingDown && current === total - 1) {
-        if (scrollLocked) { e.preventDefault(); return; }
+        if (animating) { e.preventDefault(); return; }
         scrollToNextSection();
         return;
       }
-
-      // At first slide scrolling up → let page scroll naturally
+      // First slide + up → let page scroll naturally
       if (goingUp && current === 0) return;
 
       e.preventDefault();
-      if (scrollLocked) return;
-      scrollLocked = true;
-      show(goingDown ? current + 1 : current - 1);
-      setTimeout(function () { scrollLocked = false; }, 700);
+      if (animating) return;
+      show(goingDown ? current + 1 : current - 1, goingDown ? 'next' : 'prev');
     }, { passive: false });
 
     // Touch support
@@ -164,7 +176,7 @@ const CANVAS_JS = `
       var dy = touchStartY - e.changedTouches[0].clientY;
       if (Math.abs(dy) < 40) return;
       if (dy > 0 && current === total - 1) { scrollToNextSection(); return; }
-      show(dy > 0 ? current + 1 : current - 1);
+      show(dy > 0 ? current + 1 : current - 1, dy > 0 ? 'next' : 'prev');
     }, { passive: true });
   }
 
@@ -454,6 +466,27 @@ body { margin: 0; padding: 0 !important; background: var(--op-color-bg); }
   padding: 5px 12px;
   border-radius: var(--op-radius);
   border: 1px solid var(--op-color-border);
+}
+
+/* ── Directional slide enter animations ── */
+@keyframes op-slide-enter-next {
+  from { opacity: 0; transform: translateY(36px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+@keyframes op-slide-enter-prev {
+  from { opacity: 0; transform: translateY(-36px); }
+  to   { opacity: 1; transform: translateY(0);     }
+}
+.op-hero-stage[data-dir="next"] .op-hero-slide-active .op-canvas-slide-inner {
+  animation: op-slide-enter-next 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.op-hero-stage[data-dir="prev"] .op-hero-slide-active .op-canvas-slide-inner {
+  animation: op-slide-enter-prev 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .op-hero-stage[data-dir] .op-hero-slide-active .op-canvas-slide-inner {
+    animation: none;
+  }
 }
 
 /* ── Slide body: centered content ── */
