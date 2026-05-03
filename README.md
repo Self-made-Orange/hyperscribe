@@ -195,7 +195,7 @@ See [`examples/multi-html/`](examples/multi-html/) for a fully rendered working 
 
 ## Components
 
-34 components across page mode, slide mode, and canvas / site mode.
+35 components across page mode, slide mode, and canvas / site mode.
 
 | Category | Components |
 |---|---|
@@ -203,7 +203,7 @@ See [`examples/multi-html/`](examples/multi-html/) for a fully rendered working 
 | Data | `DataTable` `Chart` `KPICard` `Comparison` |
 | Diagrams | `Mermaid` `Sequence` `ArchitectureGrid` `FlowChart` `Quadrant` `Swimlane` `ERDDiagram` |
 | Code | `CodeBlock` `CodeDiff` `AnnotatedCode` |
-| Narrative | `StepList` `Callout` `Image` |
+| Narrative | `StepList` `Callout` `Image` `ArticleCard` |
 | Slides | `SlideDeck` `Slide` |
 | Canvas / Site | `SiteHeader` `HeroCarousel` `EditorialStatement` `DivisionCard` `SiteFooter` `PressMentions` `ProjectTile` `MosaicGrid` `CountdownTimer` |
 

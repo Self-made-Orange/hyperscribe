@@ -42,6 +42,7 @@ import { DivisionCard } from "./components/division-card.mjs";
 import { WorkTypeRow } from "./components/work-type-row.mjs";
 import { SiteFooter } from "./components/site-footer.mjs";
 import { PressMentions } from "./components/press-mentions.mjs";
+import { ArticleCard } from "./components/article-card.mjs";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PLUGIN_ROOT = resolve(__dirname, "..");
@@ -85,7 +86,8 @@ const REGISTRY = {
   "outprint/DivisionCard": DivisionCard,
   "outprint/WorkTypeRow": WorkTypeRow,
   "outprint/SiteFooter": SiteFooter,
-  "outprint/PressMentions": PressMentions
+  "outprint/PressMentions": PressMentions,
+  "outprint/ArticleCard": ArticleCard,
 };
 
 /**

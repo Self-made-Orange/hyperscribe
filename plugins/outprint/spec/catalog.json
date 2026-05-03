@@ -562,6 +562,18 @@
         "mentions": { "type": "array", "required": true, "items": { "type": "object", "props": { "name": { "type": "string", "required": true }, "note": { "type": "string" } } } }
       }
     },
+    "outprint/ArticleCard": {
+      "description": "Newsletter article item — headline, summary, source, date, tag, and optional link. Stack inside a Section to build a newsletter digest.",
+      "children": "forbidden",
+      "props": {
+        "headline": { "type": "string", "required": true, "description": "Article title." },
+        "summary":  { "type": "string", "required": true, "description": "One or two sentence summary." },
+        "source":   { "type": "string", "description": "Publication name, e.g. 'TechCrunch'." },
+        "date":     { "type": "string", "description": "Publication date, e.g. '2026-05-03'." },
+        "tag":      { "type": "string", "description": "Category label, e.g. 'AI' or 'Funding'. Displayed as a pill badge." },
+        "href":     { "type": "string", "description": "URL to the full article. When set, headline becomes a link and a 'Read more →' CTA appears." }
+      }
+    },
     "outprint/SiteFooter": {
       "description": "Multi-column site footer with link groups + meta + credit lines. Place as last child of a chromeless Page.",
       "children": "forbidden",
