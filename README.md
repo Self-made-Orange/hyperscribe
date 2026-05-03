@@ -253,6 +253,50 @@ node plugins/outprint/scripts/render.mjs --in envelope.json --out out.html
 
 ---
 
+## Serving & sharing
+
+Every output is a single self-contained `.html` file — all CSS and JS are inlined. You have three ways to share it.
+
+### Local file (offline)
+
+Just open the file directly:
+
+```bash
+open out.html          # macOS
+xdg-open out.html      # Linux
+```
+
+Or zip the whole folder and send it — relative links between pages stay intact.
+
+### Local server + tunnel (shareable URL, no hosting)
+
+Spin up a static server in the output directory, then expose it with a tunnel:
+
+```bash
+# Terminal 1 — static file server
+cd examples/multi-html     # or wherever your HTML files are
+npx serve .                # serves on http://localhost:3000
+# alternative: python3 -m http.server 8080
+
+# Terminal 2 — public tunnel
+npx cloudflared tunnel --url http://localhost:3000
+# alternative: ngrok http 3000
+```
+
+The tunnel prints a public URL like `https://xxxx.trycloudflare.com`. Share it — anyone with the link can browse the full multi-HTML set including inter-page navigation.
+
+> **Note:** Google Fonts load from the CDN (`fonts.googleapis.com`). Everything else is inlined. Fonts fall back gracefully when offline.
+
+### Deploy to Vercel (permanent URL)
+
+```bash
+npx vercel examples/multi-html --prod
+```
+
+Or use the `/outprint:share` slash command in Claude Code — it runs the deploy and returns the public URL automatically.
+
+---
+
 ## Optional tooling — `tools/claw/`
 
 `tools/claw/outprint-render` is a bash wrapper for agent runtimes that need:
