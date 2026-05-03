@@ -469,19 +469,21 @@ body { margin: 0; padding: 0 !important; background: var(--op-color-bg); }
 }
 
 /* ── Directional slide enter animations ── */
+/* Outer slide handles opacity (hero-carousel.css crossfade).
+   Inner card only moves — visible through the parent's fade. */
 @keyframes op-slide-enter-next {
-  from { opacity: 0; transform: translateY(36px); }
-  to   { opacity: 1; transform: translateY(0);    }
+  from { transform: translateY(40px); }
+  to   { transform: translateY(0);    }
 }
 @keyframes op-slide-enter-prev {
-  from { opacity: 0; transform: translateY(-36px); }
-  to   { opacity: 1; transform: translateY(0);     }
+  from { transform: translateY(-40px); }
+  to   { transform: translateY(0);     }
 }
 .op-hero-stage[data-dir="next"] .op-hero-slide-active .op-canvas-slide-inner {
-  animation: op-slide-enter-next 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: op-slide-enter-next 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 .op-hero-stage[data-dir="prev"] .op-hero-slide-active .op-canvas-slide-inner {
-  animation: op-slide-enter-prev 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation: op-slide-enter-prev 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 @media (prefers-reduced-motion: reduce) {
   .op-hero-stage[data-dir] .op-hero-slide-active .op-canvas-slide-inner {
