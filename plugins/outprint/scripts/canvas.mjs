@@ -194,8 +194,14 @@ function normalizeDoc(doc) {
  *   - a single component node  { component, props, children? }
  *   - an array of component nodes
  */
-function renderContent(content, registry, ctx) {
+function renderContent(content, registry, ctx, layout = "grid") {
   if (Array.isArray(content)) {
+    if (layout === "list") {
+      const items = content.map(node =>
+        `<div class="op-canvas-list-item">${renderTree(node, registry, ctx)}</div>`
+      ).join("\n");
+      return `<div class="op-canvas-content-list">${items}</div>`;
+    }
     const items = content.map(node =>
       `<div class="hs-canvas-grid-item">${renderTree(node, registry, ctx)}</div>`
     ).join("\n");
@@ -250,7 +256,7 @@ export function renderCanvas(doc, REGISTRY) {
       description: item.description                              || "",
       date:        item.date                                     || "",
       eyebrow:     item.eyebrow     || autoEyebrow,
-      contentHtml: item.content ? renderContent(item.content, REGISTRY, ctx) : "",
+      contentHtml: item.content ? renderContent(item.content, REGISTRY, ctx, item.contentLayout) : "",
     });
   });
 
@@ -556,6 +562,17 @@ body { margin: 0; padding: 0 !important; background: var(--op-color-bg); }
 .hs-canvas-content-grid .hs-kpi {
   margin: 0;
   height: 100%;
+}
+
+/* List layout — for articles, steps, any vertically-flowing content */
+.op-canvas-content-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 720px;
+}
+.op-canvas-list-item {
+  min-width: 0;
 }
 
 /* ── Mode toggler hide ── */

@@ -1,0 +1,129 @@
+{
+  "template": "canvas",
+  "meta": {
+    "title": "Week 18 — AI Digest",
+    "navLabel": "Intro",
+    "subtitle": "May 3, 2026",
+    "agent": "Claude",
+    "divisionsLabel": "섹션 바로가기",
+    "statement": {
+      "eyebrow": "Self-made Orange",
+      "text": "이번 주 AI, 펀딩, 프로덕트 소식을 한 곳에.",
+      "cta": {
+        "label": "섹션 보기",
+        "href": "#canvas-divisions"
+      }
+    }
+  },
+  "featured": {
+    "component": "outprint/Callout",
+    "props": {
+      "severity": "note",
+      "title": "이번 주 핵심",
+      "body": "OpenAI와 Anthropic이 같은 주에 신모델을 발표했습니다. AI 경쟁이 새 국면입니다. Perplexity는 $9B 밸류에이션으로 $500M을 조달했고, Figma는 노코드 웹사이트 빌더를 공개했습니다. 총 7개 기사."
+    }
+  },
+  "history": [
+    {
+      "title": "AI",
+      "navLabel": "AI",
+      "eyebrow": "3개 기사",
+      "description": "o3, Claude 4, Gemini Ultra 2 — 같은 주에 3개 플래그십 모델이 공개됐습니다.",
+      "contentLayout": "list",
+      "content": [
+        {
+          "component": "outprint/ArticleCard",
+          "props": {
+            "tag": "AI",
+            "headline": "OpenAI releases o3, claims state-of-the-art reasoning on every major benchmark",
+            "summary": "o3 모델이 MMLU, HumanEval, MATH에서 GPT-4o를 능가. API 오늘부터, 일반 사용자는 다음 달.",
+            "source": "The Verge",
+            "date": "May 1",
+            "href": "https://theverge.com"
+          }
+        },
+        {
+          "component": "outprint/ArticleCard",
+          "props": {
+            "tag": "AI",
+            "headline": "Anthropic ships Claude 4 with 500K context and native computer-use",
+            "summary": "Agent SDK 통해 컴퓨터 직접 조작 GA. 멀티스텝 태스크 40% 성능 향상.",
+            "source": "TechCrunch",
+            "date": "May 2"
+          }
+        },
+        {
+          "component": "outprint/ArticleCard",
+          "props": {
+            "tag": "Research",
+            "headline": "Google DeepMind's Gemini Ultra 2 tops leaderboard on 128K long-context benchmark",
+            "summary": "RULER 벤치마크 94.1% 기록. Vertex AI에서 오늘부터 사용 가능.",
+            "source": "Google Blog",
+            "date": "May 2",
+            "href": "https://deepmind.google"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Funding",
+      "navLabel": "펀딩",
+      "eyebrow": "2개 기사",
+      "description": "이번 주 합산 조달 $1.4B — Perplexity $500M, Cursor $900M.",
+      "contentLayout": "list",
+      "content": [
+        {
+          "component": "outprint/ArticleCard",
+          "props": {
+            "tag": "Funding",
+            "headline": "Perplexity AI raises $500M Series D at $9B valuation",
+            "summary": "소프트뱅크 주도. ARR $100M 돌파. 검색 시장 재편 가속.",
+            "source": "Bloomberg",
+            "date": "Apr 30",
+            "href": "https://bloomberg.com"
+          }
+        },
+        {
+          "component": "outprint/ArticleCard",
+          "props": {
+            "tag": "Funding",
+            "headline": "Cursor raises $900M at $9.9B valuation from Andreessen Horowitz",
+            "summary": "기업 고객 4만 개 돌파. 엔터프라이즈 티어 발표.",
+            "source": "WSJ",
+            "date": "May 1"
+          }
+        }
+      ]
+    },
+    {
+      "title": "Product",
+      "navLabel": "프로덕트",
+      "eyebrow": "2개 기사",
+      "description": "Figma Sites 공개, Linear 3.0 업데이트.",
+      "contentLayout": "list",
+      "content": [
+        {
+          "component": "outprint/ArticleCard",
+          "props": {
+            "tag": "Product",
+            "headline": "Figma launches Figma Sites — export designs directly to live web pages",
+            "summary": "노코드로 반응형 웹사이트 바로 배포. 커스텀 도메인, CMS 컬렉션 지원. 베타 오늘부터.",
+            "source": "Figma Blog",
+            "date": "May 2",
+            "href": "https://figma.com"
+          }
+        },
+        {
+          "component": "outprint/ArticleCard",
+          "props": {
+            "tag": "Product",
+            "headline": "Linear 3.0 ships with AI triage, custom views, and roadmap overhaul",
+            "summary": "이슈 자동 분류, 커스텀 필터 저장, 로드맵 타임라인 전면 개편.",
+            "source": "Linear Blog",
+            "date": "Apr 29"
+          }
+        }
+      ]
+    }
+  ]
+}

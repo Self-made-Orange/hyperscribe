@@ -1,0 +1,104 @@
+{
+  "template": "canvas",
+  "meta": {
+    "title": "Weekly AI Digest",
+    "navLabel": "Latest",
+    "subtitle": "매주 토요일 — AI · 스타트업 · 프로덕트",
+    "agent": "Claude",
+    "divisionsLabel": "지난 이슈",
+    "statement": {
+      "eyebrow": "Self-made Orange",
+      "text": "매주 가장 중요한 것만 골라드립니다.",
+      "cta": {
+        "label": "지난 이슈 보기",
+        "href": "#canvas-divisions"
+      }
+    }
+  },
+  "featured": {
+    "component": "outprint/Section",
+    "props": {
+      "id": "week18",
+      "title": "Week 18 — 이번 주 주요 뉴스"
+    },
+    "children": [
+      {
+        "component": "outprint/Callout",
+        "props": {
+          "severity": "note",
+          "title": "에디터 픽",
+          "body": "OpenAI o3와 Anthropic Claude 4가 같은 주에 발표됐습니다. AI 전쟁이 새로운 국면입니다."
+        }
+      },
+      {
+        "component": "outprint/ArticleCard",
+        "props": {
+          "tag": "AI",
+          "headline": "OpenAI releases o3, claims state-of-the-art reasoning on every major benchmark",
+          "summary": "o3 모델이 MMLU, HumanEval, MATH에서 GPT-4o를 능가했습니다. API는 오늘부터, 일반 사용자는 다음 달부터.",
+          "source": "The Verge",
+          "date": "May 1",
+          "href": "https://theverge.com"
+        }
+      },
+      {
+        "component": "outprint/ArticleCard",
+        "props": {
+          "tag": "AI",
+          "headline": "Anthropic ships Claude 4 with 500K context and native computer-use",
+          "summary": "Agent SDK를 통해 컴퓨터 직접 조작 기능이 GA로 전환됐습니다. 멀티스텝 태스크에서 40% 성능 향상.",
+          "source": "TechCrunch",
+          "date": "May 2"
+        }
+      },
+      {
+        "component": "outprint/ArticleCard",
+        "props": {
+          "tag": "Funding",
+          "headline": "Perplexity AI raises $500M Series D at $9B valuation",
+          "summary": "소프트뱅크 주도. ARR $100M 돌파. 검색 시장의 판도가 바뀌고 있습니다.",
+          "source": "Bloomberg",
+          "date": "Apr 30",
+          "href": "https://bloomberg.com"
+        }
+      },
+      {
+        "component": "outprint/ArticleCard",
+        "props": {
+          "tag": "Product",
+          "headline": "Figma launches Figma Sites — designs to live web pages without code",
+          "summary": "피그마 파일에서 바로 반응형 웹사이트를 배포할 수 있게 됐습니다. 커스텀 도메인, CMS 컬렉션 지원.",
+          "source": "Figma Blog",
+          "date": "May 2",
+          "href": "https://figma.com"
+        }
+      }
+    ]
+  },
+  "history": [
+    {
+      "title": "Week 17",
+      "navLabel": "Wk 17",
+      "eyebrow": "2026-04-26  ·  이슈 #17",
+      "description": "GPT-5 루머, Stripe $100M 펀딩, Linear 3.0 출시. 11개 기사.",
+      "date": "2026-04-26",
+      "href": "week-17.html"
+    },
+    {
+      "title": "Week 16",
+      "navLabel": "Wk 16",
+      "eyebrow": "2026-04-19  ·  이슈 #16",
+      "description": "Gemini Ultra 2 벤치마크 1위, Vercel v0 유료화, GitHub Copilot 에이전트 모드.",
+      "date": "2026-04-19",
+      "href": "week-16.html"
+    },
+    {
+      "title": "Week 15",
+      "navLabel": "Wk 15",
+      "eyebrow": "2026-04-12  ·  이슈 #15",
+      "description": "Meta Llama 4 오픈소스 공개, Cursor $900M 시리즈 B, Apple Intelligence 한국어 지원.",
+      "date": "2026-04-12",
+      "href": "week-15.html"
+    }
+  ]
+}
