@@ -20,12 +20,21 @@
 #   CLAW_HYPERSCRIBE_THEME  — default theme (default: notion)
 #   CLAW_HYPERSCRIBE_MODE   — default mode (default: auto)
 
-HYPERSCRIBE_REPO="${HYPERSCRIBE_REPO:-$HOME/src/agent-outprint-skills}"
-DEFAULT_THEME="${CLAW_HYPERSCRIBE_THEME:-notion}"
-DEFAULT_MODE="${CLAW_HYPERSCRIBE_MODE:-auto}"
+# Resolve symlinks so SCRIPT_DIR lands inside the actual repo checkout, not ~/.local/bin.
+SOURCE="${BASH_SOURCE[0]}"
+while [ -L "$SOURCE" ]; do
+  DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+SCRIPT_DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+# tools/claw/outprint-render -> repo root is two levels up
+OUTPRINT_REPO_DEFAULT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 
-# canvas-wrap helper lives next to this script in the repo
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+OUTPRINT_REPO="${OUTPRINT_REPO:-${HYPERSCRIBE_REPO:-$OUTPRINT_REPO_DEFAULT}}"
+DEFAULT_THEME="${CLAW_OUTPRINT_THEME:-${CLAW_HYPERSCRIBE_THEME:-notion}}"
+DEFAULT_MODE="${CLAW_OUTPRINT_MODE:-${CLAW_HYPERSCRIBE_MODE:-auto}}"
+
 CANVAS_WRAP_HELPER="$SCRIPT_DIR/canvas-wrap.py"
 
 has_theme=0
@@ -53,9 +62,9 @@ done
 
 # --- diversity check -----------------------------------------------------
 if [ "$allow_prose_only" -eq 0 ] && [ -n "$in_path" ] && [ -f "$in_path" ]; then
-  rich_components=$(grep -oE '"component"\s*:\s*"hyperscribe/(Mermaid|ArchitectureGrid|FlowChart|Sequence|Swimlane|Quadrant|Comparison|Chart|StepList|ERDDiagram|CodeDiff|AnnotatedCode|FileTree|FileCard|HeroCarousel|MosaicGrid|ProjectTile|DivisionCard|WorkTypeRow|EditorialStatement|SiteHeader)"' "$in_path" 2>/dev/null | wc -l)
+  rich_components=$(grep -oE '"component"\s*:\s*"outprint/(Mermaid|ArchitectureGrid|FlowChart|Sequence|Swimlane|Quadrant|Comparison|Chart|StepList|ERDDiagram|CodeDiff|AnnotatedCode|FileTree|FileCard|HeroCarousel|MosaicGrid|ProjectTile|DivisionCard|WorkTypeRow|EditorialStatement|SiteHeader|ArticleCard)"' "$in_path" 2>/dev/null | wc -l)
   if [ "${rich_components:-0}" -eq 0 ]; then
-    used_components=$(grep -oE '"component"\s*:\s*"hyperscribe/[^"]+"' "$in_path" 2>/dev/null | sort -u | tr '\n' ' ')
+    used_components=$(grep -oE '"component"\s*:\s*"outprint/[^"]+"' "$in_path" 2>/dev/null | sort -u | tr '\n' ' ')
     echo "ENVELOPE DIVERSITY CHECK FAILED — no dominant visual surface present." >&2
     echo "Found only: ${used_components}" >&2
     echo "" >&2
@@ -109,4 +118,4 @@ extra=()
 [ "$has_theme" -eq 0 ] && extra+=(--theme "$DEFAULT_THEME")
 [ "$has_mode"  -eq 0 ] && extra+=(--mode  "$DEFAULT_MODE")
 
-exec node "$HYPERSCRIBE_REPO/plugins/hyperscribe/scripts/render.mjs" "${extra[@]}" "${forwarded_args[@]}"
+exec node "$OUTPRINT_REPO/plugins/outprint/scripts/render.mjs" "${extra[@]}" "${forwarded_args[@]}"

@@ -1,4 +1,4 @@
-/* Hyperscribe interactive layer — pan/zoom for SVG diagrams.
+/* Outprint interactive layer — pan/zoom for SVG diagrams.
  * Any element tagged `.hs-zoomable` gets: mouse-drag pan, Ctrl/Cmd+wheel zoom,
  * and a small control bar (＋ / − / ⟲ reset) docked to the top-right corner. */
 (function () {
